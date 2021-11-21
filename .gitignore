@@ -1,4 +1,5 @@
 DB/Files/*
+DB/__pycache__
 .idea
 
 *test*
