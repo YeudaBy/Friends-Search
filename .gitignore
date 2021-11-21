@@ -1,5 +1,7 @@
 DB/Files/*
 DB/__pycache__
+Api/__pycache__
+
 .idea
 
 *test*
