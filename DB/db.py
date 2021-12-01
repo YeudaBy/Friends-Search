@@ -9,16 +9,17 @@ db = Database()
 
 
 class Subtitle(db.Entity):
-    content = Required(str)
-    raw_content = Optional(str)
-    lang = Required(str)
-    start = Required(timedelta)
-    end = Required(timedelta)
+    content = Required(str)         # content to display
+    raw_content = Optional(str)     # content to search
+    lang = Required(str)            # language of the content
+    start = Required(timedelta)     # time of start
+    end = Required(timedelta)       # time of end
     episode = Required(int)
     season = Required(int)
 
     @staticmethod
     def clean_text(text: str) -> str:
+        """ return raw text without special characters and new lines """
         return sub(r"[$&+,:;=?@#|'<>.\-^*()\[\]{}%!~`_\" \n]", "", text).lower()
 
 
