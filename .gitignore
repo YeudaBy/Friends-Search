@@ -1,3 +1,7 @@
 */__pycache__
 .idea
 *test*
+Bot/config.ini
+*.session
+*.session-journal
+*.sqlite-journal
