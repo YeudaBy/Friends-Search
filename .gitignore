@@ -1,7 +1,3 @@
-DB/Files/*
-DB/__pycache__
-Api/__pycache__
-
+*/__pycache__
 .idea
-
 *test*
