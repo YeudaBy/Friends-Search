@@ -28,13 +28,12 @@ db.generate_mapping(create_tables=True)
 
 
 @db_session
-def insert_subs(file):
-    name = file
+def insert_subs(name):
     # print(name, file)
     sea, epi = name.split("-")
     print(sea, epi)
 
-    subs = list(srt.parse(open(file, "r")))
+    subs = list(srt.parse(open(name, "r", encoding="cp1255")))
 
     for line in subs:
         Subtitle(content=line.content,
@@ -43,13 +42,13 @@ def insert_subs(file):
                  end=line.end,
                  episode=epi,
                  season=sea,
-                 lang="en"
+                 lang="iw"
                  )
     commit()
 
 
 # ========== Insert Data to DB =======
-# path = "RawFiles/EN/s10"
+# path = "RawFiles/IW/s10"
 # os.chdir(path)
 # for file in os.listdir():
 #     insert_subs(file)

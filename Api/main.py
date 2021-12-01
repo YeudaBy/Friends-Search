@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, Response
 from pony.orm import db_session
-from queris import search as find, Parse
+from queries import search as find, Parse
 
 app = Flask(__name__)
 
