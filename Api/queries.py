@@ -5,7 +5,7 @@ from DB.db import (Subtitle, db_session)
 class Parse:
     """ parse sql result to a class """
     def __init__(self, result: Subtitle):
-        self.content = result.content
+        self.content = result.content.replace("\n", " ")
         self.start = result.start.__str__()
         self.end = result.end.__str__()
         self.episode = result.episode.__str__()
