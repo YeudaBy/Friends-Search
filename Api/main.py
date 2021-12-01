@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from pony.orm import db_session
 from queries import search as find, Parse
 
@@ -9,12 +9,16 @@ app.config['JSON_AS_ASCII'] = False
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return send_from_directory("assets", "index.html")
 
 
-@app.route("/search")
+@app.route("/api")
+def docs():
+    return send_from_directory("assets", "docs.html")
+
+
+@app.route("/api/search")
 def search():
-
     error = {}
     response = {}
 
