@@ -1,6 +1,7 @@
 import os
 import re
 
+# rename files name by template
 p = "Files/s10/"
 for f in os.listdir(p):
     print(f)
