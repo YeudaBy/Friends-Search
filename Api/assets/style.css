@@ -24,12 +24,114 @@ h3::before {
   margin: .5em;
 }
 
-.hint {
+#hint {
   font-weight: normal;
   color: gray;
 }
 
 p:first-letter {
   text-transform: capitalize;
+}
+
+body {
+  background: -webkit-gradient(linear, left bottom, right top, from(#be9a7e83), to(#db996783));
+  background: linear-gradient(to right top, #be9a7e83, #db996783);
+  background-attachment: fixed;
+  color: #3b322a;
+}
+
+#live {
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 1em;
+}
+
+#live #search-field, #live #search-field:focus {
+  width: 18em;
+  margin: auto;
+  border: none;
+  border-bottom: #3d2d2083 4px solid;
+  border-radius: 10px;
+  font-size: 14px;
+  padding: 1em;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  color: #3b322a;
+  font-size: 19px;
+}
+
+#live #search-btn {
+  display: block;
+  margin: auto;
+  margin-top: 1em;
+  border-radius: 10px;
+  border: none;
+  background: white;
+  font-size: 16px;
+  padding: .7em;
+  border-bottom: #3d2d2083 4px solid;
+  color: #3b322a;
+}
+
+#live #search-btn:hover {
+  background: #e8f0fe;
+}
+
+details {
+  margin: 1rem;
+}
+
+summary {
+  font-weight: bold;
+  list-style-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/right-arrow.svg);
+}
+
+summary::-webkit-details-marker {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/right-arrow.svg);
+  color: transparent;
+}
+
+#no-results {
+  background: #e2e05e;
+  margin: auto;
+  padding: 1em;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bolder;
+}
+
+#error {
+  background: #fc8282;
+  margin: auto;
+  padding: 1em;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bolder;
+  font-family: monospace;
+}
+
+#error::before {
+  content: "Error: ";
+}
+
+#examples {
+  margin: auto;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#examples img {
+  width: 400px;
+  margin: auto;
 }
 /*# sourceMappingURL=style.css.map */

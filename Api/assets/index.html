@@ -1,22 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends Search</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="./main.js"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
 
-    <div class="live">
-        <form action="javascript:request('test')">
+        function request(query) {
+            // const baseUrl = "/api/search?query="
+            const baseUrl = "http://127.0.0.1:5000/api/search?q="
+            $.ajax(baseUrl + query)
+                .done(data => { parser(data) })
+                .fail(error => { parser(error) })
+        }
+
+        function getResults() {
+            request(document.querySelector("#search-field").value)
+            document.querySelector("#search-field").value = "";
+            document.querySelector("#list-results").innerText = "";
+            document.querySelector("#no-results").style.display = "none";
+            document.querySelector("#error").style.display = "none"
+        }
+
+        function parser(data) {
+
+            if (data.error) {
+                console.error(data.error)
+                let _error = document.createElement("p");
+                _error.innerText = data.error;
+                let error = document.querySelector("#error");
+                error.append(_error);
+                error.style.display = "block"
+                return
+            }
+
+            if (!data.count) {
+                document.querySelector("#no-results").style.display = "block";
+                return
+            }
+
+            data.results.forEach(e => {
+                let s = document.createElement("summary");
+                s.innerText = e.content;
+                let p = document.createElement("p");
+                p.innerText = `Season ${e.season} × Episode ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`
+                let d = document.createElement("details");
+                d.append(s)
+                d.append(p)
+
+                $("#list-results").append(d);
+            })
+            console.log(data)
+        }
+
+        // document.querySelector("#search-btn").addEventListener("click", e => {
+        //     request(document.querySelector("#search"))
+        // }) 
+
+    </script>
+</head>
+
+<body>
+    <h1>Friends Search</h1>
+
+    <div id="live">
+        <form id="search" action="javascript:getResults()">
             <input type="search" value="" id="search-field">
-            <input type="submit" value="searce">
+            <input id="search-btn" type="submit" value="search">
         </form>
     </div>
-    
-    
+
+    <div id="results">
+        <div id="error" style="display: none;"></div>
+        <div id="no-results" style="display: none;">No matches found :(</div>
+        <div id="list-results"></div>
+    </div>
+
+    <div id="examples">
+        <img src="./images/joey-doesnt.png" alt="">
+    </div>
+
 </body>
+
 </html>

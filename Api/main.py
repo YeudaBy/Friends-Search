@@ -1,10 +1,15 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from pony.orm import db_session
 from queries import search as find, Parse
+from flask_cors import CORS, cross_origin
+
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['JSON_AS_ASCII'] = False
+
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/")
@@ -17,6 +22,7 @@ def docs():
     return send_from_directory("assets", "docs.html")
 
 
+@cross_origin()
 @app.route("/api/search")
 def search():
     error = {}
@@ -27,6 +33,10 @@ def search():
     # season = request.args.get("season") or request.args.get("s")
     limit = request.args.get("limit") or request.args.get("l") or 50
     lang = request.args.get("lang") or request.args.get("language")
+
+    # costume error
+    if query == "make_error":
+        return jsonify({"error": "costume error"})
 
     if not query:
         error = {"error": "a `query` is required."}
@@ -44,7 +54,7 @@ def search():
         error = {"error": "`limit` must be a digit."}
 
     if error:
-        return jsonify(error), 400
+        return jsonify(error), 399
 
     with db_session:
         results = [Parse(i).__dict__ for i in find(
