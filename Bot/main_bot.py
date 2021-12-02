@@ -2,7 +2,6 @@ import re
 from typing import Union
 import requests
 from pyrogram import Client, filters
-from pyrogram.raw.base import reply_markup
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
                             InlineKeyboardButton, InlineKeyboardMarkup)
 from Bot.strings import strings, friends_icons
@@ -48,25 +47,25 @@ def search_inline(_, query: InlineQuery):
         query.answer(
             results=[],
             switch_pm_text=lang_msg(query, 'query_required'),
-            switch_pm_parameter="StamString"
+            switch_pm_parameter="empty"
         )
         return
 
     if raw_results["count"] == 0:
         query.answer(
-            cache_time=0,  # TODO remove
             results=[],
             switch_pm_text=lang_msg(query, 'no_results'),
-            switch_pm_parameter="StamString"
+            switch_pm_parameter="empty"
         )
     results = [
         InlineQueryResultArticle(
-            title=f"{lang_msg(query, 'session')} {i['episode']} {lang_msg(query, 'episode')} {i['season']} • {dt_to_ht(i['start'])}",
-            description=i["content"],
+            title=f"{lang_msg(query, 'session')} {result['season']} {lang_msg(query, 'episode')} {result['episode']} • {dt_to_ht(result['start'])}",
+            description=result["content"],
             thumb_url=random.choice(friends_icons),
             input_message_content=InputTextMessageContent(
-                f"📺 {lang_msg(query, 'session')} {i['episode']} {lang_msg(query, 'episode')} {i['season']}\n"
-                f"🕓 **{dt_to_ht(i['start'])}\n💬 {i['content']}**"
+                f"**✅ {lang_msg(query, 'results_title')}**\n\n"
+                f"**📺 {lang_msg(query, 'appear_at')}:** `{lang_msg(query, 'session')} {result['season']} {lang_msg(query, 'episode')} {result['episode']}`\n" 
+                f"**🕓 {lang_msg(query, 'time')}:** `{dt_to_ht(result['start'])}`\n**💬 {lang_msg(query, 'sentence')}:** `{result['content']}` "
             ),
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton(lang_msg(query, "inline_btn"),
@@ -74,9 +73,10 @@ def search_inline(_, query: InlineQuery):
                 InlineKeyboardButton(lang_msg(query, "share_btn"),
                                      switch_inline_query=query.query)
             ]])
-        ) for i in raw_results["results"]
+        ) for result in raw_results["results"]
     ]
     query.answer(results,
+                 cache_time=0,  # TODO remove
                  switch_pm_text=f"{lang_msg(query, 'results_count')}: {str(raw_results['count'])}",
                  switch_pm_parameter="count")
 

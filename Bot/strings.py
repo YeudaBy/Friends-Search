@@ -41,6 +41,22 @@ strings = {
     "share_btn": {
         "en": "♻️ Share",
         "he": "♻ שיתוף"
+    },
+    "time": {
+        "en": "Time",
+        "he": "זמן"
+    },
+    "appear_at": {
+        "en": "Appear at",
+        "he": "הופיע ב"
+    },
+    "sentence": {
+        "en": "The Sentence",
+        "he": "המשפט"
+    },
+    "results_title": {
+        "en": "Here is your search result:",
+        "he": "הנה התוצאה שבחרת"
     }
 
 }
@@ -59,5 +75,12 @@ friends_icons = [
     "https://telegra.ph/file/48a39d124b85db4753b2b.png",
     "https://telegra.ph/file/3d7e7895d6d0d2f6e055c.png",
     "https://telegra.ph/file/2f8ebd823906935804f55.png",
-    "https://telegra.ph/file/aebcd72a2ff6f338abe93.png"
+    "https://telegra.ph/file/aebcd72a2ff6f338abe93.png",
+    "https://telegra.ph/file/4ba51cc31738eb2be6587.jpg",
+    "https://telegra.ph/file/2ed990799eb3badf4af57.jpg",
+    "https://telegra.ph/file/e0fb567448844c3adee00.jpg",
+    "https://telegra.ph/file/fa08039fef30399f1a87e.png",
+    "https://telegra.ph/file/d7cdaa633b1b0a01747a9.jpg",
+    "https://telegra.ph/file/5865fb171ff7dd66760a8.jpg",
+    "https://telegra.ph/file/71cdd92ecef7c6e1c86ca.jpg"
 ]
