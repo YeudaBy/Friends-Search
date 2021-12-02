@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends Search</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
 
         function request(query) {
-            // const baseUrl = "/api/search?query="
-            const baseUrl = "http://127.0.0.1:5000/api/search?q="
+            const baseUrl = "/api/search?query="
+            // const baseUrl = "http://127.0.0.1:5000/api/search?q="
             $.ajax(baseUrl + query)
                 .done(data => { parser(data) })
                 .fail(error => { parser(error) })
@@ -57,9 +57,6 @@
             console.log(data)
         }
 
-        // document.querySelector("#search-btn").addEventListener("click", e => {
-        //     request(document.querySelector("#search"))
-        // }) 
 
     </script>
 </head>
@@ -67,9 +64,9 @@
 <body>
 
     <nav>
-        <a href="/api">Api</a>
-        <a href="https://t.me">Telegram Bot</a>
-        <a href="https://github.com">Github</a>
+        <a href="/api" target="_blanck">Api</a>
+        <a href="https://t.me/Friends_SearchBot" target="_blanck">Telegram Bot</a>
+        <a href="https://github.com/YeudaBy/Friends-Sentences" target="_blanck">Github</a>
     </nav>
 
     <div id="container">
@@ -88,10 +85,6 @@
             <div id="no-results" style="display: none;">No matches found :(</div>
             <div id="list-results"></div>
         </div>
-        <!-- 
-    <div id="examples">
-        <img src="./images/joey-doesnt.png" alt="">
-    </div> -->
 
     </div>
 

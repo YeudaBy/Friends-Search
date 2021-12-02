@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>API Reference</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.docs.css') }}">
 
 </head>
-<body>
+<body id="docs">
 
     <h1 id="api-reference">API Reference - Friends Search</h1>
 
     <div class="methode">
-        <h2><span class="hint"><i>methode</i></span> search()</h2>
+        <h2><span id="hint"><i>methode</i></span> search()</h2>
         <p>search sentences by specific query, and filtered by language</p>
         <h3>Parameters</h3>
         <p><span><code>query|q</code></span>[String, Required]</p>
@@ -25,6 +25,7 @@
         <h3>Examples</h3>
         <pre>https://example.com/search?query=unagi&language=en&limit=5</pre>
         <p>The request will search the word <i>"unagi"</i>, in the <i>english</i> language, and will show only the first <i>5</i> results.</p>
+        <p>to check this requests, click <span><a href="api/search?query=unagi&language=en&limit=5">Here.</a></span></p>
         <pre>https://exmple.com/search?q=Hanukkah</pre>
         <p>Here, you'll get results for the word <i>Hanukkah</i>, in any language, and all of them, unless they will be more than 50.</p>
 

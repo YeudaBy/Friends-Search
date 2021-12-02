@@ -61,6 +61,7 @@ html,body { height:100%; }
     margin: 1em;
 
     #search-field, #search-field:focus {
+        font-family: serif;
         width: 95%; 
         margin: auto;
         border: none;
@@ -200,3 +201,10 @@ nav {
             color: black;
     }}
   }
+
+#docs {
+    background: none;
+    color: black;
+
+    margin: 1.5em;
+}

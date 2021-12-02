@@ -66,6 +66,7 @@ html, body {
 }
 
 #live #search-field, #live #search-field:focus {
+  font-family: serif;
   width: 95%;
   margin: auto;
   border: none;
@@ -212,5 +213,11 @@ nav a {
     background: none;
     color: black;
   }
+}
+
+#docs {
+  background: none;
+  color: black;
+  margin: 1.5em;
 }
 /*# sourceMappingURL=style.css.map */

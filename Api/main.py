@@ -14,12 +14,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
 def home():
-    return send_from_directory("assets", "index.html")
+    return render_template("index.html")
 
 
 @app.route("/api")
 def docs():
-    return send_from_directory("assets", "docs.html")
+    return render_template("docs.html")
 
 
 @cross_origin()
