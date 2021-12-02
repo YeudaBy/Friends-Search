@@ -3,10 +3,19 @@ body {
     margin-left: 10%;
     margin-right: 10%;
     padding: 5%;
+    color: #f1b07e;
+    margin: 0;
+    padding: 0;
+
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+        url("./images/bg6.jpeg");
+    background-size: cover;
 }
 
 h1 {
     text-align: center;
+    font-family: "friends";
+    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
 
 pre, code {
@@ -32,13 +41,17 @@ p:first-letter {
     text-transform: capitalize
 }
 
-body {
-    background: linear-gradient(
-        to right top, #be9a7e83, #db996783
-    );
-    background-attachment: fixed;
-    color: #3b322a;
+#container {
+    padding-top: 1.5em;
+    position: relative;
+    background: rgba(245, 245, 245, 0.815);
+    // height: 90%;
+    margin: 1em;
+    border-radius: 10px;
+    padding-bottom: 10em;
 }
+
+html,body { height:100%; }
 
 
 #live {
@@ -48,7 +61,7 @@ body {
     margin: 1em;
 
     #search-field, #search-field:focus {
-        width: 18em; 
+        width: 95%; 
         margin: auto;
         border: none;
         border-bottom: #3d2d2083 4px solid;
@@ -58,6 +71,7 @@ body {
         appearance: none;
         color: #3b322a;
         font-size: 19px;
+
     }
 
 
@@ -82,6 +96,8 @@ body {
 
 details {
     margin: 1rem;
+    color: #5e4430;
+    text-align: center;
 }
 summary {
     font-weight: bold;
@@ -90,6 +106,10 @@ summary {
 summary::-webkit-details-marker {
     background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/right-arrow.svg);
     color: transparent;
+}
+
+#error, #no-results {
+    margin: 2em;
 }
 
 #no-results {
@@ -125,3 +145,58 @@ summary::-webkit-details-marker {
         margin: auto;
     }
 }
+
+details {
+    border: #be9a7e83 solid;
+    border-radius: 10px;
+    padding: .5em;
+}
+
+@font-face {
+    font-family: 'friends';
+    src: URL('./GABRWFFR.TTF') format('truetype');
+}
+
+
+@media only screen and (min-width: 580px) {
+    #container{
+        width: 60%;
+        margin: auto;
+        margin-top: 1.5em;
+        padding-bottom: 15em;
+    }
+  }
+
+nav {
+    text-align: justify;
+    position: sticky;
+    background: white;
+    padding: .8em;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    border-bottom: #3d2d2083 solid;
+     
+    a{
+        background: #3d2d2083;
+        color: white;
+        border-radius: 25px;
+        display: inline;
+        margin-left: .7em;
+        margin-right: .7em;
+        padding: .8em;
+
+        font-weight: bolder;
+        text-decoration: none;
+    }
+}
+
+@media only screen and (max-width: 415px) {
+    nav{
+        padding: .5em;
+        a {
+            padding: .2em;
+            background: none;
+            color: black;
+    }}
+  }

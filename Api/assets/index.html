@@ -65,23 +65,34 @@
 </head>
 
 <body>
-    <h1>Friends Search</h1>
 
-    <div id="live">
-        <form id="search" action="javascript:getResults()">
-            <input type="search" value="" id="search-field">
-            <input id="search-btn" type="submit" value="search">
-        </form>
-    </div>
+    <nav>
+        <a href="/api">Api</a>
+        <a href="https://t.me">Telegram Bot</a>
+        <a href="https://github.com">Github</a>
+    </nav>
 
-    <div id="results">
-        <div id="error" style="display: none;"></div>
-        <div id="no-results" style="display: none;">No matches found :(</div>
-        <div id="list-results"></div>
-    </div>
+    <div id="container">
 
+        <h1>Friends Search</h1>
+
+        <div id="live">
+            <form id="search" action="javascript:getResults()">
+                <input type="search" value="" id="search-field">
+                <input id="search-btn" type="submit" value="search">
+            </form>
+        </div>
+
+        <div id="results">
+            <div id="error" style="display: none;"></div>
+            <div id="no-results" style="display: none;">No matches found :(</div>
+            <div id="list-results"></div>
+        </div>
+        <!-- 
     <div id="examples">
         <img src="./images/joey-doesnt.png" alt="">
+    </div> -->
+
     </div>
 
 </body>
