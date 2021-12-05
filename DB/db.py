@@ -33,7 +33,7 @@ def insert_subs(name):
     sea, epi = name.split("-")
     print(sea, epi)
 
-    subs = list(srt.parse(open(name, "r", encoding="cp1255")))
+    subs = list(srt.parse(open(name, "r", encoding="ISO-8859-1")))
 
     for line in subs:
         Subtitle(content=line.content,
@@ -42,13 +42,13 @@ def insert_subs(name):
                  end=line.end,
                  episode=epi,
                  season=sea,
-                 lang="iw"
+                 lang="fr"
                  )
     commit()
 
 
 # ========== Insert Data to DB =======
-# path = "RawFiles/IW/s10"
+# path = "RawFiles/FR/s10"
 # os.chdir(path)
 # for file in os.listdir():
 #     insert_subs(file)
