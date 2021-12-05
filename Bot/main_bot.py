@@ -26,8 +26,9 @@ def lang_msg(msg_obj: Union[Message, InlineQuery], msg_to_rpl: str) -> Union[str
         return msg["en"]
 
 
-def dt_to_ht(deltatime: str) -> str:
-    return re.search(r"0:(?P<ht>[0-9]{2}:[0-9]{2})\.[0-9]+", deltatime).groupdict().get("ht")
+def dt_to_ht(timedelta: str) -> str:
+    """ convert timedelta to human time """
+    return re.search(r"0:(?P<ht>[0-9]{2}:[0-9]{2})\.[0-9]+", timedelta).groupdict().get("ht")
 
 
 @app.on_message(filters.command(["start", "help", "translate"]) & filters.private)
