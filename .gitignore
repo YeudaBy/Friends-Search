@@ -5,3 +5,5 @@ Bot/config.ini
 *.session
 *.session-journal
 *.sqlite-journal
+users.json
+uses.txt
