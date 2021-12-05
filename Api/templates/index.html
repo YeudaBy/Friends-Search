@@ -2,60 +2,339 @@
 <html lang="en">
 
 <head>
+
+    <style>
+        @charset "UTF-8";
+        @import url('https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Miriam Libre', sans-serif;
+            margin-left: 10%;
+            margin-right: 10%;
+            padding: 5%;
+            color: #f1b07e;
+            margin: 0;
+            padding: 0;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0.5))), url("{{ url_for('static', filename='images/bg6.jpeg') }}");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("{{ url_for('static', filename='images/bg6.jpeg') }}");
+            background-size: cover;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: "friends";
+            text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+        }
+
+        pre,
+        code {
+            background: #d4d4d4;
+            margin: .3em;
+            padding: .5em;
+            font-family: monospace;
+            border-radius: 5px;
+        }
+
+        h3::before {
+            content: "¶";
+            color: gray;
+            margin: .5em;
+        }
+
+        #hint {
+            font-weight: normal;
+            color: gray;
+        }
+
+        p:first-letter {
+            text-transform: capitalize;
+        }
+
+        #container {
+            padding-top: 1.5em;
+            position: relative;
+            background: rgba(245, 245, 245, 0.815);
+            margin: 1em;
+            border-radius: 10px;
+            padding-bottom: 10em;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        #live {
+            text-align: center;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            margin: 1em;
+        }
+
+        #live #search-field,
+        #live #search-field:focus {
+            font-family: 'Miriam Libre', sans-serif;
+            width: 95%;
+            margin: auto;
+            border: none;
+            border-bottom: #3d2d2083 4px solid;
+            border-radius: 10px;
+            font-size: 14px;
+            padding: 1em;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            color: #3b322a;
+            font-size: 19px;
+        }
+
+        #live #search-btn {
+            display: block;
+            margin: auto;
+            margin-top: 1em;
+            border-radius: 10px;
+            border: none;
+            background: white;
+            font-size: 16px;
+            padding: .7em;
+            border-bottom: #3d2d2083 4px solid;
+            color: #3b322a;
+        }
+
+        #live #search-btn:hover {
+            background: #e8f0fe;
+        }
+
+        details {
+            margin: 1rem;
+            color: #5e4430;
+            text-align: center;
+        }
+
+        summary {
+            font-weight: bold;
+            list-style-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/right-arrow.svg);
+        }
+
+        summary::-webkit-details-marker {
+            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/right-arrow.svg);
+            color: transparent;
+        }
+
+        #error,
+        #no-results {
+            margin: 2em;
+        }
+
+        #no-results {
+            background: #e2e05e;
+            margin: auto;
+            padding: 1em;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        #error {
+            background: #fc8282;
+            margin: auto;
+            padding: 1em;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bolder;
+            font-family: monospace;
+            color: white;
+        }
+
+        #error::before {
+            content: "Error: ";
+        }
+
+        #examples {
+            margin: auto;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        #examples img {
+            width: 400px;
+            margin: auto;
+        }
+
+        details {
+            border: #be9a7e83 solid;
+            border-radius: 10px;
+            padding: .5em;
+        }
+
+        @font-face {
+            font-family: 'friends';
+            src: URL("{{ url_for('static', filename='GABRWFFR.TTF') }}") format("truetype");
+        }
+
+        @media only screen and (min-width: 580px) {
+            #container {
+                width: 60%;
+                margin: auto;
+                margin-top: 1.5em;
+                padding-bottom: 15em;
+            }
+        }
+
+        nav {
+            text-align: justify;
+            position: -webkit-sticky;
+            position: sticky;
+            background: white;
+            padding: .8em;
+            margin: 0;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            border-bottom: #3d2d2083 solid;
+        }
+
+        nav a {
+            background: #3d2d2083;
+            color: white;
+            border-radius: 25px;
+            display: inline;
+            margin-left: .7em;
+            margin-right: .7em;
+            padding: .8em;
+            font-weight: bolder;
+            text-decoration: none;
+        }
+
+        @media only screen and (max-width: 415px) {
+            nav {
+                padding: .5em;
+            }
+
+            nav a {
+                padding: .2em;
+                background: none;
+                color: black;
+            }
+        }
+
+        #docs {
+            background: none;
+            color: black;
+            margin: 1.5em;
+        }
+
+        #limit {
+            margin-top: .7em;
+        }
+
+        nav a:hover {
+            background: black;
+            color: white;
+        }
+
+    </style>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends Search</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
 
-        function request(query) {
-            const baseUrl = "/api/search?query="
-            // const baseUrl = "http://127.0.0.1:5000/api/search?q="
-            $.ajax(baseUrl + query)
-                .done(data => { parser(data) })
-                .fail(error => { parser(error) })
+        const msg = {
+            "#search-btn": {
+                "en-US": "search",
+                "he": "חפש"
+            },
+            "#no-results": {
+                "en-US": "No matches found :(",
+                "he": "לא נמצאו תוצאות :("
+            },
+            "season": {
+                "en-US": "Season",
+                "he": "עונה"
+            },
+            "episode": {
+                "en-US": "Episode",
+                "he": "פרק"
+            }
         }
 
-        function getResults() {
-            request(document.querySelector("#search-field").value)
-            document.querySelector("#search-field").value = "";
-            document.querySelector("#list-results").innerText = "";
-            document.querySelector("#no-results").style.display = "none";
-            document.querySelector("#error").style.display = "none"
-        }
+        $(() => {
 
-        function parser(data) {
+            const lang = navigator.language;
+            $("#search-btn").val(msg["#search-btn"][lang]);
+            $("#no-results").text(msg["#no-results"][lang])
+            if (lang == "he") { $("html").children().css("direction","rtl") }
 
-            if (data.error) {
-                console.error(data.error)
-                let _error = document.createElement("p");
-                _error.innerText = data.error;
-                let error = document.querySelector("#error");
-                error.append(_error);
-                error.style.display = "block"
-                return
+
+            function request(query) {
+                const baseUrl = "/api/search?query="
+                // const baseUrl = "http://127.0.0.1:5000/api/search?q="
+                let url = baseUrl + query
+                $.ajax(url)
+                    .done(data => { parser(data) })
+                    .fail(error => { parser(error) })
             }
 
-            if (!data.count) {
-                document.querySelector("#no-results").style.display = "block";
-                return
+            function getResults() {
+                const query = $("#search-field").val()
+                request(query)
+                $("#search-field").val("");
+                $("#list-results").text("");
+                $("#no-results").hide();
+                $("#error").hide();
             }
 
-            data.results.forEach(e => {
-                let s = document.createElement("summary");
-                s.innerText = e.content;
-                let p = document.createElement("p");
-                p.innerText = `Season ${e.season} × Episode ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`
-                let d = document.createElement("details");
-                d.append(s)
-                d.append(p)
 
-                $("#list-results").append(d);
+            function parser(data) {
+                const season = msg.season[lang]
+                episode = msg.episode[lang]
+
+                if (data.error) {
+                    console.error(data.error)
+                    $("#error").append($("<p></p>").text(data.error)).show();
+                    return
+                }
+
+                if (!data.count) {
+                    $("#no-results").show();
+                    return
+                }
+
+                data.results.forEach(e => {
+                    const s = $("<summary></summary>").text(e.content);
+                    p = $("<p></p>").text(
+                        `${season} ${e.season} × ${episode} ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`
+                    )
+                    let d = $("<details></details>").append(s, p)
+                    $("#list-results").append(d);
+                })
+                $("#list-results").slideDown("slow")
+                console.log(data)
+            }
+
+            $("#search").on("submit", e => {
+                e.preventDefault();
+                getResults($("#search-field").val())
             })
-            console.log(data)
-        }
+
+        })
+
+
 
 
     </script>
@@ -71,19 +350,19 @@
 
     <div id="container">
 
-        <h1>Friends Search</h1>
+        <h1 id="#h1">Friends Search</h1>
 
         <div id="live">
-            <form id="search" action="javascript:getResults()">
-                <input type="search" value="" id="search-field">
-                <input id="search-btn" type="submit" value="search">
+            <form id="search">
+                <input type="search" value="" id="search-field"> 
+                <input id="search-btn" type="submit">
             </form>
         </div>
 
         <div id="results">
             <div id="error" style="display: none;"></div>
-            <div id="no-results" style="display: none;">No matches found :(</div>
-            <div id="list-results"></div>
+            <div id="no-results" style="display: none;"></div>
+            <div id="list-results" style="display: none;"></div>
         </div>
 
     </div>
