@@ -277,26 +277,29 @@
 
         $(() => {
 
-            $("#search-field").focus();
+            $("#search-field").focus();  // auto focus when page loaded
 
+            // set language and direction by browser language
             const lang = navigator.language;
             $("#search-btn").val(msg["#search-btn"][lang]);
             $("#no-results").text(msg["#no-results"][lang])
-            if (lang == "he") { $("html").children().css("direction","rtl") }
+            if (lang == "he") { $("html").children().css("direction","rtl") } 
 
 
             function request(query) {
-                const baseUrl = "/api/search?query="
-                // const baseUrl = "http://127.0.0.1:5000/api/search?q="
+                const baseUrl = "/api/search?query="  // prodaction url
+                // const baseUrl = "http://127.0.0.1:5000/api/search?q="  // debugging url
                 let url = baseUrl + query
-                $.ajax(url)
+                $.ajax(url)  
                     .done(data => { parser(data) })
                     .fail(error => { parser(error) })
             }
 
             function getResults() {
                 const query = $("#search-field").val()
-                request(query)
+                request(query)  // fatch
+
+                // clear existing data
                 $("#search-field").val("");
                 $("#list-results").text("");
                 $("#no-results").hide();
@@ -309,12 +312,14 @@
                 episode = msg.episode[lang]
 
                 if (data.error) {
+                    // errors
                     console.error(data.error)
                     $("#error").append($("<p></p>").text(data.error)).show();
                     return
                 }
 
                 if (!data.count) {
+                    // no matches
                     $("#no-results").show();
                     return
                 }
@@ -322,8 +327,7 @@
                 data.results.forEach(e => {
                     const s = $("<summary></summary>").text(e.content);
                     p = $("<p></p>").text(
-                        `${season} ${e.season} × ${episode} ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`
-                    )
+        `${season} ${e.season} × ${episode} ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`)
                     let d = $("<details></details>").append(s, p)
                     $("#list-results").append(d);
                 })
@@ -337,9 +341,6 @@
             })
 
         })
-
-
-
 
     </script>
 </head>
