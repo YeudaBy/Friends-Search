@@ -277,6 +277,8 @@
 
         $(() => {
 
+            $("#search-field").focus();
+
             const lang = navigator.language;
             $("#search-btn").val(msg["#search-btn"][lang]);
             $("#no-results").text(msg["#no-results"][lang])
