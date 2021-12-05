@@ -23,7 +23,7 @@ The api include one and simple methode, call `search`.
 the methode taken only one argument: `query`, and return list of results mathes. 
 
 you can provide more arguments, such as language and limit. the argument can be: 
-` `query` or `q`: text, sentence or word to search.
+- `query` or `q`: text, sentence or word to search.
 - `language` or `lang`: one of the [Supported languages](Supported languages), like `he`/`en`.
 - `limit` or `l`: limit of results to show. default to 50.
 
