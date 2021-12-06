@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Tuple
 
 from pony.orm import RowNotFound, exists, select
 
@@ -43,14 +43,20 @@ class FriendsSearch:
 
     @staticmethod
     @db_session
-    def by_id(_id: int) -> Union[Subtitle, bool]:
-        try:
-            return Subtitle.get(id=_id)
-        except RowNotFound:
-            return False
+    def by_id(_id: int) -> Subtitle:
+        return Subtitle.get(id=_id)
+        # excepted RowNotFound
 
     @staticmethod
     @db_session
-    def random(count: int = 1) -> List[Subtitle]:
-        return Subtitle.select_random(limit=count)
+    def random() -> Subtitle:
+        res = Subtitle.select_random(limit=1)
+        if isinstance(res, list):
+            res = res[0]
+        return res
+
+    @staticmethod
+    @db_session
+    def get_relative(_id: int) -> Tuple[Subtitle, Subtitle]:
+        return FriendsSearch.by_id(_id - 1), FriendsSearch.by_id(_id + 1)
 
