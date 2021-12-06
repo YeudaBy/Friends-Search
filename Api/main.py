@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from pony.orm import db_session
-from queries import search as find, Parse
+from FriendsSearch import FriendsSearch
 from flask_cors import CORS, cross_origin
 
 
@@ -22,6 +22,12 @@ def home():
 def docs():
     """ api documentation """
     return render_template("docs.html")
+
+
+@cross_origin()
+@app.route("/languages")
+def languages():
+    return
 
 
 @cross_origin()
@@ -59,7 +65,7 @@ def search():
         return jsonify(error), 399
 
     with db_session:
-        results = [Parse(i).__dict__ for i in find(
+        results = [i.parse() for i in FriendsSearch.search(
             query=query,
             limit=int(limit),
             lang=lang

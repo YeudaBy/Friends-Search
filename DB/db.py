@@ -5,6 +5,8 @@ import srt
 from pony.orm import *
 from datetime import timedelta
 
+from DB.Parse import Parse
+
 db = Database()
 
 
@@ -22,9 +24,13 @@ class Subtitle(db.Entity):
         """ return raw text without special characters and new lines """
         return sub(r"[$&+,:;=?@#|'<>.\-^*()\[\]{}%!~`_\" \n]", "", text).lower()
 
+    def parse(self) -> dict:
+        return Parse(self).__dict__()
+
 
 db.bind(provider='sqlite', filename='DataBases/Friends.sqlite', create_db=True)
 db.generate_mapping(create_tables=True)
+# set_sql_debug()
 
 
 @db_session
@@ -36,6 +42,8 @@ def insert_subs(name):
     subs = list(srt.parse(open(name, "r", encoding="ISO-8859-1")))
 
     for line in subs:
+        if not line.content:
+            continue
         Subtitle(content=line.content,
                  raw_content=Subtitle.clean_text(line.content),
                  start=line.start,
@@ -50,7 +58,8 @@ def insert_subs(name):
 # ========== Insert Data to DB =======
 # path = "RawFiles/FR/s10"
 # os.chdir(path)
-# for file in os.listdir():
-#     insert_subs(file)
-#     print(file, "insert success!")
+# # # for file in os.listdir():
+# insert_subs("10-17")
+# print("10-17", "insert success!")
+
 
