@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify, render_template
-from pony.orm import db_session
+from pony.orm import db_session, RowNotFound
 from FriendsSearch import FriendsSearch
 from flask_cors import CORS, cross_origin
-
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True  # set pretty print
@@ -25,9 +24,39 @@ def docs():
 
 
 @cross_origin()
-@app.route("/languages")
+@app.route("/api/languages")
 def languages():
-    return
+    return jsonify(FriendsSearch.all_langs())
+
+
+@cross_origin()
+@app.route("/api/language/<lang>")
+def get_lang(lang):
+    return jsonify(FriendsSearch.is_lang_exist(lang))
+
+
+@app.route("/api/random")
+def random():
+    return jsonify(FriendsSearch.random().parse())
+
+
+@cross_origin()
+@app.route("/api/sentence/<int:_id>")
+def get_by_id(_id):
+    return jsonify(FriendsSearch.by_id(_id).parse())
+
+
+@cross_origin()
+@app.route("/api/sentence/<int:_id>/relative")
+def relative(_id):
+    try:
+        relatives = FriendsSearch.get_relative(_id)
+        return jsonify({
+                "before": relatives[0].parse(),
+                "after": relatives[1].parse()   # take a look if the episode are equal in both
+            })
+    except (RowNotFound, AttributeError) as e:
+        return {"error": "some ids are available.", "details": str(e)}
 
 
 @cross_origin()
@@ -37,8 +66,6 @@ def search():
     response = {}
 
     query = request.args.get("query") or request.args.get("q")
-    # episode = request.args.get("episode") or request.args.get("e")
-    # season = request.args.get("season") or request.args.get("s")
     limit = request.args.get("limit") or request.args.get("l") or 50  # set 50 for limit as default
     lang = request.args.get("lang") or request.args.get("language") or "en"  # set language default to English
 
@@ -51,12 +78,6 @@ def search():
 
     if lang and len(lang) != 2:
         error = {"error": "`language` must be two characters, e.g. `EN`."}  # wrong language format
-
-    # if episode and not episode.isdigit():
-    #     error = {"error": "`episode` index must be a digit."}
-    #
-    # if season and not season.isdigit():
-    #     error = {"error": "`season` index must be a digit."}
 
     if limit and isinstance(limit, str) and not limit.isdigit():
         error = {"error": "`limit` must be a digit."}  # `limit` parameter does not number
