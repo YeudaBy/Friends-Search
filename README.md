@@ -167,6 +167,7 @@ strings = {
 ## Supported languages
 - [x] English
 - [x] Hebrew
+- [x] French
 
 ## TODO's
 - [x] Search words or sentences.
