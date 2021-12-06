@@ -34,7 +34,7 @@ def search():
     # episode = request.args.get("episode") or request.args.get("e")
     # season = request.args.get("season") or request.args.get("s")
     limit = request.args.get("limit") or request.args.get("l") or 50  # set 50 for limit as default
-    lang = request.args.get("lang") or request.args.get("language")
+    lang = request.args.get("lang") or request.args.get("language") or "en"  # set language default to English
 
     # costume error
     if query == "make_error":

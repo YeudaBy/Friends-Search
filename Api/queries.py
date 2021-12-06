@@ -23,7 +23,7 @@ def search(
         # season: int = None,
         # episode: int = None,
         limit: int = None,
-        lang: str = None
+        lang: str = "en"
             ) -> List[Subtitle]:
     """
     search sentences on DataBase.
