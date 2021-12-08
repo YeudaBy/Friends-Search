@@ -47,13 +47,9 @@ class Query:
 
     @staticmethod
     @db_session
-    def random() -> Subtitle:
-        res = Subtitle.select_random(limit=1)
-        if isinstance(res, list):
-            res = res[0]
+    def random(lang: str = "en") -> List[Subtitle]:
+        res = Subtitle.select_random(limit=10)
         return res
-
-
 
     # @staticmethod
     # @db_session
