@@ -14,53 +14,35 @@ app.config['CORS_HEADERS'] = 'Content-Type'  # set cors origin for the site
 @app.route("/")
 def home():
     """ home page """
-    return render_template("index.html")
-
-
-@app.route("/api")
-def docs():
-    """ api documentation """
     return render_template("docs.html")
 
 
 @cross_origin()
-@app.route("/api/languages")
+@app.route("/language")
 def languages():
     return jsonify(Query.all_langs())
 
 
 @cross_origin()
-@app.route("/api/language/<lang>")
+@app.route("/language/<lang>")
 def get_lang(lang):
     return jsonify(Query.is_lang_exist(lang))
 
 
-@app.route("/api/random")
+@app.route("/sentence/random/")
 def random():
-    return jsonify(Query.random().parse())
+    res = Query.random()
+    return jsonify([i.parse() for i in res])
 
 
 @cross_origin()
-@app.route("/api/sentence/<int:_id>")
+@app.route("/sentence/<int:_id>")
 def get_by_id(_id):
     return jsonify(Query.by_id(_id).parse())
 
 
-# @cross_origin()
-# @app.route("/api/sentence/<int:_id>/relative")
-# def relative(_id):
-#     try:
-#         relatives = Query.get_relative(_id)
-#         return jsonify({
-#                 "before": relatives[0].parse(),
-#                 "after": relatives[1].parse()   # take a look if the episode are equal in both
-#             })
-#     except (RowNotFound, AttributeError) as e:
-#         return {"error": "some ids are available.", "details": str(e)}
-
-
 @cross_origin()
-@app.route("/api/sentence/search")
+@app.route("/sentence/search")
 def search():
     error = {}
     response = {}
