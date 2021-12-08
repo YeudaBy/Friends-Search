@@ -8,3 +8,4 @@ Bot/config.ini
 users.json
 uses.txt
 Bot/*.sqlite*
+DB/DataBases/*test*
