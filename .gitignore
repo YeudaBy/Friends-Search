@@ -7,3 +7,4 @@ Bot/config.ini
 *.sqlite-journal
 users.json
 uses.txt
+Bot/*.sqlite*

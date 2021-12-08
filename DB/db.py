@@ -1,4 +1,3 @@
-import os
 from re import sub
 
 import srt
