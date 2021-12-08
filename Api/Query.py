@@ -1,11 +1,9 @@
 from typing import List, Union, Tuple
-
 from pony.orm import RowNotFound, exists, select
-
 from DB.db import (Subtitle, db_session, db)
 
 
-class FriendsSearch:
+class Query:
 
     @staticmethod
     @db_session
@@ -55,8 +53,8 @@ class FriendsSearch:
             res = res[0]
         return res
 
-    @staticmethod
-    @db_session
-    def get_relative(_id: int) -> Tuple[Subtitle, Subtitle]:
-        return FriendsSearch.by_id(_id - 1), FriendsSearch.by_id(_id + 1)
+    # @staticmethod
+    # @db_session
+    # def get_relative(_id: int) -> Tuple[Subtitle, Subtitle]:
+    #     return Query.by_id(_id - 1), Query.by_id(_id + 1)
 

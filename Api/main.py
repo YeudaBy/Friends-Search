@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from pony.orm import db_session, RowNotFound
-from FriendsSearch import FriendsSearch
+from Query import Query
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -26,37 +26,37 @@ def docs():
 @cross_origin()
 @app.route("/api/languages")
 def languages():
-    return jsonify(FriendsSearch.all_langs())
+    return jsonify(Query.all_langs())
 
 
 @cross_origin()
 @app.route("/api/language/<lang>")
 def get_lang(lang):
-    return jsonify(FriendsSearch.is_lang_exist(lang))
+    return jsonify(Query.is_lang_exist(lang))
 
 
 @app.route("/api/random")
 def random():
-    return jsonify(FriendsSearch.random().parse())
+    return jsonify(Query.random().parse())
 
 
 @cross_origin()
 @app.route("/api/sentence/<int:_id>")
 def get_by_id(_id):
-    return jsonify(FriendsSearch.by_id(_id).parse())
+    return jsonify(Query.by_id(_id).parse())
 
 
-@cross_origin()
-@app.route("/api/sentence/<int:_id>/relative")
-def relative(_id):
-    try:
-        relatives = FriendsSearch.get_relative(_id)
-        return jsonify({
-                "before": relatives[0].parse(),
-                "after": relatives[1].parse()   # take a look if the episode are equal in both
-            })
-    except (RowNotFound, AttributeError) as e:
-        return {"error": "some ids are available.", "details": str(e)}
+# @cross_origin()
+# @app.route("/api/sentence/<int:_id>/relative")
+# def relative(_id):
+#     try:
+#         relatives = Query.get_relative(_id)
+#         return jsonify({
+#                 "before": relatives[0].parse(),
+#                 "after": relatives[1].parse()   # take a look if the episode are equal in both
+#             })
+#     except (RowNotFound, AttributeError) as e:
+#         return {"error": "some ids are available.", "details": str(e)}
 
 
 @cross_origin()
@@ -86,7 +86,7 @@ def search():
         return jsonify(error), 399
 
     with db_session:
-        results = [i.parse() for i in FriendsSearch.search(
+        results = [i.parse() for i in Query.search(
             query=query,
             limit=int(limit),
             lang=lang

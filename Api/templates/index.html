@@ -62,6 +62,7 @@
         html,
         body {
             height: 100%;
+            quotes: '\201c' '\201d';
         }
 
         #live {
@@ -115,9 +116,17 @@
             text-align: center;
         }
 
-        summary {
+        .res {
             font-weight: bold;
             list-style-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/right-arrow.svg);
+        }
+
+        .res::before {
+            content: open-quote;
+        }
+
+        .res::after {
+            content: close-quote;
         }
 
         summary::-webkit-details-marker {
@@ -259,51 +268,68 @@
         const msg = {
             "#search-btn": {
                 "en-US": "search",
-                "he": "חפש"
+                "he": "חפש",
+                "fr-FR": "Recherche"
             },
             "#no-results": {
                 "en-US": "No matches found :(",
-                "he": "לא נמצאו תוצאות :("
+                "he": "לא נמצאו תוצאות :(",
+                "fr-FR": "Aucun résultat trouvé :("
             },
             "season": {
                 "en-US": "Season",
-                "he": "עונה"
+                "he": "עונה",
+                "fr-FR": "Saison"
             },
             "episode": {
                 "en-US": "Episode",
-                "he": "פרק"
+                "he": "פרק",
+                "fr-FR": "Épisode"
             }
         }
+
+        const baseUrl = "http://127.0.0.1:5000/api/"
+            // const baseUrl = "/api/"  // prodaction url
 
         $(() => {
 
             $("#search-field").focus();  // auto focus when page loaded
 
             // set language and direction by browser language
-            const lang = navigator.language;
+            let lang = navigator.language;
+            languages = Object.keys(msg["#search-btn"]);
+            if(!languages.includes(lang)) {lang = "en-US"}
+
             $("#search-btn").val(msg["#search-btn"][lang]);
-            $("#no-results").text(msg["#no-results"][lang])
+            $("#no-results").text(msg["#no-results"][lang]);
             if (lang == "he") { $("html").children().css("direction","rtl") } 
 
 
             function request(query) {
-                const baseUrl = "/api/search?query="  // prodaction url
-                // const baseUrl = "http://127.0.0.1:5000/api/search?q="  // debugging url
-                let url = baseUrl + query
+                const endpoint = "search?q="  // debugging url
+                let url = baseUrl + endpoint + query
                 $.ajax(url)  
                     .done(data => { parser(data) })
                     .fail(error => { parser(error) })
             }
 
+
             function getResults() {
                 const query = $("#search-field").val()
-                request(query)  // fatch
+                if ($("#random").is(':checked')) {searchRandom()}
+                else {request(query)}
 
                 // clear existing data
                 $("#search-field").val("");
                 $("#list-results").text("");
                 $("#no-results").hide();
                 $("#error").hide();
+            }
+
+            function searchRandom() {
+                $.ajax(baseUrl + "random")
+                .done(e => parser(e))
+                .fail(e => console.error(e))
             }
 
 
@@ -324,8 +350,10 @@
                     return
                 }
 
+                console.log(typeof data)
+
                 data.results.forEach(e => {
-                    const s = $("<summary></summary>").text(e.content);
+                    const s = $("<summary class='res'></summary>").text(e.content);
                     p = $("<p></p>").text(
         `${season} ${e.season} × ${episode} ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`)
                     let d = $("<details></details>").append(s, p)
@@ -339,8 +367,17 @@
                 e.preventDefault();
                 getResults($("#search-field").val())
             })
-
         })
+
+        $("#more").click(
+            ls = {"iw": "עברית", "fr": "Français", "en": "English"},
+            $.ajax(baseUrl + "languages")
+            .done( data =>
+                data.forEach( e => {
+                    $("#langs").append($("<option></option>").text(ls[e]))
+                })
+            ).fail( e => {$("#langs-div").hide(), console.error(e)})
+        )
 
     </script>
 </head>
@@ -361,6 +398,18 @@
             <form id="search">
                 <input type="search" value="" id="search-field"> 
                 <input id="search-btn" type="submit">
+
+                <details>
+                    <summary id="more">More Options</summary>
+                    <div id="langs-div">
+                        <label for="langs">Select language to search:</label>
+                    <br>
+                    <select name="langs" id="langs"></select>
+                    </div>
+                    <br>
+                    <label for="random">Search rnadom</label>
+                    <input type="checkbox" name="random" id="random">
+                </details>
             </form>
         </div>
 
