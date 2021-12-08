@@ -15,8 +15,10 @@
             color: #f1b07e;
             margin: 0;
             padding: 0;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0.5))), url("{{ url_for('static', filename='images/bg6.jpeg') }}");
-            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("{{ url_for('static', filename='images/bg6.jpeg') }}");
+            background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0.5))),
+            url("{{ url_for('static', filename='images/bg6.jpeg') }}");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+            url("{{ url_for('static', filename='images/bg6.jpeg') }}");
             background-size: cover;
         }
 
@@ -62,7 +64,7 @@
         html,
         body {
             height: 100%;
-            quotes: '\201c' '\201d';
+            quotes: '\201c''\201d';
         }
 
         #live {
@@ -253,10 +255,15 @@
             color: white;
         }
 
+        #scroll {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+        }
     </style>
 
     <meta charset="UTF-8">
-    
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends Search</title>
@@ -267,48 +274,52 @@
 
         const msg = {
             "#search-btn": {
-                "en-US": "search",
+                "en": "search",
                 "he": "חפש",
-                "fr-FR": "Recherche"
+                "fr": "Recherche"
             },
             "#no-results": {
-                "en-US": "No matches found :(",
+                "en": "No matches found :(",
                 "he": "לא נמצאו תוצאות :(",
-                "fr-FR": "Aucun résultat trouvé :("
+                "fr": "Aucun résultat trouvé :("
             },
             "season": {
-                "en-US": "Season",
+                "en": "Season",
                 "he": "עונה",
-                "fr-FR": "Saison"
+                "fr": "Saison"
             },
             "episode": {
-                "en-US": "Episode",
+                "en": "Episode",
                 "he": "פרק",
-                "fr-FR": "Épisode"
+                "fr": "Épisode"
             }
         }
 
         const baseUrl = "http://127.0.0.1:5000/api/"
-            // const baseUrl = "/api/"  // prodaction url
+        // const baseUrl = "/api/"  // prodaction url
+
+        function setLang() {
+            let lang = navigator.language.replace(/([a-z])-[A-Z]/, '$1');
+            languages = Object.keys(msg["#search-btn"]);
+            if (!languages.includes(lang)) { lang = "en" }
+            return lang
+        }
 
         $(() => {
 
             $("#search-field").focus();  // auto focus when page loaded
 
             // set language and direction by browser language
-            let lang = navigator.language;
-            languages = Object.keys(msg["#search-btn"]);
-            if(!languages.includes(lang)) {lang = "en-US"}
-
+            let lang = setLang()
             $("#search-btn").val(msg["#search-btn"][lang]);
             $("#no-results").text(msg["#no-results"][lang]);
-            if (lang == "he") { $("html").children().css("direction","rtl") } 
+            if (lang == /he|ar|yi|fa/) { $("html").children().css("direction", "rtl") }
 
 
             function request(query) {
-                const endpoint = "search?q="  // debugging url
+                const endpoint = "sentence/search?q="  // debugging url
                 let url = baseUrl + endpoint + query
-                $.ajax(url)  
+                $.ajax(url)
                     .done(data => { parser(data) })
                     .fail(error => { parser(error) })
             }
@@ -316,8 +327,8 @@
 
             function getResults() {
                 const query = $("#search-field").val()
-                if ($("#random").is(':checked')) {searchRandom()}
-                else {request(query)}
+                if ($("#random").is(':checked')) { searchRandom() }
+                else { request(query) }
 
                 // clear existing data
                 $("#search-field").val("");
@@ -328,8 +339,8 @@
 
             function searchRandom() {
                 $.ajax(baseUrl + "random")
-                .done(e => parser(e))
-                .fail(e => console.error(e))
+                    .done(e => parser(e))
+                    .fail(e => console.error(e))
             }
 
 
@@ -355,11 +366,11 @@
                 data.results.forEach(e => {
                     const s = $("<summary class='res'></summary>").text(e.content);
                     p = $("<p></p>").text(
-        `${season} ${e.season} × ${episode} ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`)
+                        `${season} ${e.season} × ${episode} ${e.episode} × ${/(\d:)(\d{2}:\d{2})(.\d*)/.exec(e.start)[2]}`)
                     let d = $("<details></details>").append(s, p)
                     $("#list-results").append(d);
                 })
-                $("#list-results").slideDown("slow")
+                $("#list-results").slideDown(1000)
                 console.log(data)
             }
 
@@ -367,22 +378,36 @@
                 e.preventDefault();
                 getResults($("#search-field").val())
             })
+
+            ls = { "he": "עברית", "fr": "Français", "en": "English" },
+                $.ajax(baseUrl + "languages")
+                    .done(data =>
+                        data.forEach(e => {
+                            $("#langs").append($("<option></option>").text(ls[e]))
+                        }),
+                        lg = ls[setLang()],
+                        $("#langs option:checked").val(ls[setLang()])
+
+                    ).fail(e => { $("#langs-div").hide(), console.error(e) })
         })
 
-        $("#more").click(
-            ls = {"iw": "עברית", "fr": "Français", "en": "English"},
-            $.ajax(baseUrl + "languages")
-            .done( data =>
-                data.forEach( e => {
-                    $("#langs").append($("<option></option>").text(ls[e]))
-                })
-            ).fail( e => {$("#langs-div").hide(), console.error(e)})
+        $(document).scroll(
+            () => {
+                console.log("scroll"), $("#scroll").fadeIn("slow")
+            }
         )
+
 
     </script>
 </head>
 
 <body>
+
+    <div id="t">
+        <a href="#" id="scroll">
+            <img src="/Api/static/images/up.svg" alt="up">
+        </a>
+    </div>
 
     <nav>
         <a href="/api" target="_blanck">Api</a>
@@ -396,22 +421,20 @@
 
         <div id="live">
             <form id="search">
-                <input type="search" value="" id="search-field"> 
+                <input type="search" value="" id="search-field">
                 <input id="search-btn" type="submit">
 
-                <details>
-                    <summary id="more">More Options</summary>
-                    <div id="langs-div">
-                        <label for="langs">Select language to search:</label>
+                <div id="langs-div">
+                    <label for="langs">Select language to search:</label>
                     <br>
                     <select name="langs" id="langs"></select>
-                    </div>
-                    <br>
-                    <label for="random">Search rnadom</label>
-                    <input type="checkbox" name="random" id="random">
-                </details>
+                </div>
+                <br>
+                <label for="random">Search rnadom</label>
+                <input type="checkbox" name="random" id="random">
             </form>
         </div>
+
 
         <div id="results">
             <div id="error" style="display: none;"></div>

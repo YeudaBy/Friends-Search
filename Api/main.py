@@ -60,7 +60,7 @@ def get_by_id(_id):
 
 
 @cross_origin()
-@app.route("/api/search")
+@app.route("/api/sentence/search")
 def search():
     error = {}
     response = {}
