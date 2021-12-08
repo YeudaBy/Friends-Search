@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from pony.orm import db_session, RowNotFound
-from Query import Query
+from Api.Query import Query
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -97,4 +97,5 @@ def search():
         return jsonify(response), 200
 
 
-app.run()
+if __name__ == '__main__':
+    app.run()

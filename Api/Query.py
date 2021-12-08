@@ -53,14 +53,16 @@ class Query:
             res = res[0]
         return res
 
+
+
     # @staticmethod
     # @db_session
     # def get_relative(_id: int) -> Tuple[Subtitle, Subtitle]:
     #     return Query.by_id(_id - 1), Query.by_id(_id + 1)
 
 
-with db_session:
-    q = Subtitle.select(lambda i: i.lang == "iw")[:]
-    for i in q:
-        i.set(lang="he")
+# with db_session:
+#     q = Subtitle.select(lambda i: i.lang == "iw")[:]
+#     for i in q:
+#         i.set(lang="he")
 
