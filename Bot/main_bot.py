@@ -1,40 +1,25 @@
-import re
-from typing import Union
-import requests
 from pyrogram import Client, filters
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
-                            InlineKeyboardButton, InlineKeyboardMarkup)
-from Bot.strings import strings, friends_icons
+                            InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery)
+from Bot.strings import friends_images
+from Bot.db import get_stats, update_lang, get_lang, update_usage, edit_favorite, create_user, get_favorites
+from Bot.tools import lang_msg, request_by_sentence, dt_to_ht, request_by_id
 import random
 
 app = Client("FriendSearch")
 
 
-def request(query: str) -> dict:
-    endpoint = f"http://127.0.0.1:5000/api/search?query={query}"
-    return requests.get(endpoint).json()
-
-
-def lang_msg(msg_obj: Union[Message, InlineQuery], msg_to_rpl: str) -> Union[str, bool]:
-    msg = strings.get(msg_to_rpl)
-    if not msg:
-        return False
-    lang_client = msg_obj.from_user.language_code
-    if msg.get(lang_client):
-        return msg[lang_client]
-    else:
-        return msg["en"]
-
-
-def dt_to_ht(timedelta: str) -> str:
-    """ convert timedelta to human time """
-    return re.search(r"0:(?P<ht>[0-9]{2}:[0-9]{2})\.[0-9]+", timedelta).groupdict().get("ht")
-
-
-@app.on_message(filters.command(["start", "help", "translate"]) & filters.private)
+@app.on_message(filters.command(["start", "help", "translate", "history"]) & filters.private)
 def start(_, message: Message):
+    create_user(user_id=message.from_user.id, lang=message.from_user.language_code)
     if message.command == ["start"]:
         message.reply(lang_msg(message, "start_msg").format(message.from_user.mention))
+    elif message.command == ["history"]:
+        ids = get_favorites(user_id=message.from_user.id)
+        search_history = []
+        for _id in ids:
+            search_history.append(request_by_id(_id))
+        message.reply(lang_msg(message, "history".format(search_history)))
     elif message.command == ["help"]:
         message.reply(lang_msg(message, "help_msg"))
     elif message.command == ["translate"]:
@@ -43,7 +28,7 @@ def start(_, message: Message):
 
 @app.on_inline_query()
 def search_inline(_, query: InlineQuery):
-    raw_results = request(query.query)
+    raw_results = request_by_sentence(query.query)
     if raw_results.get("error"):
         query.answer(
             results=[],
@@ -62,10 +47,10 @@ def search_inline(_, query: InlineQuery):
         InlineQueryResultArticle(
             title=f"{lang_msg(query, 'session')} {result['season']} {lang_msg(query, 'episode')} {result['episode']} • {dt_to_ht(result['start'])}",
             description=result["content"],
-            thumb_url=random.choice(friends_icons),
+            thumb_url=random.choice(friends_images),
             input_message_content=InputTextMessageContent(
                 f"**✅ {lang_msg(query, 'results_title')}**\n\n"
-                f"**📺 {lang_msg(query, 'appear_at')}:** `{lang_msg(query, 'session')} {result['season']} {lang_msg(query, 'episode')} {result['episode']}`\n" 
+                f"**📺 {lang_msg(query, 'appear_at')}:** `{lang_msg(query, 'session')} {result['season']} {lang_msg(query, 'episode')} {result['episode']}`\n"
                 f"**🕓 {lang_msg(query, 'time')}:** `{dt_to_ht(result['start'])}`\n**💬 {lang_msg(query, 'sentence')}:** `{result['content']}` "
             ),
             reply_markup=InlineKeyboardMarkup([[
@@ -73,13 +58,22 @@ def search_inline(_, query: InlineQuery):
                                      switch_inline_query_current_chat=""),
                 InlineKeyboardButton(lang_msg(query, "share_btn"),
                                      switch_inline_query=query.query)
-            ]])
-        ) for result in raw_results["results"]
+            ], [InlineKeyboardButton("❤",
+                                     callback_data=str(result['id']))]])
+        ) for result in raw_results["results"] if result['id']
     ]
     query.answer(results,
                  cache_time=0,  # TODO remove
                  switch_pm_text=f"{lang_msg(query, 'results_count')}: {str(raw_results['count'])}",
                  switch_pm_parameter="count")
+
+
+@app.on_callback_query()
+def add_to_favorites(_, callback: CallbackQuery):
+    if edit_favorite(callback.from_user.id, int(callback.data)):
+        callback.answer("Added to fav")
+    else:
+        callback.answer("Already exists!")
 
 
 app.run()

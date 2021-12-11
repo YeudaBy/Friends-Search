@@ -57,11 +57,15 @@ strings = {
     "results_title": {
         "en": "Here is your search result:",
         "he": "הנה התוצאה שבחרת"
+    },
+    "history": {
+        "en": "History:\n{}",
+        "he": "היסטוריה:\n{}"
     }
 
 }
 
-friends_icons = [
+friends_images = [
     "https://telegra.ph/file/faa5980354d9cc2f06ff7.jpg",
     "https://telegra.ph/file/b001f710fc9eec26fa909.png",
     "https://telegra.ph/file/1d57cfec1830354015f56.jpg",
