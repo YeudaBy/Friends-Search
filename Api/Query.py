@@ -31,8 +31,9 @@ class Query:
     @staticmethod
     @db_session
     def all_langs() -> list:
-        results = select(i.lang for i in Subtitle)
-        return list(set(results))
+        # results = select(i.lang for i in Subtitle)
+        # return list(set(results))
+        return ["English", "Français", "עברית"]
 
     @staticmethod
     @db_session
