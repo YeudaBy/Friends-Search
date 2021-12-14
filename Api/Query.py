@@ -30,10 +30,10 @@ class Query:
 
     @staticmethod
     @db_session
-    def all_langs() -> list:
+    def all_langs() -> dict:
         # results = select(i.lang for i in Subtitle)
         # return list(set(results))
-        return ["English", "Français", "עברית"]
+        return {"en": "English", "fr": "Français", "he": "עברית"}
 
     @staticmethod
     @db_session
