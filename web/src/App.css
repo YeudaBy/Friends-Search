@@ -1,5 +1,9 @@
 
 @font-face {
-  font-family: 'friends';
+  font-family: 'friends-font';
   src: URL("./friends-font.TTF") format("truetype");
+}
+
+h1 {
+  font-family: "friends-font";
 }
