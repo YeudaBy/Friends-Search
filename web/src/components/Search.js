@@ -25,7 +25,7 @@ export class Search extends React.Component {
   componentDidMount() {
     fetch(this.baseUrl + "language")
       .then(res => res.json())
-      .then((res) => this.setState({langs: res}))
+      .then((res) => this.setState({ langs: res }))
   }
 
   searchChange(event) {
@@ -48,7 +48,7 @@ export class Search extends React.Component {
   };
 
   changeLang(event) {
-    this.setState({lang: event.nativeEvent.target.value})
+    this.setState({ lang: event.nativeEvent.target.value })
   }
 
   componentDidUpdate() {
@@ -63,7 +63,11 @@ export class Search extends React.Component {
         value={this.value}
       />
 
-      <SelectLang value={this.state.lang} changeLang={this.changeLang} langs={this.state.langs} />
+      <SelectLang
+        label={"Select Languege To Search"}
+        value={this.state.lang}
+        changeLang={this.changeLang}
+      />
 
       <ResultsList results={this.state.results} />
     </div>
