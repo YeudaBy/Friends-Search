@@ -48,8 +48,7 @@ export class Search extends React.Component {
   };
 
   changeLang(event) {
-    console.log(event)
-    // this.setState({lang: event})
+    this.setState({lang: event.nativeEvent.target.value})
   }
 
   componentDidUpdate() {
