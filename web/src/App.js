@@ -1,19 +1,27 @@
 import { Search } from "./components/Search";
 import Head from "./components/Head";
 import "./App.css"
-import { useState } from "react";
+import React from "react";
 
-function App() {
-  const [lang, setLangs] = useState(0);
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { lang: "en" }
 
-  function updateLang(newLang) { setLangs(newLang) }
+    this.updateLang = this.updateLang.bind(this);
+  }
 
-  return (
-    <>
-      <Head lang={lang} updateLang={this.updateLang()}/>
-      <Search lang={lang}/>
-    </>
-  );
+  updateLang(event) {
+    this.setState({ lang: event.nativeEvent.target.value },
+      () => { console.log("set lang to: " + this.state.lang); });
+  }
+
+  render() {
+    return (
+      <>
+        <Head lang={this.state.lang} updateLang={this.updateLang} />
+        <Search lang={this.state.lang} />
+      </>
+    );
+  }
 }
-
-export default App;
