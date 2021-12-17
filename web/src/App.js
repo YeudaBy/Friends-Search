@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <Head lang={lang}/>
+      <Head lang={lang} updateLang={this.updateLang()}/>
       <Search lang={lang}/>
     </>
   );
