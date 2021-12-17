@@ -8,8 +8,9 @@ export class Result extends React.Component {
         super(props);
         this.state = { ...props }
 
-        this.NextBtnHandler = this.NextBtnHandler.bind(this)
-        this.PreviousBtnHandler = this.PreviousBtnHandler.bind(this)
+        this.NextBtnHandler = this.NextBtnHandler.bind(this);
+        this.PreviousBtnHandler = this.PreviousBtnHandler.bind(this);
+        // this.isOpen = this.isOpen.bind(this);
     }
 
     NextBtnHandler() {
@@ -24,30 +25,36 @@ export class Result extends React.Component {
             .then((res) => this.setState(res));
     }
 
+    // isOpen() {
+    //     console.log(this.state.open)
+    //     this.setState( mode => ({
+    //         open: !mode.open
+    //     }))
+    // }
+
     render() {
         return (
-            <details>
-                <summary className="resultSum">{this.state.content}</summary>
+            <details className="result">
+                <summary
+                    className="resultSum"
+                //   onClick={this.isOpen}
+                >
+                    {this.state.content}
+                </summary>
 
                 <div className="resultInDiv">
-                    <PreviousBtn handle={this.PreviousBtnHandler} />
 
                     <p>Season {this.state.season} x Episode {this.state.episode
                     } x {/(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.start)[2]} - {
                             /(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.end)[2]}</p>
 
                     <NextBtn handle={this.NextBtnHandler} />
+
+                    <PreviousBtn handle={this.PreviousBtnHandler} />
+
                 </div>
 
             </details>
         )
     }
 }
-
-// export function OpenBtn(props) {
-
-//     return (
-//         <Link to={`card/${props.id}`}><img src="./openBtn.png" alt="open result"/></Link>
-//     )
-// }
-

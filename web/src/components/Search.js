@@ -11,7 +11,8 @@ export class Search extends React.Component {
       results: [],
       error: null,
       lang: 'en',
-      langs: []
+      langs: [],
+      dir: 'ltr'
     };
 
     this.searchChange = this.searchChange.bind(this);
@@ -29,7 +30,10 @@ export class Search extends React.Component {
   }
 
   searchChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.target.value },
+      () => {
+        if (this.state.lang === "he") this.setState({ dir: "rtl" })
+      });
   }
 
   langChange(event) {
@@ -55,21 +59,24 @@ export class Search extends React.Component {
     document.title = `Friends Search - Results for ${this.state.value}`;
   }
 
-  render() {
-    return (<div className="container">
-      <SearchField
-        searchChange={this.searchChange}
-        handleSubmit={this.handleSubmit}
-        value={this.value}
-      />
+  render() 
+  {
+    return (<div className="container center">
+      <div className="search">
+        <SearchField
+          searchChange={this.searchChange}
+          handleSubmit={this.handleSubmit}
+          value={this.state.value}
+        />
 
-      <SelectLang
-        label={"Select Languege To Search"}
-        value={this.state.lang}
-        changeLang={this.changeLang}
-      />
+        <SelectLang
+          label={"Select Languege To Search"}
+          value={this.state.lang}
+          changeLang={this.changeLang}
+        />
+      </div>
 
-      <ResultsList results={this.state.results} />
+      <ResultsList results={this.state.results} dir={this.state.dir} />
     </div>
     );
   }

@@ -1,20 +1,11 @@
 import React from "react";
-import SelectLang from "./SelectLang";
 import HeadNav from "./HeadNav"
 
 export default function Head(props) {
-
-    function changeLange(e) {
-        props.updateLang(
-            e.nativeEvent.target.value
-        )
-    }
-
-    return(
-        <>  
+    return (
+        <div className="Head">
             <HeadNav />
-            <SelectLang label={"Select site lang"} changeLang={props.changeLange()}/>
-            <h1>Friends Search</h1>
-        </>
+            <h1 className="center">Friends Search</h1>
+        </div>
     )
 }
