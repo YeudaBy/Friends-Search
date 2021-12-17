@@ -1,9 +1,126 @@
-
+/*  General */
 @font-face {
   font-family: 'friends-font';
   src: URL("./friends-font.TTF") format("truetype");
 }
 
+body {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+  url("./bg6.jpeg");
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0.5))),
+  url("./bg6.jpeg");
+  quotes: '\201c''\201d';
+}
+
+/* Vars */
+:root {
+  --1: #3d2d2083;
+  --2: #3b322a;
+  --3: #5e4430;
+  --4: #be9a7e83;
+  --5: #ebbe9c83;
+}
+
+/* Tags */
 h1 {
+  color: var(--3);
   font-family: "friends-font";
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+}
+
+select {
+  background: var(--5);
+  padding: .5em;
+  border-radius: 5px;
+  margin: .8em;
+  font-size: 12px;
+}
+
+/* Components */
+.Links {
+  display: flex;
+  justify-content: space-around;
+}
+
+.headNav {
+  border-bottom: black solid 2px;
+  background: white;
+}
+
+.result {
+  border: var(--2) solid;
+  border-radius: 7px;
+  margin: .9em;
+  padding: .7em;
+}
+
+.resultSum {
+  font-weight: bold;
+  color: var(--2);
+}
+
+.navBtn {
+  height: 37px;
+  width: 32px;
+  /* margin: auto; */
+}
+
+/* Containers */
+.center {
+  text-align: center;
+}
+
+.search {
+  border: var(--3) solid;
+  border-radius: 10px;
+  width: 60%;
+  margin: auto;
+  padding: .7em;
+  margin-bottom: 1.2em;
+}
+
+.container {
+  background: rgba(245, 245, 245, 0.815);
+  margin: auto;
+  width: 80%;
+  border-radius: 10px;
+  padding: 1em;
+  padding-bottom: 17em;
+}
+
+/* Spec */
+.searchInput {
+  font-size: 19px;
+  padding: .3em;
+  border: var(--3) solid 2px;
+  border-radius: 7px;
+  color: var(--2);
+  margin-bottom: .8em;
+}
+
+.searchBtn {
+  background: var(--5);
+  color: var(--3);
+  font-weight: bold;
+  border-radius: 7px;
+  padding: .4em;
+  margin-bottom: .9em;
+}
+
+.search summary {
+  font-size: 13px;
+}
+
+/* Events */
+.searchBtn:hover {
+  background: var(--3);
+  color: var(--5);
+}
+
+.resultSum::before {
+  content: open-quote;
+}
+
+.resultSum::after {
+  content: close-quote;
 }
