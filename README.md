@@ -1,7 +1,7 @@
 
 <div align="center">
   
-  <img src="/Api/static/images/icon.png" width="100px"></img>
+  <img src="/web/public/icon.ico" width="100px"></img>
 
   <h1>Friends Search 🔎</h1>
   
