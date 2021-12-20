@@ -66,7 +66,8 @@ class Parse:
         self.end = result.end
         self.episode = result.episode.__str__()
         self.season = result.season.__str__()
-        self.lang = {result.lang: Query.all_langs()[result.lang]}
+        self.lang_code = result.lang
+        self.lang_name = Query.all_langs()[self.lang_code]
 
     def __dict__(self):
         return {
@@ -76,7 +77,8 @@ class Parse:
             "episode": self.episode.__str__(),
             "start": self.start.__str__(),
             "end": self.end.__str__(),
-            "lang": self.lang
+            "lang_code": self.lang_code,
+            "lang_name": self.lang_name
         }
 
     @staticmethod
