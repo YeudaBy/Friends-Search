@@ -1,10 +1,7 @@
 from re import sub
-
 import srt
 from pony.orm import *
 from datetime import timedelta
-
-from DB.Parse import Parse
 
 db = Database()
 
@@ -22,9 +19,6 @@ class Subtitle(db.Entity):
     def clean_text(text: str) -> str:
         """ return raw text without special characters and new lines """
         return sub(r"[$&+,:;=?@#|'<>.\-^*()\[\]{}%!~`_\" \n]", "", text).lower()
-
-    def parse(self) -> dict:
-        return Parse(self).__dict__()
 
 
 db.bind(provider='sqlite', filename='DataBases/Friends.sqlite', create_db=True)

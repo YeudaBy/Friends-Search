@@ -1,4 +1,7 @@
-from typing import List, Union, Tuple
+import re
+from typing import List
+
+from flask.json import JSONEncoder
 from pony.orm import RowNotFound, exists, select
 from DB.db import (Subtitle, db_session, db)
 
@@ -52,14 +55,30 @@ class Query:
         res = Subtitle.select_random(limit=10)
         return res
 
-    # @staticmethod
-    # @db_session
-    # def get_relative(_id: int) -> Tuple[Subtitle, Subtitle]:
-    #     return Query.by_id(_id - 1), Query.by_id(_id + 1)
 
+class Parse:
+    """ parse sql result to a class """
 
-# with db_session:
-#     q = Subtitle.select(lambda i: i.lang == "iw")[:]
-#     for i in q:
-#         i.set(lang="he")
+    def __init__(self, result: Subtitle):
+        self.id = result.id
+        self.content = self.remove_tags(result.content)
+        self.start = result.start
+        self.end = result.end
+        self.episode = result.episode.__str__()
+        self.season = result.season.__str__()
+        self.lang = {result.lang: Query.all_langs()[result.lang]}
 
+    def __dict__(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+            "season": self.season.__str__(),
+            "episode": self.episode.__str__(),
+            "start": self.start.__str__(),
+            "end": self.end.__str__(),
+            "lang": self.lang
+        }
+
+    @staticmethod
+    def remove_tags(text: str) -> str:
+        return re.sub(r"<.*?>", "", text).replace("\n", " ")

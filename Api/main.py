@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from pony.orm import db_session, RowNotFound
-from Api.Query import Query
+from Api.Query import Query, Parse
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -32,13 +32,13 @@ def get_lang(lang):
 @app.route("/sentence/random/")
 def random():
     res = Query.random()
-    return jsonify([i.parse() for i in res])
+    return jsonify([Parse(i).__dict__() for i in res])
 
 
 @cross_origin()
 @app.route("/sentence/<int:_id>")
 def get_by_id(_id):
-    return jsonify(Query.by_id(_id).parse())
+    return jsonify(Parse(Query.by_id(_id)).__dict__())
 
 
 @cross_origin()
@@ -68,7 +68,7 @@ def search():
         return jsonify(error), 399
 
     with db_session:
-        results = [i.parse() for i in Query.search(
+        results = [Parse(i).__dict__() for i in Query.search(
             query=query,
             limit=int(limit),
             lang=lang
