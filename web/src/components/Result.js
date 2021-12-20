@@ -48,9 +48,9 @@ export class Result extends React.Component {
                     } x {/(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.start)[2]} - {
                             /(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.end)[2]}</p>
 
-                    <NextBtn handle={this.NextBtnHandler} />
-
                     <PreviousBtn handle={this.PreviousBtnHandler} />
+
+                    <NextBtn handle={this.NextBtnHandler} />
 
                 </div>
 
