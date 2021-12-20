@@ -12,7 +12,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "debug" : "npm start --script-shell /bin/bash",
+    "start": "source ../venv/bin/activate & python ../__main__.py & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
