@@ -171,7 +171,7 @@ strings = {
 
 ## TODO's
 - [x] Search words or sentences.
-- [ ] Get random sentence.
+- [x] Get random sentence.
 
 ---
 Created with ❤️ by [David Lev](https://davidlev.me) & [Yehuda By](https://t.me/M100achuzBots)
