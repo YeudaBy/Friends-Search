@@ -61,7 +61,20 @@ strings = {
     "history": {
         "en": "History:\n{}",
         "he": "היסטוריה:\n{}"
-    }
+    },
+    "added_to_fav": {
+        "en": " ❤️Added to favorites!",
+        "he": " ❤️נוסף למועדפים!"
+    },
+    "remove_from_fav": {
+        "en": "💔 Removed from favorites",
+        "he": "💔 הוסר מהמועדפים"
+    },
+    # "only_sender_can_change": {
+    #     "en": "Only the person who sent the message can add to favorites",
+    #     "he": "רק המשתמש ששלח את ההודעה מורשה להוסיף את המשפט למועדפים שלו"
+    # }
+
 
 }
 

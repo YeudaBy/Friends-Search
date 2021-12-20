@@ -1,22 +1,24 @@
+import random
 import re
-from typing import Union
+from typing import Union, Tuple
 import requests
-from pyrogram.types import (Message, InlineQuery)
-from Bot.db import get_lang, create_user
-from Bot.strings import strings
+from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
+                            InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
+from Bot.db import get_lang, create_user, get_favorites
+from Bot.strings import strings, friends_images
 
 
 def request_by_sentence(query: str) -> dict:
-    endpoint = f"http://127.0.0.1:5000/sentence/search?query={query}"
+    endpoint = f"http://192.168.1.115:8080/sentence/search?query={query}&language=ag"
     return requests.get(endpoint).json()
 
 
 def request_by_id(_id: int) -> dict:
-    endpoint = f"http://127.0.0.1:5000/api/sentence/{_id}"
+    endpoint = f"http://192.168.1.115:8080/sentence/{_id}"
     return requests.get(endpoint).json()
 
 
-def lang_msg(msg_obj: Union[Message, InlineQuery], msg_to_rpl: str) -> Union[str, bool]:
+def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: str) -> Union[str, bool]:
     msg = strings.get(msg_to_rpl)
     if not msg:
         return False
@@ -30,3 +32,58 @@ def lang_msg(msg_obj: Union[Message, InlineQuery], msg_to_rpl: str) -> Union[str
 def dt_to_ht(timedelta: str) -> str:
     """ convert timedelta to human time """
     return re.search(r"0:(?P<ht>[0-9]{2}:[0-9]{2})\.[0-9]+", timedelta).groupdict().get("ht")
+
+
+def random_img():
+    return random.choice(friends_images)
+
+
+def get_sentence_result(sid: int, msg_obj) -> InlineQueryResultArticle:
+    raw_res = request_by_id(sid)
+    season = raw_res['season']
+    episode = raw_res['episode']
+    lang = raw_res['lang_name']
+    print(lang)
+    result = InlineQueryResultArticle(
+        title=f"{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode} • {dt_to_ht(raw_res['start'])} • {lang}",
+        description=raw_res["content"],
+        thumb_url=random_img(),
+        input_message_content=InputTextMessageContent(
+            message_text=get_sentence_msg(raw_res["id"], msg_obj)[0],
+
+        ),
+        reply_markup=get_sentence_msg(raw_res["id"], msg_obj)[1]
+    )
+    return result
+
+
+def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
+    raw_res = request_by_id(sid)
+    season = raw_res['season']
+    episode = raw_res['episode']
+    start_time = raw_res['start']
+    end_time = raw_res['end']
+
+    id_str = str(sid)
+    msg_txt = f"**✅ {lang_msg(msg_obj, 'results_title')}**\n\n" \
+              f"**📺 {lang_msg(msg_obj, 'appear_at')}:** `{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode}`\n" \
+              f"**🕓 {lang_msg(msg_obj, 'time')}:** `{dt_to_ht(start_time)}` -> `{dt_to_ht(end_time)}`\n**💬 {lang_msg(msg_obj, 'sentence')}:** `{raw_res['content']}`"
+    msg_kb = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(lang_msg(msg_obj, "inline_btn"),
+                                     switch_inline_query_current_chat=""),
+                InlineKeyboardButton(lang_msg(msg_obj, "share_btn"),
+                                     switch_inline_query=id_str)
+            ],
+            [
+                InlineKeyboardButton("⏪",
+                                     callback_data=str(sid - 1 if get_lang(msg_obj.from_user.id) != "he" else sid + 1)),
+                InlineKeyboardButton("❤" if sid not in get_favorites(msg_obj.from_user.id) else "💔",
+                                     callback_data="f/" + id_str),
+                InlineKeyboardButton("⏩",
+                                     callback_data=str(sid + 1 if get_lang(msg_obj.from_user.id) != "he" else sid - 1))
+            ]
+        ]
+    )
+    return msg_txt, msg_kb
