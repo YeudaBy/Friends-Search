@@ -1,10 +1,10 @@
 from pyrogram import Client, filters
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
-                            InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery)
-from Bot.strings import friends_images
-from Bot.db import get_stats, update_lang, get_lang, update_usage, edit_favorite, create_user, get_favorites
-from Bot.tools import lang_msg, request_by_sentence, dt_to_ht, request_by_id
-import random
+                            CallbackQuery)
+from pyrogram.errors import MessageNotModified
+from Bot.db import edit_favorite, create_user, get_favorites
+from Bot.tools import lang_msg, request_by_sentence, request_by_id, get_sentence_msg, get_sentence_result, \
+    random_img
 
 app = Client("FriendSearch")
 
@@ -26,54 +26,64 @@ def start(_, message: Message):
         message.reply(lang_msg(message, "translate_msg"))
 
 
-@app.on_inline_query()
+@app.on_inline_query(~filters.regex(r"\d"))
 def search_inline(_, query: InlineQuery):
     raw_results = request_by_sentence(query.query)
-    if raw_results.get("error"):
+
+    # errors handler
+    if raw_results.get("error") or raw_results["count"] == 0:
         query.answer(
             results=[],
-            switch_pm_text=lang_msg(query, 'query_required'),
+            switch_pm_text=lang_msg(query, 'query_required' if raw_results.get("error") else 'no_results'),
             switch_pm_parameter="empty"
         )
         return
 
-    if raw_results["count"] == 0:
-        query.answer(
-            results=[],
-            switch_pm_text=lang_msg(query, 'no_results'),
-            switch_pm_parameter="empty"
-        )
-    results = [
-        InlineQueryResultArticle(
-            title=f"{lang_msg(query, 'session')} {result['season']} {lang_msg(query, 'episode')} {result['episode']} • {dt_to_ht(result['start'])}",
-            description=result["content"],
-            thumb_url=random.choice(friends_images),
-            input_message_content=InputTextMessageContent(
-                f"**✅ {lang_msg(query, 'results_title')}**\n\n"
-                f"**📺 {lang_msg(query, 'appear_at')}:** `{lang_msg(query, 'session')} {result['season']} {lang_msg(query, 'episode')} {result['episode']}`\n"
-                f"**🕓 {lang_msg(query, 'time')}:** `{dt_to_ht(result['start'])}`\n**💬 {lang_msg(query, 'sentence')}:** `{result['content']}` "
-            ),
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton(lang_msg(query, "inline_btn"),
-                                     switch_inline_query_current_chat=""),
-                InlineKeyboardButton(lang_msg(query, "share_btn"),
-                                     switch_inline_query=query.query)
-            ], [InlineKeyboardButton("❤",
-                                     callback_data=str(result['id']))]])
-        ) for result in raw_results["results"] if result['id']
-    ]
+    results = [get_sentence_result(result["id"], query) for result in raw_results["results"] if result['id']]
     query.answer(results,
                  cache_time=0,  # TODO remove
                  switch_pm_text=f"{lang_msg(query, 'results_count')}: {str(raw_results['count'])}",
-                 switch_pm_parameter="count")
+                 switch_pm_parameter="count"
+                 )
 
 
-@app.on_callback_query()
-def add_to_favorites(_, callback: CallbackQuery):
-    if edit_favorite(callback.from_user.id, int(callback.data)):
-        callback.answer("Added to fav")
+# favorites button
+@app.on_callback_query(filters.regex(r"f/\d"))
+def favorites(_, callback: CallbackQuery):
+    qid = int(callback.data.replace("f/", ""))
+    # if callback.message.from_user == callback.from_user:
+    if edit_favorite(callback.from_user.id, qid):
+        callback.answer(lang_msg(callback, 'added_to_fav'))
     else:
-        callback.answer("Already exists!")
+        callback.answer(lang_msg(callback, 'remove_from_fav'))
+    try:
+        callback.edit_message_reply_markup(
+            get_sentence_msg(qid, callback)[1]
+        )
+    except MessageNotModified:
+        pass
+    # else:
+    #     callback.answer(lang_msg(callback, 'only_sender_can_change'))
+
+
+@app.on_callback_query(filters.regex(r"\d"))
+def edit_to(_, callback: CallbackQuery):
+    txt, kb = get_sentence_msg(int(callback.data), callback)
+    callback.edit_message_text(txt)
+    callback.edit_message_reply_markup(kb)
+
+
+@app.on_inline_query(filters.regex(r"\d"))
+def search_by_id(_, inline: InlineQuery):
+    inline.answer([InlineQueryResultArticle(
+        title="Click here to share your sentence!",
+        description=f"{request_by_id(int(inline.query))['content']}",
+        thumb_url=random_img(),
+        input_message_content=InputTextMessageContent(
+            message_text=get_sentence_msg(int(inline.query), inline)[0]
+        ),
+        reply_markup=get_sentence_msg(int(inline.query), inline)[1]
+    )])
 
 
 app.run()
