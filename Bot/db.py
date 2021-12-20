@@ -53,25 +53,13 @@ def update_usage(user_id):
 
 
 @db_session
-def edit_favorite(user_id: int, query_id: int, action: str) -> bool:
+def edit_favorite(user_id: int, query_id: int) -> bool:
     user = User.get(user_id=user_id)
     if not user:
         create_user(user_id)
-    if action == "add":
-        if query_id not in user.query_ids:
-            user.query_ids.append(query_id)
-            commit()
-            return True
-        else:
-            return False
-    elif action == "rm":
-        if query_id in user.query_ids:
-            user.query_ids.remove(query_id)
-            commit()
-            return True
-        else:
-            return False
-    return False
+    favs: list = user.query_ids
+    favs.append(query_id) if query_id not in favs else favs.remove(query_id)
+    return query_id in favs
 
 
 @db_session
