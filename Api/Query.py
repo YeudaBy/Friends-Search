@@ -23,7 +23,7 @@ class Query:
 
         result = Subtitle.select(lambda i: query in i.raw_content)[:limit]
 
-        if lang:
+        if lang and lang != "ag":
             result = list(filter(lambda i: i.lang == lang.lower(), result))
 
         return [item for item in result]
@@ -33,7 +33,7 @@ class Query:
     def all_langs() -> dict:
         # results = select(i.lang for i in Subtitle)
         # return list(set(results))
-        return {"en": "English", "fr": "Français", "he": "עברית"}
+        return {"en": "English", "fr": "Français", "he": "עברית", "ag": "All languages"}
 
     @staticmethod
     @db_session
