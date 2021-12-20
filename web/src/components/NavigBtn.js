@@ -24,7 +24,7 @@ export function PreviousBtn(props) {
                 src="./previousBtn.png"
                 onClick={props.handle}
                 alt="previous btn"
-                data-tip="previous btn"
+                data-tip="Previous sentence"
                 data-for="previous"
             />
             <ReactTooltip id="previous" place="left" type="dark" effect="solid" />
