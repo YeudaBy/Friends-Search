@@ -9,11 +9,13 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "react-tooltip": "^4.2.21",
+    "reactjs-popup": "^2.0.5",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "debug" : "npm start --script-shell /bin/bash",
-    "start": "source ../venv/bin/activate & python ../__main__.py & react-scripts start",
+    "debug": "npm start --script-shell /bin/bash",
+    "start": "source ../venv/bin/activate && python ../__main__.py & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
