@@ -2,6 +2,7 @@ import React from "react";
 import ResultsList from "./ResultsList";
 import SearchField from "./SearchField";
 import SelectLang from "./SelectLang";
+// import getStr from "../strings"
 
 export class Search extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export class Search extends React.Component {
     this.searchChange = this.searchChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.langChange = this.langChange.bind(this);
-    this.changeLang = this.changeLang.bind(this);
+    this.updateLang = this.updateLang.bind(this);
 
     this.baseUrl = "http://127.0.0.1:8080/"
   }
@@ -51,7 +52,7 @@ export class Search extends React.Component {
     event.preventDefault();
   };
 
-  changeLang(event) {
+  updateLang(event) {
     this.setState({ lang: event.nativeEvent.target.value })
   }
 
@@ -72,7 +73,7 @@ export class Search extends React.Component {
         <SelectLang
           label={"Select Languege To Search"}
           value={this.state.lang}
-          changeLang={this.changeLang}
+          updateLang={this.updateLang}
         />
       </div>
 
