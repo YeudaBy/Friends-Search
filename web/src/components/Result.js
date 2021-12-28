@@ -1,5 +1,6 @@
 import React from "react";
 import { NextBtn, PreviousBtn } from "./NavigBtn"
+import Details from "./PopUp"
 
 const baseUrl = "http://127.0.0.1:8080/"
 
@@ -25,19 +26,11 @@ export class Result extends React.Component {
             .then((res) => this.setState(res));
     }
 
-    // isOpen() {
-    //     console.log(this.state.open)
-    //     this.setState( mode => ({
-    //         open: !mode.open
-    //     }))
-    // }
-
     render() {
         return (
             <details className="result">
                 <summary
                     className="resultSum"
-                //   onClick={this.isOpen}
                 >
                     {this.state.content}
                 </summary>
@@ -48,9 +41,13 @@ export class Result extends React.Component {
                     } x {/(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.start)[2]} - {
                             /(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.end)[2]}</p>
 
-                    <PreviousBtn handle={this.PreviousBtnHandler} />
 
                     <NextBtn handle={this.NextBtnHandler} />
+
+                    {/* <Details res={this.state}/> */}
+
+                    <PreviousBtn handle={this.PreviousBtnHandler} />
+
 
                 </div>
 
