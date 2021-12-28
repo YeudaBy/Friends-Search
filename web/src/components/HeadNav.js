@@ -11,15 +11,23 @@ export default function HeadNav(props) {
                     url={"/api"}
                 />
                 <LinkBtn
-                    label={"Test"}
+                    label={"GitHub"}
                     url={"https://google.com"}
+                />
+                <LinkBtn 
+                    label={"Game"}
+                    url={"/game"}
+                />
+                <LinkBtn 
+                    label={"Telegram Bot"}
+                    url={"t.me/"}
                 />
             </div>
 
             <SelectLang
                 label={"Select site lang"}
-                changeLang={props.updateLang}
-                value={props.lang}
+                updateLang={props.updateLang}
+                value={props.value}
             />
         </div>
     )
