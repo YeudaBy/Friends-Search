@@ -6,7 +6,7 @@ import getStr from "../strings";
 
 export default function ResultsList(props) {
 
-    if (Object.keys(props.results).length > 0) {
+    if (typeof props.results !== "undefined" & Object.keys(props.results).length > 0) {
         return (
             <div className="resultsList"
                 dir={props.dir}>
