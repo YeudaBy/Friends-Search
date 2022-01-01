@@ -181,12 +181,3 @@ select {
     width: auto;
 }
 }
-
-@media screen and (max-width: 422px) {
-  .headNav {
-    display: flex;
-    justify-content: space-evenly;
-    padding: .7em;
-    flex-direction: column;
-}
-}

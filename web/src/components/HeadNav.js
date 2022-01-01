@@ -2,17 +2,24 @@ import React from "react";
 import LinkBtn from "./LinkBtn"
 import SelectLang from "./SelectLang";
 import getStr from "../strings";
+import { FaTelegram, FaGithub, FaHtml5 } from 'react-icons/fa';
+import { useMediaPredicate } from "react-media-hook";
+
+
 
 export default function HeadNav(props) {
+
+    const less422 = useMediaPredicate("(max-width: 422px)");
+
     return (
         <div className="headNav">
             <div className="Links">
                 <LinkBtn
-                    label={"Api"}
+                    label={less422 ? <FaHtml5 /> : "Api"}
                     url={"/api"}
                 />
                 <LinkBtn
-                    label={"GitHub"}
+                    label={less422 ? <FaGithub /> : "GitHub"}
                     url={"https://github.com/YeudaBy/Friends-Search"}
                 />
                 {/* <LinkBtn
@@ -20,7 +27,7 @@ export default function HeadNav(props) {
                     url={"/game"}
                 /> */}
                 <LinkBtn
-                    label={"Telegram Bot"}
+                    label={less422 ? <FaTelegram /> : "Telegram Bot"}
                     url={"t.me/"}
                 />
             </div>
