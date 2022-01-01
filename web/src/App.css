@@ -173,3 +173,20 @@ select {
   background: var(--5);
   color: var(--1);
 }
+
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .search {
+    width: auto;
+}
+}
+
+@media screen and (max-width: 422px) {
+  .headNav {
+    display: flex;
+    justify-content: space-evenly;
+    padding: .7em;
+    flex-direction: column;
+}
+}
