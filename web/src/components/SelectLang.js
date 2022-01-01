@@ -1,6 +1,6 @@
 import React from "react";
 
-const baseUrl = "http://api.friends-search.com/"
+const baseUrl = "https://api.friends-search.com/"
 
 export default class SelectLang extends React.Component {
     constructor(props) {

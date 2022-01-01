@@ -2,7 +2,7 @@ import React from "react";
 import { NextBtn, PreviousBtn } from "./NavigBtn"
 import getStr from "../strings"
 
-const baseUrl = "http://api.friends-search.com/"
+const baseUrl = "https://api.friends-search.com/"
 
 export class Result extends React.Component {
     constructor(props) {

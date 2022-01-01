@@ -22,7 +22,7 @@ export class Search extends React.Component {
     this.langChange = this.langChange.bind(this);
     this.updateLang = this.updateLang.bind(this);
 
-    this.baseUrl = "http://api.friends-search.com/"
+    this.baseUrl = "https://api.friends-search.com/"
   }
 
   componentDidMount() {
