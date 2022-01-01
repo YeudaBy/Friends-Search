@@ -13,16 +13,20 @@ export default class App extends React.Component {
 
   updateLang(event) {
     this.setState({ lang: event.nativeEvent.target.value },
-      () => { this.state.lang === "ag" && this.setState({lang: "en"})  // set to english when `all languages` was choosen
-        console.log("set lang to: " + this.state.lang); });
+      () => {
+        this.state.lang === "ag" && this.setState({ lang: "en" })  // set to english when `all languages` was choosen
+        console.log("set lang to: " + this.state.lang);
+      });
   }
 
   render() {
     console.log(this.state.lang)
     return (
       <>
-        <Head lang={this.state.lang} updateLang={this.updateLang} />
-        <Search lang={this.state.lang} />
+        <div className={this.state.lang}>
+          <Head slang={this.state.lang} updateLang={this.updateLang} />
+          <Search sLang={this.state.lang} />
+        </div>
       </>
     );
   }

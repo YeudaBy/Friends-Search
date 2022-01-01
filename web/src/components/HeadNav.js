@@ -1,6 +1,7 @@
 import React from "react";
 import LinkBtn from "./LinkBtn"
 import SelectLang from "./SelectLang";
+import getStr from "../strings";
 
 export default function HeadNav(props) {
     return (
@@ -12,23 +13,25 @@ export default function HeadNav(props) {
                 />
                 <LinkBtn
                     label={"GitHub"}
-                    url={"https://google.com"}
+                    url={"https://github.com/YeudaBy/Friends-Search"}
                 />
-                <LinkBtn 
+                {/* <LinkBtn
                     label={"Game"}
                     url={"/game"}
-                />
-                <LinkBtn 
+                /> */}
+                <LinkBtn
                     label={"Telegram Bot"}
                     url={"t.me/"}
                 />
             </div>
 
-            <SelectLang
-                label={"Select site lang"}
-                updateLang={props.updateLang}
-                value={props.value}
-            />
+            <div className="siteLang">
+                <SelectLang
+                    label={getStr("slng-site", props.sLang)}
+                    updateLang={props.updateLang}
+                    sLang={props.sLang}
+                />
+            </div>
         </div>
     )
 }

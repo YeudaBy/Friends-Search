@@ -4,7 +4,43 @@
         "he": "הודעה שגיאה"
     },
     "n-tip": {
-        "he": "משפט קודם",
+        "he": "משפט הבא",
         "en": "Next sentence"
+    },
+    "p-tip": {
+        "he": "משפט קודם",
+        "en": "Previous sentence"
+    },
+    "t-tip": {
+        "he": "גלול למעלה",
+        "en": "Scroll top"
+    },
+    "result-for-title": {
+        "he": "תוצאות עבור",
+        "en": "Results for"
+    },
+    "episode": {
+        "he": "פרק",
+        "en": "Episode"
+    },
+    "season": {
+        "he": "עונה",
+        "en": "Season"
+    },
+    "search-btn": {
+        "he": "חפש",
+        "en": "Search"
+    },
+    "slng-search": {
+        "en": "Select Languege To Search",
+        "he": "בחר שפה לחיפוש"
+    },
+    "slng-site": {
+        "en": "Select site Languege",
+        "he": "בחר את שפת האתר"
+    },
+    "no-res": {
+        "en": "No results wes fount :(",
+        "he": "לא נמצאו תוצאות :("
     }
 }

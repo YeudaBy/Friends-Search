@@ -14,22 +14,30 @@ export default class SelectLang extends React.Component {
         // fetch languages list
         fetch(baseUrl + "language")
             .then((res) => res.json())
-            .then((res) => this.setState({ langs: res }));
+            .then((res) => this.setState({ langs: res }))
+            .catch((error) => console.error(error),
+                this.setState({
+                    langs: {
+                        "ag": "All languages",
+                        "en": "English",
+                        "fr": "Français",
+                        "he": "עברית"
+                    }
+                }));
     }
 
     render() {
         const langs = this.state.langs;
-        let correntLang = (typeof langs[this.props.value] !== "undefined") ? " - " + langs[this.props.value] : " - Default"   // set correntLang
         return (
             <details>
-                <summary onClick={this.loadLangs}>{this.props.label} {correntLang}</summary>  { /* label for language selector */ }
+                <summary onClick={this.loadLangs}>{this.props.label}</summary>  { /* label for language selector */}
 
                 <div className="selectLang">
-                    <select value={this.props.value} onChange={this.props.updateLang}>
+                    <select value={this.props.sLang} onChange={this.props.updateLang}>
 
                         {Object.keys(langs).length > 0 && Object.keys(langs).map((key) => {
                             return <option key={key} value={key} >{langs[key]}</option>
-                        })}  { /* all the languages */ }
+                        })}  { /* all the languages */}
 
                     </select>
                 </div>

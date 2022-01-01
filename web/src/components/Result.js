@@ -1,6 +1,6 @@
 import React from "react";
 import { NextBtn, PreviousBtn } from "./NavigBtn"
-import Details from "./PopUp"
+import getStr from "../strings"
 
 const baseUrl = "http://127.0.0.1:8080/"
 
@@ -11,7 +11,6 @@ export class Result extends React.Component {
 
         this.NextBtnHandler = this.NextBtnHandler.bind(this);
         this.PreviousBtnHandler = this.PreviousBtnHandler.bind(this);
-        // this.isOpen = this.isOpen.bind(this);
     }
 
     NextBtnHandler() {
@@ -37,16 +36,24 @@ export class Result extends React.Component {
 
                 <div className="resultInDiv">
 
-                    <p>Season {this.state.season} x Episode {this.state.episode
-                    } x {/(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.start)[2]} - {
-                            /(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.end)[2]}</p>
+                    <p>
+                        {getStr("season", this.props.sLang) + " "}
+                        {this.state.season}
+                        {" • "}
+                        {getStr("episode", this.props.sLang) + " "}
+                        {this.state.episode} 
+                        <br />
+                        {/(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.start)[2]}
+                        {" "} &#x21FF; {" "}
+                        {/(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.end)[2]}
+                    </p>
 
+                    <PreviousBtn handle={this.PreviousBtnHandler} sLang={this.props.sLang}/>
 
-                    <NextBtn handle={this.NextBtnHandler} />
+                    <NextBtn handle={this.NextBtnHandler} sLang={this.props.sLang}/>
 
                     {/* <Details res={this.state}/> */}
 
-                    <PreviousBtn handle={this.PreviousBtnHandler} />
 
 
                 </div>
