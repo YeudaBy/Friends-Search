@@ -1,6 +1,8 @@
 import { React, useState } from "react";
 import ReactTooltip from 'react-tooltip';
 import getStr from "../strings"
+import {  } from 'react-icons/fa';
+
 
 export function NextBtn(props) {
     return (
