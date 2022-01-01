@@ -169,6 +169,13 @@ footer a {
   padding: .7em;
 }
 
+.mention {
+	padding-right: 2px;
+	border-top-width: 0px;
+	border-top-style: solid;
+	margin-bottom: -3px;
+}
+
 /* Events */
 .searchBtn:hover {
   background: var(--3);
@@ -194,4 +201,13 @@ footer a {
   .search {
     width: auto;
 }
+
+}
+
+@media screen and (max-width: 422px) {
+  .siteLang {
+    font-size: 12px;
+  }
+  .headNav {
+    padding: 0.3em 0.3em 0 0;  }
 }
