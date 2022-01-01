@@ -1,46 +1,57 @@
 {
     "msg-error": {
         "en": "msg error",
-        "he": "הודעה שגיאה"
+        "he": "הודעה שגיאה",
+        "fr": "Message d'erreur"
     },
     "n-tip": {
         "he": "משפט הבא",
-        "en": "Next sentence"
+        "en": "Next sentence",
+        "fr": "Phrase suivante"
     },
     "p-tip": {
         "he": "משפט קודם",
-        "en": "Previous sentence"
+        "en": "Previous sentence",
+        "fr": "Phrase précédente"
     },
     "t-tip": {
         "he": "גלול למעלה",
-        "en": "Scroll top"
+        "en": "Scroll top",
+        "fr": "Faire défiler vers le haut"
     },
     "result-for-title": {
         "he": "תוצאות עבור",
-        "en": "Results for"
+        "en": "Results for",
+        "fr": "Résultats pour"
     },
     "episode": {
         "he": "פרק",
-        "en": "Episode"
+        "en": "Episode",
+        "fr": "Épisode"
     },
     "season": {
         "he": "עונה",
-        "en": "Season"
+        "en": "Season",
+        "fr": "Saison"
     },
     "search-btn": {
         "he": "חפש",
-        "en": "Search"
+        "en": "Search",
+        "fr": "Rechercher"
     },
     "slng-search": {
         "en": "Select Languege To Search",
-        "he": "בחר שפה לחיפוש"
+        "he": "בחר שפה לחיפוש",
+        "fr": "Sélectionnez une langue de recherche"
     },
     "slng-site": {
         "en": "Select site Languege",
-        "he": "בחר את שפת האתר"
+        "he": "בחר את שפת האתר",
+        "fr": "Sélectionnez la langue du site"
     },
     "no-res": {
         "en": "No results wes fount :(",
-        "he": "לא נמצאו תוצאות :("
+        "he": "לא נמצאו תוצאות :(",
+        "fr": "Aucun résultat trouvé :("
     }
 }
