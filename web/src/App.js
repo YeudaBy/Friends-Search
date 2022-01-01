@@ -26,6 +26,7 @@ export default class App extends React.Component {
         <div className={this.state.lang}>
           <Head slang={this.state.lang} updateLang={this.updateLang} />
           <Search sLang={this.state.lang} />
+          <footer><a href="http://t.me/RobotTrickBot">Conenct us!</a></footer>
         </div>
       </>
     );
