@@ -2,7 +2,7 @@ import React from "react";
 import LinkBtn from "./LinkBtn"
 import SelectLang from "./SelectLang";
 import getStr from "../strings";
-import { FaTelegram, FaGithub, FaHtml5 } from 'react-icons/fa';
+import { FaTelegram, FaGithub, FaICursor } from 'react-icons/fa';
 import { useMediaPredicate } from "react-media-hook";
 
 
@@ -15,8 +15,8 @@ export default function HeadNav(props) {
         <div className="headNav">
             <div className="Links">
                 <LinkBtn
-                    label={less422 ? <FaHtml5 /> : "Api"}
-                    url={"/api"}
+                    label={less422 ? <FaICursor /> : "Api"}
+                    url={"https://api.friends-search.com"}
                 />
                 <LinkBtn
                     label={less422 ? <FaGithub /> : "GitHub"}
@@ -28,7 +28,7 @@ export default function HeadNav(props) {
                 /> */}
                 <LinkBtn
                     label={less422 ? <FaTelegram /> : "Telegram Bot"}
-                    url={"t.me/"}
+                    url={"https://t.me/Friends_SearchBot"}
                 />
             </div>
 
