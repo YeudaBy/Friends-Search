@@ -17,15 +17,15 @@ export default function HeadNav(props) {
         <div className="headNav">
             <div className="Links">
                 <LinkBtn
-                    label={less422 ? <VscCode /> : "Api"}
+                    label={less422 ? <VscCode size={"1.5em"}/> : "Api"}
                     url={"https://api.friends-search.com"}
                 />
                 <LinkBtn
-                    label={less422 ? <DiGithub /> : "GitHub"}
+                    label={less422 ? <DiGithub size={"1.5em"}/> : "GitHub"}
                     url={"https://github.com/YeudaBy/Friends-Search"}
                 />
                 <LinkBtn
-                    label={less422 ? <RiTelegramLine /> : "Telegram Bot"}
+                    label={less422 ? <RiTelegramLine size={"1.5em"}/> : "Telegram Bot"}
                     url={"https://t.me/Friends_SearchBot"}
                 />
             </div>

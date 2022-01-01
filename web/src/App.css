@@ -206,8 +206,11 @@ footer a {
 
 @media screen and (max-width: 422px) {
   .siteLang {
-    font-size: 12px;
+    font-size: 15px;
+    margin-top: 2px;
+    color: var(--1);
   }
   .headNav {
     padding: 0.3em 0.3em 0 0;  }
+
 }
