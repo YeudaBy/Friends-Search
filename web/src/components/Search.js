@@ -53,6 +53,7 @@ export class Search extends React.Component {
 
   handleSubmit(event) {
     const url = this.baseUrl + "sentence/search"
+    if (typeof this.state.value !== "undefined" & this.state.value !== "")
     fetch(`${url}?query=${this.state.value}&language=${this.state.lang}`)
       .then(res => res.json())
       .then(
