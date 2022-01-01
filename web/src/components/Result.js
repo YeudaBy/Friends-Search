@@ -2,7 +2,7 @@ import React from "react";
 import { NextBtn, PreviousBtn } from "./NavigBtn"
 import getStr from "../strings"
 
-const baseUrl = "http://127.0.0.1:8080/"
+const baseUrl = "http://api.friends-search.com/"
 
 export class Result extends React.Component {
     constructor(props) {
