@@ -1,10 +1,12 @@
 import requests
 from datetime import datetime
 from flask import request
-
+import os
+from dotenv import load_dotenv
 from pony.orm import *
 
 db = Database()
+load_dotenv()
 
 
 @db_session
@@ -33,7 +35,7 @@ db.generate_mapping(create_tables=True)
 
 
 def send_reports(_id):
-    token = "5091475031:AAGo_aDW1YJqGRHYsvny1Aubux7urCXzers"
+    token = os.getenv("REPORTED_TOKEN")
     url = f"https://api.telegram.org/bot{token}/sendMessage?chat_id=-1001524768471&text=report-for:%20{_id}"
     req = requests.get(url)
     return req.status_code == 200
