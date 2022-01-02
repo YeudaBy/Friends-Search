@@ -10,3 +10,4 @@ uses.txt
 Bot/*.sqlite*
 DB/DataBases/*test*
 TODOs.md
+/Api/stats.sqlite
