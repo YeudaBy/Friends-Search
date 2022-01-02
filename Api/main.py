@@ -14,7 +14,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'  # set cors origin for the site
 @app.route("/")
 def home():
     """ home page """
-    return render_template("docs.html")
+    return render_template("docs.html", content=open("Api/api-references.md").read())
 
 
 @cross_origin()
