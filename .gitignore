@@ -1,7 +1,6 @@
 */__pycache__
 .idea
 *test*
-Bot/config.ini
 *.session
 *.session-journal
 *.sqlite-journal
@@ -11,3 +10,4 @@ Bot/*.sqlite*
 DB/DataBases/*test*
 TODOs.md
 /Api/stats.sqlite
+/.env
