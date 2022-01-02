@@ -5,8 +5,16 @@ from pyrogram.errors import MessageNotModified
 from Bot.db import edit_favorite, create_user, get_favorites
 from Bot.tools import lang_msg, request_by_sentence, request_by_id, get_sentence_msg, get_sentence_result, \
     random_img
+from os import getenv
+from dotenv import load_dotenv
 
-app = Client("FriendSearch")
+load_dotenv()
+app = Client(
+    "FriendSearch",
+    api_id=int(getenv("API_ID")),
+    api_hash=getenv("API_HASH"),
+    bot_token=getenv("MAIN_TOKEN")
+)
 
 
 @app.on_message(filters.command(["start", "help", "translate", "history"]) & filters.private)
