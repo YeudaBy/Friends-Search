@@ -9,12 +9,12 @@ from Bot.strings import strings, friends_images
 
 
 def request_by_sentence(query: str) -> dict:
-    endpoint = f"http://192.168.1.115:8080/sentence/search?query={query}&language=ag"
+    endpoint = f"https://api.friends-search.com/sentence/search?query={query}&language=ag"
     return requests.get(endpoint).json()
 
 
 def request_by_id(_id: int) -> dict:
-    endpoint = f"http://192.168.1.115:8080/sentence/{_id}"
+    endpoint = f"https://api.friends-search.com/sentence/{_id}"
     return requests.get(endpoint).json()
 
 
