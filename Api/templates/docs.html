@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>API Reference</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.docs.css') }}">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.3.0/markdown-it.min.js" integrity="sha512-q1tclxbgrDhFhGp/i9mnxITl2FQ3TCfwNj0mZ1r2USwj9WNXBpQ1au4HOBdAq8LXXWFIcsW+5dsdFHyVdk10AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body id="docs">
 
+  <script>
+    let md = window.markdownit()
+    let res = md.render("{{ content }}")
+    document.querySelector("#docs").innerHTML = res;
+  </script>
+
+<!-- 
     <h1 id="api-reference">API Reference - Friends Search</h1>
 
     <div class="methode">
@@ -101,7 +107,7 @@
             We build it because sentences and words from the series are often mentioned, and we want to find where they appeared.
             This project build by <a href="https://github.com/yeudaby">YeudaBy</a> and <a href="#">DavidLev.</a>
 
-    </div>
+    </div> -->
     
 </body>
 </html>
