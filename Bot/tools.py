@@ -6,16 +6,25 @@ from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, Inpu
                             InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
 from Bot.db import get_lang, create_user, get_favorites
 from Bot.strings import strings, friends_images
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+
+
+base_url = "https://api.friends-search.com"
+# base_url = "http://192.168.201.99:8080"
+headers = {'User-Agent': getenv("BOT_USER_AGENT")}
 
 
 def request_by_sentence(query: str) -> dict:
-    endpoint = f"https://api.friends-search.com/sentence/search?query={query}&language=ag"
-    return requests.get(endpoint).json()
+    endpoint = f"{base_url}/sentence/search?query={query}&language=ag"
+    return requests.get(endpoint, headers=headers).json()
 
 
 def request_by_id(_id: int) -> dict:
-    endpoint = f"https://api.friends-search.com/sentence/{_id}"
-    return requests.get(endpoint).json()
+    endpoint = f"{base_url}/sentence/{_id}"
+    return requests.get(endpoint, headers=headers).json()
 
 
 def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: str) -> Union[str, bool]:
@@ -31,7 +40,7 @@ def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: st
 
 def dt_to_ht(timedelta: str) -> str:
     """ convert timedelta to human time """
-    return re.search(r"0:(?P<ht>[0-9]{2}:[0-9]{2})\.[0-9]+", timedelta).groupdict().get("ht")
+    return re.search(r"(\d:)(?P<ht>\d{2}:\d{2})(.\d*)", timedelta).groupdict().get("ht")
 
 
 def random_img():
@@ -43,7 +52,6 @@ def get_sentence_result(sid: int, msg_obj) -> InlineQueryResultArticle:
     season = raw_res['season']
     episode = raw_res['episode']
     lang = raw_res['lang_name']
-    print(lang)
     result = InlineQueryResultArticle(
         title=f"{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode} • {dt_to_ht(raw_res['start'])} • {lang}",
         description=raw_res["content"],
@@ -67,7 +75,7 @@ def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
     id_str = str(sid)
     msg_txt = f"**✅ {lang_msg(msg_obj, 'results_title')}**\n\n" \
               f"**📺 {lang_msg(msg_obj, 'appear_at')}:** `{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode}`\n" \
-              f"**🕓 {lang_msg(msg_obj, 'time')}:** `{dt_to_ht(start_time)}` -> `{dt_to_ht(end_time)}`\n**💬 {lang_msg(msg_obj, 'sentence')}:** `{raw_res['content']}`"
+              f"**🕓 {lang_msg(msg_obj, 'time')}:** `{dt_to_ht(start_time)}` ⇿ `{dt_to_ht(end_time)}`\n**💬 {lang_msg(msg_obj, 'sentence')}:** `{raw_res['content']}`"
     msg_kb = InlineKeyboardMarkup(
         [
             [
