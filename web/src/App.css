@@ -35,11 +35,20 @@ body {
 }
 
 /* Tags */
+
 h1 {
-  color: var(--3);
-  font-family: "friends-font";
-  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    color: var(--3);
+    font-family: "friends-font";
+    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    background: rgba(245, 245, 245, 0.815);
+    width: 33%;
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: .7em;
+    border-radius: 10px;
 }
+
 
 select {
   background: var(--5);
@@ -174,6 +183,18 @@ footer a {
 	border-top-width: 0px;
 	border-top-style: solid;
 	margin-bottom: -3px;
+}
+
+.yelow {
+  color: yellow;
+}
+
+.red {
+  color: red;
+}
+
+.blue {
+  color: blue;
 }
 
 /* Events */
