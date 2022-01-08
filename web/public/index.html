@@ -1,21 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ebbe9c83" />
-    <meta
-      name="description"
-      content="Search sentences from F•R•I•E•N•D•S series"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="theme-color" content="#be9a7e83" />
+    <meta name="description" content="Search sentences from FRIENDS series" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/friends-logo_512.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>F•R•I•E•N•D•S Search</title>
 
-    <meta name="author" content="Yeuda By">
-    <meta name="keywords" content="Friends, Friends search, Joey Tribbiani, Rachel Green, Monica Geller, Ross Geller, Chandler Bing, Phoebe Buffay">
+    <meta name="author" content="Yeuda By" />
+    <meta
+      name="keywords"
+      content="Friends, Friends search, Joey Tribbiani, Rachel Green, Monica Geller, Ross Geller, Chandler Bing, Phoebe Buffay"
+    />
+    <meta name="robots" content="index, follow">
+
+    <!-- TWITTER CARD -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@robottrick" />
+    <meta name="twitter:title" content="F•R•I•E•N•D•S Search" />
+    <meta name="”twitter:description”" content="Search sentences from FRIENDS series" />
+    <meta name=”twitter:image”
+      content=”%PUBLIC_URL%/friends-logo_512.png” />
+
+    <!-- OG PROPERIES -->
+    <meta property="og:title" content="F•R•I•E•N•D•S Search" />
+    <meta property="og:type" content="search.movie" />
+    <meta property="og:url" content="https://friends-search.com" />
+    <meta property="og:image" content="%PUBLIC_URL%/friends-logo_512.png" />
+    <meta
+      property="og:description"
+      content="Search sentences from FRIENDS series"
+    />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-N9QBDKLG7H"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-N9QBDKLG7H");
+    </script>
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
