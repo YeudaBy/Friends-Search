@@ -9,12 +9,16 @@ export class Search extends React.Component {
     super(props);
     this.state = {
       value: '',
-      results: [],
+      results: {
+        resultsList: [],
+        count: 0
+      },
       error: null,
       lang: 'en',
       langs: [],
       dir: 'ltr',
-      submited: false
+      submited: false,
+      isLoaded: false
     };
 
     this.searchChange = this.searchChange.bind(this);
@@ -41,10 +45,7 @@ export class Search extends React.Component {
   }
 
   searchChange(event) {
-    this.setState({ value: event.target.value },
-      () => {
-        if (this.state.lang === "he") this.setState({ dir: "rtl" })
-      });
+    this.setState({ value: event.target.value });
   }
 
   langChange(event) {
@@ -53,16 +54,35 @@ export class Search extends React.Component {
 
   handleSubmit(event) {
     const url = this.baseUrl + "sentence/search"
-    if (typeof this.state.value !== "undefined" & this.state.value !== "")
-    fetch(`${url}?query=${this.state.value}&language=${this.state.lang}`)
-      .then(res => res.json())
-      .then(
-        (result) => { this.setState({ results: result.results }); },
-        (error) => { this.setState({ error }); }
-      ).catch((err) => this.setState({
-        error: err
-      }));
-    this.setState({ submited: true })
+    if (typeof this.state.value !== "undefined" & this.state.value !== "") {
+      fetch(`${url}?query=${this.state.value}&language=${this.state.lang}&limit=50`)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState(preState => ({
+              results: {
+                ...preState.results,
+                resultsList: result.results,
+                count: result.count,
+              },
+              isLoaded: true,
+            }), console.log("results from the server: ", this.state.results),
+            );
+          },
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        ).catch(
+          (error) => {
+            this.setState({
+              error
+            })
+          });
+      this.setState({ submited: true })
+    };
     event.preventDefault();
   };
 
@@ -87,12 +107,20 @@ export class Search extends React.Component {
         />
       </div>
 
-      {this.state.submited === true &&
-        <ResultsList
-          results={this.state.results}
-          dir={this.state.dir}
-          sLang={this.props.sLang}
-        />
+      {
+        this.state.submited === false ?
+          <>{""}</> :
+          this.state.isLoaded === false & this.state.submited === true ?
+            <>Loading...</> :
+            this.state.isLoaded === true && this.state.results.count === 0 ?
+              <>No results was found!</> :
+              this.state.error !== null ?
+                <>{this.state.error}</> :
+                <ResultsList
+                  results={this.state.results}
+                  dir={this.state.dir}
+                  sLang={this.props.sLang}
+                />
       }
     </div>
     );

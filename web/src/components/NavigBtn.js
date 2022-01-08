@@ -1,21 +1,21 @@
 import { React, useState } from "react";
 import ReactTooltip from 'react-tooltip';
 import getStr from "../strings"
-import {  } from 'react-icons/fa';
+import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
 
 
 export function NextBtn(props) {
     return (
         <>
-            <img
+            <BiArrowToRight
                 className="navBtn"
-                src="./nextBtn.png"
+                // src="./nextBtn.png"
                 onClick={props.handle}
                 alt="next btn"
                 data-tip={getStr("n-tip", props.sLang)}
                 data-for="t-next"
             />
-            <ReactTooltip id="t-next" place="right" type="dark" effect="solid" />
+            <ReactTooltip className="tooltip" id="t-next" place="right" type="dark" effect="solid" />
         </>
     )
 }
@@ -23,15 +23,16 @@ export function NextBtn(props) {
 export function PreviousBtn(props) {
     return (
         <>
-            <img
+            <BiArrowToLeft
                 className="navBtn"
-                src="./previousBtn.png"
+                // src="./previousBtn.png"
                 onClick={props.handle}
                 alt="previous btn"
                 data-tip={getStr("p-tip", props.sLang)}
                 data-for="t-previous"
+                size={"10px"}
             />
-            <ReactTooltip id="t-previous" place="left" type="dark" effect="solid" />
+            <ReactTooltip className="tooltip" id="t-previous" place="left" type="dark" effect="solid" />
         </>
     )
 }

@@ -1,29 +1,37 @@
 /*  General */
 @font-face {
-  font-family: 'friends-font';
+  font-family: "friends-font";
   src: URL("./friends-font.TTF") format("truetype");
 }
 
 body {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-  url("./bg6.jpeg");
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0.5))),
-  url("./bg6.jpeg");
-  quotes: '\201c''\201d';
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("./bg6.webp");
+  background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(rgba(255, 255, 255, 0.5)),
+      to(rgba(255, 255, 255, 0.5))
+    ),
+    url("./bg6.webp");
+  quotes: "\201c""\201d";
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300&family=Miriam+Libre:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300&family=Miriam+Libre:wght@400;700&display=swap");
 
 .en {
-  font-family: 'Miriam Libre', sans-serif;
+  font-family: "Miriam Libre", sans-serif;
 }
 
 .he {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-family: 'Miriam Libre', sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-family: "Miriam Libre", sans-serif;
 }
-
 
 /* Vars */
 :root {
@@ -37,24 +45,24 @@ body {
 /* Tags */
 
 h1 {
-    color: var(--3);
-    font-family: "friends-font";
-    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
-    background: rgba(245, 245, 245, 0.815);
-    width: 33%;
+  color: var(--3);
+  font-family: "friends-font";
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff,
+    1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+  background: rgba(245, 245, 245, 0.815);
+  width: 51%;
     margin: auto;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    padding: .7em;
-    border-radius: 10px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 0.7em;
+  border-radius: 10px;
 }
-
 
 select {
   background: var(--5);
-  padding: .5em;
+  padding: 0.5em;
   border-radius: 5px;
-  margin: .8em;
+  margin: 0.8em;
   font-size: 12px;
 }
 
@@ -68,7 +76,7 @@ footer a {
   position: relative;
   bottom: -1em;
   background: rgba(245, 245, 245, 0.815);
-  padding: .5em;
+  padding: 0.5em;
   border-radius: 10px;
 }
 
@@ -86,8 +94,8 @@ footer a {
 .result {
   border: var(--2) solid;
   border-radius: 7px;
-  margin: .9em;
-  padding: .7em;
+  margin: 0.9em;
+  padding: 0.7em;
 }
 
 .resultSum {
@@ -96,9 +104,19 @@ footer a {
 }
 
 .navBtn {
-  height: 37px;
-  width: 32px;
-  /* margin: auto; */
+  height: 24px;
+  width: 24px;
+  margin: -2px 1em 0 1em;
+}
+
+.tooltip,
+.navSentences,
+.navBtn {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
 }
 
 .linkBtn {
@@ -116,7 +134,7 @@ footer a {
   border-radius: 10px;
   width: 60%;
   margin: auto;
-  padding: .7em;
+  padding: 0.7em;
   margin-bottom: 1.2em;
 }
 
@@ -129,14 +147,20 @@ footer a {
   padding-bottom: 17em;
 }
 
+p.navSentences {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
 /* Spec */
 .searchInput {
   font-size: 19px;
-  padding: .3em;
+  padding: 0.3em;
   border: var(--3) solid 2px;
   border-radius: 7px;
   color: var(--2);
-  margin-bottom: .8em;
+  margin-bottom: 0.8em;
 }
 
 .searchBtn {
@@ -144,8 +168,8 @@ footer a {
   color: var(--3);
   font-weight: bold;
   border-radius: 7px;
-  padding: .4em;
-  margin-bottom: .9em;
+  padding: 0.4em;
+  margin-bottom: 0.9em;
 }
 
 .search summary {
@@ -175,14 +199,14 @@ footer a {
 .headNav {
   display: flex;
   justify-content: space-evenly;
-  padding: .7em;
+  padding: 0.7em;
 }
 
 .mention {
-	padding-right: 2px;
-	border-top-width: 0px;
-	border-top-style: solid;
-	margin-bottom: -3px;
+  padding-right: 2px;
+  border-top-width: 0px;
+  border-top-style: solid;
+  margin-bottom: -3px;
 }
 
 .yelow {
@@ -216,13 +240,19 @@ footer a {
   color: var(--1);
 }
 
+.navBtn:hover {
+  cursor: pointer;
+}
+
+.navBtn:focus {
+  outline: none;
+}
 
 /* Responsive */
 @media screen and (max-width: 600px) {
   .search {
     width: auto;
-}
-
+  }
 }
 
 @media screen and (max-width: 422px) {
@@ -232,6 +262,27 @@ footer a {
     color: var(--1);
   }
   .headNav {
-    padding: 0.3em 0.3em 0 0;  }
+    padding: 0.3em 0.3em 0 0;
+  }
+}
 
+@media screen and (max-width: 371px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 329px) {
+  .search {
+    padding: 0.3em;
+  }
+  input.searchInput {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 384px) {
+  h1 {
+    width: 70%;
+  }
 }

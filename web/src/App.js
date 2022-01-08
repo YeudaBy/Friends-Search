@@ -4,6 +4,11 @@ import "./App.css"
 import React from "react";
 import { GoMention } from "react-icons/go"
 
+// function getBrowserLang() {
+//   let Browslanguage = window.navigator.userLanguage || window.navigator.language
+//   return /^([a-z]*)/.exec(Browslanguage)[0]
+// }
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +26,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.lang)
     return (
       <>
         <div className={this.state.lang}>
