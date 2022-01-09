@@ -4,7 +4,7 @@ import { RiTelegramLine } from 'react-icons/ri';
 import { VscCode } from "react-icons/vsc";
 import { DiGithub } from "react-icons/di"
 import { GoMention } from "react-icons/go"
-import { useMediaPredicate } from "react-media-hook";
+// import { useMediaPredicate } from "react-media-hook";
 import SelectSiteLang from './SelectSiteLang';
 
 

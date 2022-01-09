@@ -1,19 +1,14 @@
-import Dropdown from "react-bootstrap/Dropdown"
+import Form from "react-bootstrap/Form"
 
 export default function SelectSiteLang(props) {
     return (
         <>
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Select Site Language
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu className="siteSelectLangList">
-                        <Dropdown.Item onClick={props.updateLang} data-key={"he"} className="langItem">עברית</Dropdown.Item>
-                        <Dropdown.Item onClick={props.updateLang} data-key={"en"} className="langItem">English</Dropdown.Item>
-                        <Dropdown.Item onClick={props.updateLang} data-key={"fr"} className="langItem">Français</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+            <Form.Select aria-label="Default select example" onChange={props.updateLang}>
+                <option value="en">Select SIte Language</option>
+                <option value="en">English</option>
+                <option value="he">עברית</option>
+                <option value="fr">Français</option>
+            </Form.Select>
         </>
     )
 }
