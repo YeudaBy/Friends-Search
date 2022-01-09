@@ -70,6 +70,18 @@ strings = {
         "en": "💔 Removed from favorites",
         "he": "💔 הוסר מהמועדפים"
     },
+    "ask_to_report": {
+        "en": "Do you want to report this sentence?",
+        "he": "האם ברצונך לדווח על המשפט?"
+    },
+    "reported": {
+        "en": "Reported successfully!",
+        "he": "הדיווח בוצע בהצלחה!"
+    },
+    "not_reported": {
+        "en": "Reported canceled",
+        "he": "הדיווח בוטל"
+    }
     # "only_sender_can_change": {
     #     "en": "Only the person who sent the message can add to favorites",
     #     "he": "רק המשתמש ששלח את ההודעה מורשה להוסיף את המשפט למועדפים שלו"

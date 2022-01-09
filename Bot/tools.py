@@ -1,9 +1,12 @@
+import json
 import random
 import re
 from typing import Union, Tuple
 import requests
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
                             InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
+from requests import Response
+
 from Bot.db import get_lang, create_user, get_favorites
 from Bot.strings import strings, friends_images
 from dotenv import load_dotenv
@@ -11,20 +14,24 @@ from os import getenv
 
 load_dotenv()
 
-
-base_url = "https://api.friends-search.com"
-# base_url = "http://192.168.201.99:8080"
+# base_url = "https://api.friends-search.com"
+base_url = "http://192.168.165.99:8080/"
 headers = {'User-Agent': getenv("BOT_USER_AGENT")}
 
 
 def request_by_sentence(query: str) -> dict:
     endpoint = f"{base_url}/sentence/search?query={query}&language=ag"
-    return requests.get(endpoint, headers=headers).json()
+    return requests.get(endpoint).json()
 
 
 def request_by_id(_id: int) -> dict:
     endpoint = f"{base_url}/sentence/{_id}"
     return requests.get(endpoint, headers=headers).json()
+
+
+def report_on_id(_id: int) -> json:
+    endpoint = f"{base_url}/sentence/report"
+    return requests.post(endpoint, data={'id': _id}).json()
 
 
 def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: str) -> Union[str, bool]:
@@ -81,6 +88,8 @@ def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
             [
                 InlineKeyboardButton(lang_msg(msg_obj, "inline_btn"),
                                      switch_inline_query_current_chat=""),
+                InlineKeyboardButton("ℹ",
+                                     callback_data="r/" + id_str),
                 InlineKeyboardButton(lang_msg(msg_obj, "share_btn"),
                                      switch_inline_query=id_str)
             ],

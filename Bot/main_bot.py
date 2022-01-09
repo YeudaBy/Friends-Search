@@ -1,10 +1,12 @@
+import re
+
 from pyrogram import Client, filters
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
-                            CallbackQuery)
+                            CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup)
 from pyrogram.errors import MessageNotModified
 from Bot.db import edit_favorite, create_user, get_favorites
 from Bot.tools import lang_msg, request_by_sentence, request_by_id, get_sentence_msg, get_sentence_result, \
-    random_img
+    random_img, report_on_id
 from os import getenv
 from dotenv import load_dotenv
 
@@ -72,6 +74,35 @@ def favorites(_, callback: CallbackQuery):
         pass
     # else:
     #     callback.answer(lang_msg(callback, 'only_sender_can_change'))
+
+# report button
+@app.on_callback_query(filters.regex(r"r/\d"))
+def ask_to_report(_, callback: CallbackQuery):
+    qid = int(callback.data.replace("r/", ""))
+    callback.edit_message_text(
+        lang_msg(callback, "ask_to_report"),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("❌", callback_data="n/" + str(qid)),
+                    InlineKeyboardButton("✅", callback_data="y/" + str(qid))
+                ]
+            ]
+        )
+    )
+
+# handle report
+@app.on_callback_query(filters.regex(r"(y|n)/\d"))
+def report(_, callback: CallbackQuery):
+    qid = int(re.sub("[y, n]/", "", callback.data))
+    if callback.data == f"y/{qid}":
+        if report_on_id(qid)["status"] == "ok":
+            callback.answer(lang_msg(callback, 'reported'))
+    else:
+        callback.answer(lang_msg(callback, 'not_reported'))
+    txt, kb = get_sentence_msg(qid, callback)
+    callback.edit_message_text(txt)
+    callback.edit_message_reply_markup(kb)
 
 
 @app.on_callback_query(filters.regex(r"\d"))
