@@ -40,6 +40,7 @@ body {
   --3: #5e4430;
   --4: #be9a7e83;
   --5: #ebbe9c83;
+  --menu-bg: black;
 }
 
 /* Tags */
@@ -153,6 +154,7 @@ p.navSentences {
   align-items: stretch;
 }
 
+
 /* Spec */
 .searchInput {
   font-size: 19px;
@@ -196,10 +198,16 @@ p.navSentences {
   flex: 1;
 }
 
+.langItem {
+  font-size: 12px;
+  color: var(--5);
+}
+
 .headNav {
   display: flex;
   justify-content: space-evenly;
   padding: 0.7em;
+  margin: 0;
 }
 
 .mention {
@@ -207,6 +215,19 @@ p.navSentences {
   border-top-width: 0px;
   border-top-style: solid;
   margin-bottom: -3px;
+}
+
+.menu-item {
+  font-size: 16px;
+  color: var(--5);
+  text-decoration: none;
+  margin: .7em;
+}
+
+#dropdown-basic {
+  background: none;
+  border-radius: 10px;
+  color: var(--5);
 }
 
 .yelow {
@@ -222,6 +243,15 @@ p.navSentences {
 }
 
 /* Events */
+
+.menu-item:hover {
+  text-decoration: underline;
+}
+
+.langItem:hover {
+  font-size: 14px;
+}
+
 .searchBtn:hover {
   background: var(--3);
   color: var(--5);
@@ -248,6 +278,21 @@ p.navSentences {
   outline: none;
 }
 
+.waiting {
+  cursor: wait;
+}
+
+.siteSelectLangList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.siteSelectLang {
+  margin-top: 2em;
+}
+
 /* Responsive */
 @media screen and (max-width: 600px) {
   .search {
@@ -263,6 +308,13 @@ p.navSentences {
   }
   .headNav {
     padding: 0.3em 0.3em 0 0;
+  }
+
+  .bm-burger-button {
+    width: 24px !important;
+    height: 24px !important;
+    left: 24px !important;
+    top: 24px !important;
   }
 }
 
@@ -286,3 +338,82 @@ p.navSentences {
     width: 70%;
   }
 }
+
+
+/* 
+ */
+
+ /* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: var(--1);
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: var(--3);
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: var(--4);
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+  top: 0px;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: var(--menu-bg);
+  padding: 2.5em 1.5em 0;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: var(--menu-bg);
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  padding: 0.8em;
+}
+
+.bm-item-list {
+  margin-bottom: 2em;
+}
+
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  top: 0px;
+  /* position: 0 */
+}
+

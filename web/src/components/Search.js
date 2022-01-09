@@ -3,6 +3,7 @@ import ResultsList from "./ResultsList";
 import SearchField from "./SearchField";
 import SelectLang from "./SelectLang";
 import getStr from "../strings";
+import { Error, Loading, NoResults } from "./StatusSearch"
 
 export class Search extends React.Component {
   constructor(props) {
@@ -111,11 +112,11 @@ export class Search extends React.Component {
         this.state.submited === false ?
           <>{""}</> :
           this.state.isLoaded === false & this.state.submited === true ?
-            <>Loading...</> :
+            <Loading /> :
             this.state.isLoaded === true && this.state.results.count === 0 ?
-              <>No results was found!</> :
+              <NoResults /> :
               this.state.error !== null ?
-                <>{this.state.error}</> :
+                <Error error={this.state.error} /> :
                 <ResultsList
                   results={this.state.results}
                   dir={this.state.dir}

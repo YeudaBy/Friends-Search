@@ -18,7 +18,8 @@ export default class App extends React.Component {
   }
 
   updateLang(event) {
-    this.setState({ lang: event.nativeEvent.target.value },
+    console.log(event.target.dataset)
+    this.setState({ lang: event.target.dataset.key },
       () => {
         this.state.lang === "ag" && this.setState({ lang: "en" })  // set to english when `all languages` was choosen
         console.log("set lang to: " + this.state.lang);
@@ -31,9 +32,6 @@ export default class App extends React.Component {
         <div className={this.state.lang}>
           <Head slang={this.state.lang} updateLang={this.updateLang} />
           <Search sLang={this.state.lang} />
-          <footer><a href="http://t.me/RobotTrickBot">
-            <GoMention className="mention"/>
-            Conenct us!</a></footer>
         </div>
       </>
     );
