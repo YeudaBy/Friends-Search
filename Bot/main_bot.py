@@ -32,4 +32,5 @@ handlers = [
 for handler in handlers:
     app.add_handler(handler)
 
-app.run()
+if __name__ == '__main__':
+    app.run()
