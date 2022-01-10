@@ -1,7 +1,8 @@
 import re
 from pyrogram.types import CallbackQuery, InlineQuery, InlineQueryResultArticle, InputTextMessageContent, Message
 
-from Bot.db import get_lang, update_lang, create_user
+from Bot.db import get_lang, update_lang, create_user, get_favorite_ids
+from Bot.favorites import favorites_keyboard
 from Bot.tools import lang_msg, lang_buttons, request_by_id, start_buttons, get_sentence_msg, change_lang_buttons, \
     report_on_id, random_img, request_by_sentence, get_sentence_result, close_msg_buttons
 
@@ -95,7 +96,11 @@ def show_msg(_, message: Message):
         message.reply(lang_msg(message, "start_msg").format(message.from_user.mention),
                       reply_markup=start_buttons(message))
     elif message.text in ["favorites", "/favs"]:
-        message.reply("Will be added soon..")  # TODO show favs list
+        favorites = get_favorite_ids(message.from_user.id)
+        if not favorites:
+            message.reply(lang_msg(message, "no_favorites"))
+            return
+        message.reply(lang_msg(message, "list_of_favorites"), reply_markup=favorites_keyboard(favorites))
     elif message.text in ["/about", "/ab"]:
         message.reply(lang_msg(message, "about_msg"), reply_markup=close_msg_buttons)
     elif message.text in ["/translate", "/tr"]:

@@ -23,7 +23,7 @@ handlers = [
     CallbackQueryHandler(ask_to_report, filters=filters.regex(r"^r/\d+$")),
     CallbackQueryHandler(report, filters=filters.regex(r"^(y|n)/\d+$")),
     CallbackQueryHandler(edit_favorites, filters=filters.regex(r"^f/\d+$")),
-    CallbackQueryHandler(remove_favorite_from_list, filters=filters.regex("^rf/\d+$")),
+    CallbackQueryHandler(remove_favorite_from_list, filters=filters.regex(r"^rf/\d+$")),
     InlineQueryHandler(search_by_id, filters=filters.regex(r"^\d+$")),
     InlineQueryHandler(search_inline, ~filters.regex(r"^\d+$")),
     MessageHandler(show_msg, filters=filters.regex(r"^/.*") & filters.private)
