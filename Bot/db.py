@@ -8,7 +8,6 @@ db = Database()
 class User(db.Entity):
     user_id = PrimaryKey(int)
     lang = Required(str, default="en")
-    uses = Optional(int, default=0)
     query_ids = Optional(IntArray)
 
 
@@ -20,7 +19,7 @@ db.generate_mapping(create_tables=True)
 
 
 @db_session
-def create_user(user_id: int, lang):
+def create_user(user_id: int, lang="en"):
     if not User.exists(user_id=user_id):
         User(user_id=user_id, lang=lang)
 
@@ -29,7 +28,7 @@ def create_user(user_id: int, lang):
 def get_lang(user_id):
     user = User.get(user_id=user_id)
     if not user:
-        return False
+        create_user(user_id=user_id)
     return user.lang
 
 
@@ -43,16 +42,7 @@ def update_lang(user_id, lang):
 
 
 @db_session
-def update_usage(user_id):
-    user = User.get(user_id=user_id)
-    if not user:
-        return False
-    user.uses += 1
-    commit()
-
-
-@db_session
-def edit_favorite(user_id: int, query_id: int) -> bool:
+def update_favorite(user_id: int, query_id: int) -> bool:
     user = User.get(user_id=user_id)
     if not user:
         create_user(user_id)
