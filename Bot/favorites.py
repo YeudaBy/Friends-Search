@@ -50,5 +50,5 @@ def edit_favorites(_, callback: CallbackQuery):
         )
     except MessageNotModified:
         pass
-    else:
-        callback.answer(lang_msg(callback, 'only_sender_can_change'))
+    # else:
+    #     callback.answer(lang_msg(callback, 'only_sender_can_change'))
