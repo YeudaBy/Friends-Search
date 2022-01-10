@@ -39,7 +39,7 @@ strings = {
         "he": "🔎 חיפוש חדש"
     },
     "share_btn": {
-        "en": "♻️ Share",
+        "en": "♻️Share",
         "he": "♻ שיתוף"
     },
     "time": {
@@ -63,8 +63,8 @@ strings = {
         "he": "היסטוריה:\n{}"
     },
     "added_to_fav": {
-        "en": " ❤️Added to favorites!",
-        "he": " ❤️נוסף למועדפים!"
+        "en": "❤️Added to favorites!",
+        "he": "❤ ️נוסף למועדפים!"
     },
     "remove_from_fav": {
         "en": "💔 Removed from favorites",
@@ -87,16 +87,16 @@ strings = {
         "he": "בחר את השפה המועדפת עליך:"
     },
     "same_lang": {
-        "en": "This is already your current language.",
-        "he": "זו כבר השפה הנוכחית שלך."
+        "en": "This is already your current language",
+        "he": "זו כבר השפה הנוכחית שלך"
     },
     "lang_updated": {
         "en": "Language successfully updated!",
         "he": "השפה עודכנה בהצלחה!"
     },
     "no_favorites": {
-        "en": "No favorites found.",
-        "he": "לא נמצאו מועדפים שמורים."
+        "en": "No favorites found",
+        "he": "לא נמצאו מועדפים שמורים"
     },
     "no_command": {
         "en": "❌ Command not found!",
@@ -111,6 +111,14 @@ strings = {
     "share_title": {
         "en": "Click here to share your sentence!",
         "he": "לחצו כאן כדי לשתף את המשפט!"
+    },
+    "list_of_favorites": {
+        "en": "Your favorites list:",
+        "he": "רשימת המועדפים שלך:"
+    },
+    "no_more_favs": {
+        "en": "No more favorites left",
+        "he": "לא נותרו מועדפים נוספים"
     }
     # "only_sender_can_change": {
     #     "en": "Only the person who sent the message can add to favorites",

@@ -8,33 +8,33 @@ from Bot.tools import lang_msg, get_sentence_msg, request_by_id
 def get_btn_by_id(_id: int) -> InlineKeyboardButton:
     data = request_by_id(_id)
     return InlineKeyboardButton(
-        data["content"], callback_data=f"kbf/{data['id']}"
+        data["content"], callback_data=str(data['id'])
     )
+
+
+def favorites_keyboard(favorites: list) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([
+        [get_btn_by_id(i), InlineKeyboardButton(
+            "❌", callback_data=f"rf/{i}"
+        )] for i in favorites
+    ])
 
 
 def show_favorites(_, callback: CallbackQuery):
     favorites = get_favorite_ids(callback.from_user.id)
-
     if not favorites:
         callback.answer(lang_msg(callback, "no_favorites"))
         return
-
-    callback.answer("Will be added soon..")  # TODO show msg with favs
-
-    keywords = InlineKeyboardMarkup([
-        [get_btn_by_id(i), InlineKeyboardButton(
-            "X", callback_data=f"rmf/{i}"
-        )] for i in favorites
-    ])
-
-    # data = {favorites[i]: request_by_id(favorites[i])["content"] for i in range(len(favorites))}
-    callback.edit_message_text("test to show favs", reply_markup=keywords)
+    callback.edit_message_text(lang_msg(callback, "list_of_favorites"), reply_markup=favorites_keyboard(favorites))
 
 
 def remove_favorite_from_list(_, callback: CallbackQuery):
-    """ run at callback in format r"rmf/[0-9]*" """
-    update_favorite(callback.from_user.id, int(callback.data.replace("rmf/", "")))
-    callback.answer("Favorite was removed!")
+    update_favorite(callback.from_user.id, int(callback.data.replace("rf/", "")))
+    if not get_favorite_ids(callback.from_user.id):
+        callback.answer(lang_msg(callback, "no_more_favs"))
+        callback.message.delete()
+        return
+    show_favorites(_, callback)
 
 
 def edit_favorites(_, callback: CallbackQuery):
