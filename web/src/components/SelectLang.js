@@ -1,48 +1,14 @@
-import React from "react";
+import Form from "react-bootstrap/Form"
 
-const baseUrl = "https://api.friends-search.com/"
-
-export default class SelectLang extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = { langs: {} }
-        this.loadLangs = this.loadLangs.bind(this);
-    }
-
-    loadLangs(e) {
-        // fetch languages list
-        fetch(baseUrl + "language")
-            .then((res) => res.json())
-            .then((res) => this.setState({ langs: res }))
-            .catch((error) => console.error(error),
-                this.setState({
-                    langs: {
-                        "ag": "All languages",
-                        "en": "English",
-                        "fr": "Français",
-                        "he": "עברית"
-                    }
-                }));
-    }
-
-    render() {
-        const langs = this.state.langs;
-        return (
-            <details>
-                <summary onClick={this.loadLangs}>{this.props.label}</summary>  { /* label for language selector */}
-
-                <div className="selectLang">
-                    <select value={this.props.sLang} onChange={this.props.updateLang}>
-
-                        {Object.keys(langs).length > 0 && Object.keys(langs).map((key) => {
-                            return <option key={key} value={key} >{langs[key]}</option>
-                        })}  { /* all the languages */}
-
-                    </select>
-                </div>
-
-            </details>
-        )
-    }
+export default function SelectLang(props) {
+    return (
+        <>
+            <Form.Select aria-label="Default select example" onChange={props.updateLang}>
+                <option value="ag">Search with all available languages</option>
+                <option value="en">English</option>
+                <option value="he">עברית</option>
+                <option value="fr">Français</option>
+            </Form.Select>
+        </>
+    )
 }

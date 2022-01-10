@@ -15,7 +15,7 @@ export class Search extends React.Component {
         count: 0
       },
       error: null,
-      lang: 'en',
+      lang: 'ag',
       langs: [],
       dir: 'ltr',
       submited: false,
@@ -55,8 +55,10 @@ export class Search extends React.Component {
 
   handleSubmit(event) {
     const url = this.baseUrl + "sentence/search"
+    const finishUrl = `${url}?query=${this.state.value}&language=${this.state.lang}&limit=50`
+    console.log(finishUrl)
     if (typeof this.state.value !== "undefined" & this.state.value !== "") {
-      fetch(`${url}?query=${this.state.value}&language=${this.state.lang}&limit=50`)
+      fetch(finishUrl)
         .then(res => res.json())
         .then(
           (result) => {
@@ -101,20 +103,16 @@ export class Search extends React.Component {
           sLang={this.props.sLang}
         />
 
-        <SelectLang
-          label={getStr("slng-search", this.props.sLang)}
-          value={this.state.lang}
-          updateLang={this.updateLang}
-        />
+        <SelectLang updateLang={this.updateLang} />
       </div>
 
       {
         this.state.submited === false ?
           <>{""}</> :
           this.state.isLoaded === false & this.state.submited === true ?
-            <Loading /> :
+            <Loading sLang={this.props.sLang}/> :
             this.state.isLoaded === true && this.state.results.count === 0 ?
-              <NoResults /> :
+              <NoResults sLang={this.props.sLang}/> :
               this.state.error !== null ?
                 <Error error={this.state.error} /> :
                 <ResultsList
