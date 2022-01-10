@@ -6,8 +6,10 @@ click==8.0.3
 Flask==2.0.2
 Flask-Cors==3.0.10
 idna==3.3
+importlib-metadata==4.10.0
 itsdangerous==2.0.1
 Jinja2==3.0.3
+Markdown==3.3.6
 MarkupSafe==2.0.1
 pony==0.7.14
 pyaes==1.6.1
@@ -18,5 +20,7 @@ python-dotenv==0.19.2
 requests==2.26.0
 six==1.16.0
 srt==3.5.0
+TgCrypto==1.2.3
 urllib3==1.26.7
 Werkzeug==2.0.2
+zipp==3.7.0
