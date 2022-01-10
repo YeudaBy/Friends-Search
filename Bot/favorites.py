@@ -1,8 +1,15 @@
 from pyrogram.errors import MessageNotModified
-from pyrogram.types import CallbackQuery
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
 from Bot.db import update_favorite, get_favorite_ids
 from Bot.tools import lang_msg, get_sentence_msg, request_by_id
+
+
+def get_btn_by_id(_id: int) -> InlineKeyboardButton:
+    data = request_by_id(_id)
+    return InlineKeyboardButton(
+        data["content"], callback_data=f"kbf/{data['id']}"
+    )
 
 
 def show_favorites(_, callback: CallbackQuery):
@@ -13,8 +20,15 @@ def show_favorites(_, callback: CallbackQuery):
         return
 
     callback.answer("Will be added soon..")  # TODO show msg with favs
-    data = {favorites[i]: request_by_id(favorites[i])["content"] for i in range(len(favorites))}
-    callback.edit_message_text(str(data))
+
+    keywords = InlineKeyboardMarkup([
+        [get_btn_by_id(i), InlineKeyboardButton(
+            "X", callback_data=f"rmf/{i}"
+        )] for i in favorites
+    ])
+
+    # data = {favorites[i]: request_by_id(favorites[i])["content"] for i in range(len(favorites))}
+    callback.edit_message_text("test to show favs", reply_markup=keywords)
 
 
 def edit_favorites(_, callback: CallbackQuery):
