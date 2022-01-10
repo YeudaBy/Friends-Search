@@ -5,8 +5,6 @@ from typing import Union, Tuple
 import requests
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
                             InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
-from requests import Response
-
 from Bot.db import get_lang, create_user, get_favorites
 from Bot.strings import strings, friends_images
 from dotenv import load_dotenv
@@ -34,10 +32,11 @@ def report_on_id(_id: int) -> json:
     return requests.post(endpoint, data={'id': _id}).json()
 
 
-def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: str) -> Union[str, bool]:
+def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: str) -> str:
+    create_user(msg_obj.from_user.id, msg_obj.from_user.language_code)
     msg = strings.get(msg_to_rpl)
     if not msg:
-        return False
+        return "Msg not set"
     lang_client = get_lang(msg_obj.from_user.id)
     if msg.get(lang_client):
         return msg[lang_client]
@@ -96,7 +95,8 @@ def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
             [
                 InlineKeyboardButton("⏪",
                                      callback_data=str(sid - 1 if get_lang(msg_obj.from_user.id) != "he" else sid + 1)),
-                InlineKeyboardButton("❤" if sid not in get_favorites(msg_obj.from_user.id) else "💔",
+                InlineKeyboardButton("❤" if not get_favorites(msg_obj.from_user.id) or sid not in get_favorites(
+                    msg_obj.from_user.id) else "💔",
                                      callback_data="f/" + id_str),
                 InlineKeyboardButton("⏩",
                                      callback_data=str(sid + 1 if get_lang(msg_obj.from_user.id) != "he" else sid - 1))
@@ -104,3 +104,44 @@ def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
         ]
     )
     return msg_txt, msg_kb
+
+
+def change_lang_buttons(qid: str):
+    return InlineKeyboardMarkup(
+        [[
+            InlineKeyboardButton("❌", callback_data=f"n/{qid}"),
+            InlineKeyboardButton("✅", callback_data=f"y/{qid}")
+        ]]
+    )
+
+
+lang_buttons = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton("🇺🇸", callback_data="l/en"),
+        InlineKeyboardButton("🇮🇱", callback_data="l/he"),
+        InlineKeyboardButton("🇫🇷", callback_data="l/fr"),
+        InlineKeyboardButton("❌", callback_data="l/close"),
+    ]]
+)
+
+
+def start_buttons(msg):
+    return InlineKeyboardMarkup(
+        [[
+            InlineKeyboardButton("🔎", switch_inline_query_current_chat=""),
+            InlineKeyboardButton("㊗", callback_data="change_lang"),
+            InlineKeyboardButton("🌐", url="https://friends-search.com/"),
+            InlineKeyboardButton("❤", callback_data="favs"),
+            InlineKeyboardButton("♻",
+                                 url=f"https://t.me/share/url?url={lang_msg(msg, 'encode_url')}@Friends_SearchBot"),
+            InlineKeyboardButton("❌", callback_data="close_msg")
+        ]]
+    )
+
+
+close_msg_buttons = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton("🔎", switch_inline_query_current_chat=""),
+        InlineKeyboardButton("❌", callback_data="close_msg")
+    ]]
+)
