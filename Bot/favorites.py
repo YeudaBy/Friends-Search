@@ -31,6 +31,12 @@ def show_favorites(_, callback: CallbackQuery):
     callback.edit_message_text("test to show favs", reply_markup=keywords)
 
 
+def remove_favorite_from_list(_, callback: CallbackQuery):
+    """ run at callback in format r"rmf/[0-9]*" """
+    update_favorite(callback.from_user.id, int(callback.data.replace("rmf/", "")))
+    callback.answer("Favorite was removed!")
+
+
 def edit_favorites(_, callback: CallbackQuery):
     qid = int(callback.data.replace("f/", ""))
     # if callback.message.from_user == callback.from_user:
@@ -44,5 +50,5 @@ def edit_favorites(_, callback: CallbackQuery):
         )
     except MessageNotModified:
         pass
-    # else:
-    #     callback.answer(lang_msg(callback, 'only_sender_can_change'))
+    else:
+        callback.answer(lang_msg(callback, 'only_sender_can_change'))
