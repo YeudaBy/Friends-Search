@@ -1,9 +1,7 @@
 import re
-
-from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, InlineQuery, InlineQueryResultArticle, InputTextMessageContent, Message
 
-from Bot.db import get_favorite_ids, get_lang, update_lang, create_user, update_favorite
+from Bot.db import get_lang, update_lang, create_user
 from Bot.tools import lang_msg, lang_buttons, request_by_id, start_buttons, get_sentence_msg, change_lang_buttons, \
     report_on_id, random_img, request_by_sentence, get_sentence_result, close_msg_buttons
 
@@ -61,7 +59,7 @@ def report(_, callback: CallbackQuery):
 def search_by_id(_, inline: InlineQuery):
     create_user(user_id=inline.from_user.id, lang=inline.from_user.language_code)
     inline.answer([InlineQueryResultArticle(
-        title="Click here to share your sentence!",
+        title=lang_msg(inline, "share_title"),
         description=f"{request_by_id(int(inline.query))['content']}",
         thumb_url=random_img(),
         input_message_content=InputTextMessageContent(

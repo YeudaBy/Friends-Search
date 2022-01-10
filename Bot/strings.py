@@ -107,6 +107,10 @@ strings = {
         "he": "%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%91%D7%95%D7%98%20%D7%94%D7%91%D7%90%3A%20%D7%97%D7"
               "%99%D7%A4%D7%95%D7%A9%20%D7%9E%D7%A9%D7%A4%D7%98%D7%99%D7%9D%20%D7%9E%D7%94%D7%A1%D7%93%D7%A8%D7%94%20"
               "%D7%97%D7%91%D7%A8%D7%99%D7%9D%20"
+    },
+    "share_title": {
+        "en": "Click here to share your sentence!",
+        "he": "לחצו כאן כדי לשתף את המשפט!"
     }
     # "only_sender_can_change": {
     #     "en": "Only the person who sent the message can add to favorites",
