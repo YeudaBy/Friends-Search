@@ -81,6 +81,32 @@ strings = {
     "not_reported": {
         "en": "Reported canceled",
         "he": "הדיווח בוטל"
+    },
+    "lang_chooser": {
+        "en": "Choose your prefer language:",
+        "he": "בחר את השפה המועדפת עליך:"
+    },
+    "same_lang": {
+        "en": "This is already your current language.",
+        "he": "זו כבר השפה הנוכחית שלך."
+    },
+    "lang_updated": {
+        "en": "Language successfully updated!",
+        "he": "השפה עודכנה בהצלחה!"
+    },
+    "no_favorites": {
+        "en": "No favorites found.",
+        "he": "לא נמצאו מועדפים שמורים."
+    },
+    "no_command": {
+        "en": "❌ Command not found!",
+        "he": "❌ לא נמצאה פקודה!"
+    },
+    "encode_url": {
+        "en": "Check%20out%20this%20bot%2C%20Search%20sentences%20from%20Friends%3A%20",
+        "he": "%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%91%D7%95%D7%98%20%D7%94%D7%91%D7%90%3A%20%D7%97%D7"
+              "%99%D7%A4%D7%95%D7%A9%20%D7%9E%D7%A9%D7%A4%D7%98%D7%99%D7%9D%20%D7%9E%D7%94%D7%A1%D7%93%D7%A8%D7%94%20"
+              "%D7%97%D7%91%D7%A8%D7%99%D7%9D%20"
     }
     # "only_sender_can_change": {
     #     "en": "Only the person who sent the message can add to favorites",
