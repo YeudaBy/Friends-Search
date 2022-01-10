@@ -52,7 +52,7 @@ def update_favorite(user_id: int, query_id: int) -> bool:
 
 
 @db_session
-def get_favorites(user_id) -> Union[list, bool]:
+def get_favorite_ids(user_id) -> Union[list, bool]:
     user = User.get(user_id=user_id)
     if not user:
         create_user(user_id=user_id)

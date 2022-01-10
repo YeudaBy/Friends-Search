@@ -5,7 +5,7 @@ from typing import Union, Tuple
 import requests
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
                             InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
-from Bot.db import get_lang, create_user, get_favorites
+from Bot.db import get_lang, create_user, get_favorite_ids
 from Bot.strings import strings, friends_images
 from dotenv import load_dotenv
 from os import getenv
@@ -64,7 +64,6 @@ def get_sentence_result(sid: int, msg_obj) -> InlineQueryResultArticle:
         thumb_url=random_img(),
         input_message_content=InputTextMessageContent(
             message_text=get_sentence_msg(raw_res["id"], msg_obj)[0],
-
         ),
         reply_markup=get_sentence_msg(raw_res["id"], msg_obj)[1]
     )
@@ -95,7 +94,7 @@ def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
             [
                 InlineKeyboardButton("⏪",
                                      callback_data=str(sid - 1 if get_lang(msg_obj.from_user.id) != "he" else sid + 1)),
-                InlineKeyboardButton("❤" if not get_favorites(msg_obj.from_user.id) or sid not in get_favorites(
+                InlineKeyboardButton("❤" if not get_favorite_ids(msg_obj.from_user.id) or sid not in get_favorite_ids(
                     msg_obj.from_user.id) else "💔",
                                      callback_data="f/" + id_str),
                 InlineKeyboardButton("⏩",
