@@ -17,9 +17,10 @@ export function NavBar(props) {
             <a id="about" className="menu-item" href="https://github.com/YeudaBy/Friends-Search">{<DiGithub />} GitHub</a>
             <a id="contact" className="menu-item" href="https://api.friends-search.com">{<VscCode />} Api</a>
             <a className="menu-item" href="https://t.me/RobotTrickSupport">{<GoMention />} Contact </a>
+            <a className='menu-item' href='/game'> Game </a>
             {/* </div> */}
 
-            <SelectSiteLang updateLang={props.updateLang} className="siteSelectLang"/>
+            <SelectSiteLang updateSLang={props.updateSLang} className="siteSelectLang" sLang={props.sLang} />
         </Menu>
     );
 
