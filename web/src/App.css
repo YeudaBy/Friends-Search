@@ -44,7 +44,7 @@ body {
   --3: #5e4430;
   --4: #be9a7e83;
   --5: #ebbe9c83;
-  --menu-bg: black;
+  --menu-bg: #422f22d6;
 }
 
 /* Tags */
@@ -73,6 +73,11 @@ select {
 
 footer {
   text-align: center;
+}
+
+svg {
+  bottom: -2px;
+  position: relative;
 }
 
 footer a {
@@ -178,6 +183,13 @@ p.navSentences {
   margin-bottom: 0.9em;
 }
 
+label.searchLabel {
+  font-size: 12px;
+  border-bottom: 1px solid var(--4);
+  padding-bottom: 3px;
+  color: var(--3);
+}
+
 .search summary {
   font-size: 13px;
 }
@@ -214,18 +226,20 @@ p.navSentences {
   margin: 0;
 }
 
-.mention {
-  padding-right: 2px;
-  border-top-width: 0px;
-  border-top-style: solid;
-  margin-bottom: -3px;
-}
-
 .menu-item {
+  width: 9em;
   font-size: 16px;
   color: var(--5);
   text-decoration: none;
   margin: .7em;
+  padding: 3px;
+}
+
+.searchLang {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
 
 #dropdown-basic {
@@ -249,14 +263,15 @@ p.navSentences {
 /* Events */
 
 .menu-item:hover {
-  text-decoration: underline;
+  border-bottom: 1px solid var(--4);
+  padding-bottom: 2px;
 }
 
 .langItem:hover {
   font-size: 14px;
 }
 
-.searchBtn:hover {
+.searchBtn:hover {padding: 3px;padding: 3px;
   background: var(--3);
   color: var(--5);
 }
@@ -283,7 +298,7 @@ p.navSentences {
 }
 
 .waiting {
-  cursor: wait;
+  cursor: wait !important;
 }
 
 .siteSelectLangList {
@@ -372,6 +387,10 @@ p.navSentences {
   width: 24px;
 }
 
+.bm-menu-wrap {
+  border-right: solid 2px var(--4);
+}
+
 /* Color/shape of close button cross */
 .bm-cross {
   background: var(--4);
@@ -384,7 +403,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-menu-wrap {
   position: fixed;
   height: 100%;
-  top: 0px;
+  top: -2px;
 }
 
 /* General sidebar styles */
