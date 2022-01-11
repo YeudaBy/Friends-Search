@@ -1,11 +1,13 @@
 import { elastic as Menu } from 'react-burger-menu'
 import React from 'react';
-import { RiTelegramLine } from 'react-icons/ri';
+import { FaTelegramPlane } from 'react-icons/fa';
 import { VscCode } from "react-icons/vsc";
-import { DiGithub } from "react-icons/di"
+import { FiGithub } from "react-icons/fi"
 import { GoMention } from "react-icons/go"
-// import { useMediaPredicate } from "react-media-hook";
+import { IoGameControllerOutline } from "react-icons/io5"
 import SelectSiteLang from './SelectSiteLang';
+import { BsInfoSquare } from "react-icons/bs" 
+import { RiHome2Line } from "react-icons/ri"
 
 
 export function NavBar(props) {
@@ -13,11 +15,14 @@ export function NavBar(props) {
     return (
         <Menu >
             {/* <div className='itemsMenu'> */}
-            <a id="home" className="menu-item" href="https://t.me/Friends_SearchBot">{<RiTelegramLine />} Telegram Bot</a>
-            <a id="about" className="menu-item" href="https://github.com/YeudaBy/Friends-Search">{<DiGithub />} GitHub</a>
-            <a id="contact" className="menu-item" href="https://api.friends-search.com">{<VscCode />} Api</a>
+            <a className="menu-item" href="https://t.me/Friends_SearchBot">{<FaTelegramPlane />} Telegram Bot</a>
+            <a className="menu-item" href="https://github.com/YeudaBy/Friends-Search">{<FiGithub />} GitHub</a>
+            <a className="menu-item" href="https://api.friends-search.com">{<VscCode />} Api</a>
             <a className="menu-item" href="https://t.me/RobotTrickSupport">{<GoMention />} Contact </a>
-            <a className='menu-item' href='/game'> Game </a>
+            {<br />}
+            <a className='menu-item' href='/'>{<RiHome2Line />} Home </a>
+            <a className='menu-item' href='/game'>{<IoGameControllerOutline />} Game </a>
+            <a className='menu-item' href='/about'>{<BsInfoSquare />} About </a>
             {/* </div> */}
 
             <SelectSiteLang updateSLang={props.updateSLang} className="siteSelectLang" sLang={props.sLang} />
