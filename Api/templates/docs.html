@@ -5,109 +5,15 @@
     <title>API Reference</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.3.0/markdown-it.min.js" integrity="sha512-q1tclxbgrDhFhGp/i9mnxITl2FQ3TCfwNj0mZ1r2USwj9WNXBpQ1au4HOBdAq8LXXWFIcsW+5dsdFHyVdk10AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<body id="docs">
+<body>
+
+  <div id="raw-docs" style="display: none;">"{{ content }}"</div>
+  <div id="docs"></div>
 
   <script>
-    let md = window.markdownit()
-    let res = md.render("{{ content }}")
-    document.querySelector("#docs").innerHTML = res;
+    const rawDocs = document.querySelector("#raw-docs").innerText.replace(/(^")|("$)/, "")
+    document.querySelector("#docs").innerHTML = rawDocs;
   </script>
-
-<!-- 
-    <h1 id="api-reference">API Reference - Friends Search</h1>
-
-    <div class="methode">
-        <h2><span id="hint"><i>methode</i></span> search()</h2>
-        <p>search sentences by specific query, and filtered by language</p>
-        <h3>Parameters</h3>
-        <p><span><code>query|q</code></span>[String, Required]</p>
-        <p>The text that you want to search. could be any string query, word, sentence and quote.
-        you can avoid special characters like <span><code>'"!?,</code></span> and spaces, but we'll do it for you anyway.</p>
-        <p><span><code>language|lang</code></span>[String, Optional]</p>
-        <p>You can provide a language to search with, from the <a href="https://github.com/YeudaBy/Friends-Sentences#supported-languages">supported languages.</a></p>
-        <p><span><code>limit|l</code></span>[Int, Optional]</p>
-        <p>Also, you can tell us how many results do you want to be displayed. Default to <code>50</code>. more or less can be chosen.</p>
-
-        <h3>Examples</h3>
-        <pre>https://example.com/search?query=unagi&language=en&limit=5</pre>
-        <p>The request will search the word <i>"unagi"</i>, in the <i>english</i> language, and will show only the first <i>5</i> results.</p>
-        <p>to check this requests, click <span><a href="api/search?query=unagi&language=en&limit=5">Here.</a></span></p>
-        <pre>https://exmple.com/search?q=Hanukkah</pre>
-        <p>Here, you'll get results for the word <i>Hanukkah</i>, in any language, and all of them, unless they will be more than 50.</p>
-
-        <h3>Response</h3>
-        For the first query we'd showed, the results will look like this:
-        <pre>
-{
-  "count": 5,
-  "results": [
-    {
-      "content": "It's what the Japanese call unagi.",
-      "end": "0:03:16.236000",
-      "episode": "17",
-      "season": "6",
-      "start": "0:03:11.858000"
-    },
-    {
-      "content": "Unagi is a state of total awareness.",
-      "end": "0:03:46.391000",
-      "episode": "17",
-      "season": "6",
-      "start": "0:03:41.387000"
-    },
-    {
-      "content": "Okay? Only by achieving true unagi...",
-      "end": "0:03:49.186000",
-      "episode": "17",
-      "season": "6",
-      "start": "0:03:46.559000"
-    },
-    {
-      "content": "All right, you knew that was coming,\nbut that doesn't mean you have unagi.",
-      "end": "0:04:26.265000",
-      "episode": "17",
-      "season": "6",
-      "start": "0:04:20.635000"
-    },
-    {
-      "content": "Ooh, if we made reservations,\nwe could have unagi in about a half-hour.",
-      "end": "0:04:32.771000",
-      "episode": "17",
-      "season": "6",
-      "start": "0:04:29.185000"
-    }
-  ]
-}
-        </pre>
-        <p>In the response, you'll get list of results, each one included data about the results, such us: </p>
-        <ul>
-            <li><code>content</code><p>the content of the sentence, just like it showed on TV.</p></li>
-            <li><code>start</code><p>The exact second that the sentence appeared in the series.</p></li>
-            <li><code>end</code><p>The end of the exact time that the sentence appeared in the series.</p></li>
-            <li><code>season</code><p>the number of the season.</p></li>
-            <li><code>episode</code><p>the number of the episode.</p></li>
-        </ul>
-
-    <h3>Errors</h3>
-    <p>Not many errors may appear, but here are the ones:</p>
-    <ul>
-        <li>
-            <code>a `query` is required.</code>
-            <p>You must provide a query parameter. it could be anything, but have to be here.</p>
-        </li>
-        <li>
-            <code>`language` must be two characters, e.g. `EN`.</code>
-            <p>The language parameter must be from the <a href="https://github.com/YeudaBy/Friends-Sentences#supported-languages">supported languages.</a>, otherwise nothing will show. However, if you provide a language parameter that include digits, the error will be raised.</p>
-            <p><i>NOTE:</i> For most of the cases, you don't have to pass the language parameter, but good to know he will be there...</p>
-        </li>
-    </ul>
-
-    <h3>Credits</h3>
-            The api was build from respect and love to "FRIENDS" series.
-            We build it because sentences and words from the series are often mentioned, and we want to find where they appeared.
-            This project build by <a href="https://github.com/yeudaby">YeudaBy</a> and <a href="#">DavidLev.</a>
-
-    </div> -->
     
 </body>
 </html>

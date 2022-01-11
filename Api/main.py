@@ -3,6 +3,8 @@ from pony.orm import db_session, RowNotFound
 from Api.Query import Query, Parse
 from flask_cors import CORS, cross_origin
 from Api.stats import create, send_reports
+import markdown.extensions.fenced_code
+
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True  # set pretty print
@@ -16,7 +18,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'  # set cors origin for the site
 def home():
     """ home page """
     create()
-    return render_template("docs.html", content=open("Api/api-references.md").read())
+    readme_file = open("Api/api-references.md", "r").read()
+    md_template_string = markdown.markdown(
+        readme_file, extensions=["fenced_code"]
+    ).replace("\n", "<br/>")
+    print(md_template_string)
+    return render_template("docs.html", content=md_template_string)
 
 
 @cross_origin()
