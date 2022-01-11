@@ -1,4 +1,9 @@
 {
+    "languages": {
+        "en": "English",
+        "he": "עברית",
+        "fr": "Français"
+    },
     "msg-error": {
         "en": "msg error",
         "he": "הודעה שגיאה",
@@ -53,5 +58,10 @@
         "en": "No results wes fount :(",
         "he": "לא נמצאו תוצאות :(",
         "fr": "Aucun résultat trouvé :("
+    },
+    "loading": {
+        "en": "Loading...",
+        "he": "טוען...",
+        "fr": "Chargement..."
     }
 }
