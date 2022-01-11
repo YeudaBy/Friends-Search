@@ -2,126 +2,117 @@ import React from "react";
 import ResultsList from "./ResultsList";
 import SearchField from "./SearchField";
 import SelectLang from "./SelectLang";
-import getStr from "../strings";
+import { browserLanguage } from "../languages"
 import { Error, Loading, NoResults } from "./StatusSearch"
+
+
+let baseUrl = "https://api.friends-search.com/"
+baseUrl = "http://192.168.43.122:8080/"
 
 export class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
-      results: {
-        resultsList: [],
-        count: 0
+      searchValue: '',
+      searchResult: {
+        results: [],
+        count: 0,
+        error: null,
+        isLoaded: false
       },
-      error: null,
-      lang: 'ag',
-      langs: [],
-      dir: 'ltr',
+      searchLang: browserLanguage() !== "en" ? browserLanguage() : "ag",
       submited: false,
-      isLoaded: false
     };
 
     this.searchChange = this.searchChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.langChange = this.langChange.bind(this);
-    this.updateLang = this.updateLang.bind(this);
-
-    this.baseUrl = "https://api.friends-search.com/"
+    this.updateSearchLang = this.updateSearchLang.bind(this);
   }
 
-  componentDidMount() {
-    fetch(this.baseUrl + "language")
-      .then(res => res.json())
-      .then((res) => this.setState({ langs: res }))
-      .catch((error) => console.error(error),
-        this.setState({
-          langs: {
-            "ag": "All languages",
-            "en": "English",
-            "fr": "Français",
-            "he": "עברית"
-          }
-        }))
-  }
 
   searchChange(event) {
-    this.setState({ value: event.target.value });
-  }
+    this.setState({ searchValue: event.target.value });
+  };
 
-  langChange(event) {
-    this.setState({ lang: event.target.value })
+  updateSearchLang(event) {
+    this.setState({ searchLang: event.nativeEvent.target.value })
   }
 
   handleSubmit(event) {
-    const url = this.baseUrl + "sentence/search"
-    const finishUrl = `${url}?query=${this.state.value}&language=${this.state.lang}&limit=50`
-    console.log(finishUrl)
-    if (typeof this.state.value !== "undefined" & this.state.value !== "") {
-      fetch(finishUrl)
+    const endpoint = baseUrl + "sentence/search"
+    const url = `${endpoint}?query=${this.state.searchValue}&language=${this.state.searchLang}&limit=50`
+    if (typeof this.state.searchValue !== "undefined" & this.state.searchValue !== "") {
+      this.setState({ submited: true })
+      fetch(url)
         .then(res => res.json())
         .then(
-          (result) => {
-            this.setState(preState => ({
-              results: {
-                ...preState.results,
-                resultsList: result.results,
-                count: result.count,
-              },
-              isLoaded: true,
-            }), console.log("results from the server: ", this.state.results),
-            );
+          (results) => {
+            this.setState({
+              searchResult: {
+                results: results.results,
+                count: results.count,
+                isLoaded: true,
+                error: results.error
+              }
+            }, console.log("results from the server: ", this.state.searchResult));
           },
           (error) => {
-            this.setState({
-              isLoaded: true,
-              error
-            });
+            this.setState(preState => ({
+              searchResult: {
+                ...preState.searchResult,
+                isLoaded: true,
+                error: error
+              }
+            }), console.error(this.state.searchResult.error));
           }
         ).catch(
           (error) => {
-            this.setState({
-              error
-            })
+            this.setState(preState => ({
+              searchResult: {
+                ...preState.searchResult,
+                isLoaded: true,
+                error: error
+              }
+            }), console.error(this.state.searchResult.error));
           });
-      this.setState({ submited: true })
     };
     event.preventDefault();
   };
 
-  updateLang(event) {
-    this.setState({ lang: event.nativeEvent.target.value })
-  }
-
   render() {
-    return (<div className="container center">
-      <div className="search">
-        <SearchField
-          searchChange={this.searchChange}
-          handleSubmit={this.handleSubmit}
-          value={this.state.value}
-          sLang={this.props.sLang}
-        />
+    return (
+      <div className="container center">
+        <div className="search">
+          <SearchField
+            searchChange={this.searchChange}
+            handleSubmit={this.handleSubmit}
+            value={this.state.value}
+            sLang={this.props.sLang}
+          />
 
-        <SelectLang updateLang={this.updateLang} />
+          <SelectLang updateSearchLang={this.updateSearchLang} value={this.state.searchLang} />
+        </div>
+
+        <div className="resultsView">
+
+          {
+            (this.state.submited === false)
+              ? <>{""}</>
+              : (this.state.submited === true & this.state.searchResult.isLoaded === false)
+                ? <Loading sLang={this.props.sLang} />
+                : (this.state.searchResult.isLoaded === true & (typeof this.state.searchResult.error !== "undefined"
+                  & this.state.searchResult.error !== null))
+                  ? <Error sLang={this.props.sLang} />
+                  : (this.state.searchResult.isLoaded === true & (typeof this.state.searchResult.error === "undefined"
+                    | this.state.searchResult.error === null) & (this.state.searchResult.count === 0
+                      | typeof this.state.searchResult.results === "undefined"))
+                    ? <NoResults sLang={this.props.sLang} />
+                    : <ResultsList count={this.state.searchResult.count}
+                      results={this.state.searchResult.results} sLang={this.props.sLang} />
+          }
+
+        </div>
       </div>
-
-      {
-        this.state.submited === false ?
-          <>{""}</> :
-          this.state.isLoaded === false & this.state.submited === true ?
-            <Loading sLang={this.props.sLang}/> :
-            this.state.isLoaded === true && this.state.results.count === 0 ?
-              <NoResults sLang={this.props.sLang}/> :
-              this.state.error !== null ?
-                <Error error={this.state.error} /> :
-                <ResultsList
-                  results={this.state.results}
-                  dir={this.state.dir}
-                  sLang={this.props.sLang}
-                />
-      }
-    </div>
     );
   }
 }
