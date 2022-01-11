@@ -1,8 +1,12 @@
-import { Search } from "./components/Search";
-import Head from "./components/Head";
+import { Home } from "./components/Home";
+import { Game } from "./components/Game"
+import { About } from "./components/About"
+
 import "./App.css"
 import React from "react";
 import { browserLanguage } from "./languages"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -20,12 +24,13 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <>
-        <div className={this.state.sLang}>
-          <Head sLang={this.state.sLang} updateSLang={this.updateSLang} />
-          <Search sLang={this.state.sLang} />
-        </div>
-      </>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home sLang={this.state.sLang} updateSLang={this.updateSLang}/>} />
+          <Route path="/game" element={<Game />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </BrowserRouter>
     );
   }
 }
