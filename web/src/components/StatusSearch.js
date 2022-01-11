@@ -1,14 +1,16 @@
+import getStr from "../strings";
 
-export function NoResults() {
-    document.body.classList.add("waiting") 
+export function NoResults(props) {
+    document.body.classList.remove("waiting")
     return (
-        <div className="noResults">No results was found!</div>
+        <div className="noResults">{getStr("no-res", props.sLang)}</div>
     )
 }
 
-export function Loading() {
+export function Loading(props) {
+    document.body.classList.add("waiting")
     return (
-        <div className="loading">Loading...</div>
+        <div className="loading">{getStr("loading", props.sLang)}</div>
     )
 }
 
