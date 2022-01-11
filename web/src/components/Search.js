@@ -7,7 +7,7 @@ import { Error, Loading, NoResults } from "./StatusSearch"
 
 
 let baseUrl = "https://api.friends-search.com/"
-baseUrl = "http://192.168.43.122:8080/"
+// baseUrl = "http://192.168.43.122:8080/"
 
 export class Search extends React.Component {
   constructor(props) {
