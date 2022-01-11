@@ -7,10 +7,9 @@ export default function ResultsList(props) {
 
     document.body.classList.remove("waiting");
     return (
-        <div className="resultsList"
-            dir={props.dir}>
-            <>Show {props.results.count} Results:</>
-            {props.results.resultsList.map((e) =>
+        <div className="resultsList">
+            <>Show {props.count} Results:</>
+            {props.results.map((e) =>
                 <Result
                     key={e.id} id={e.id} content={e.content} season={e.season}
                     episode={e.episode} start={e.start} end={e.end}
