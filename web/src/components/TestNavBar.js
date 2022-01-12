@@ -23,7 +23,7 @@ export function NavBar(props) {
             {<br />}
             <Link className='menu-item' to='/'>{<RiHome2Line />} Home </Link>
             <Link className='menu-item' to='/game'>{<IoGameControllerOutline />} Game </Link>
-            <Link to="/about" className='menu-item'>{<BsInfoSquare />} About</Link>
+            <Link className='menu-item' to="/about">{<BsInfoSquare />} About</Link>
             {/* </div> */}
 
             <SelectSiteLang updateSLang={props.updateSLang} className="siteSelectLang" sLang={props.sLang} />
