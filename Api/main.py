@@ -1,8 +1,7 @@
-from flask import Flask, request, jsonify, render_template
-from pony.orm import db_session, RowNotFound
-from Api.Query import Query, Parse
+from flask import Flask, request, jsonify, render_template, make_response
+from DB.querys import *
 from flask_cors import CORS, cross_origin
-from Api.stats import create, send_reports
+from Api.stats import create, send_report
 import markdown.extensions.fenced_code
 
 
@@ -14,6 +13,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'  # set cors origin for the site
 
 
+@cross_origin()
 @app.route("/")
 def home():
     """ home page """
@@ -30,28 +30,35 @@ def home():
 @app.route("/language")
 def languages():
     create()
-    return jsonify(Query.all_langs())
+    response = {"ok": True, "results": all_languages()}
+    return response, 200
 
 
 @cross_origin()
-@app.route("/language/<lang>")
-def get_lang(lang):
+@app.route("/language/<language>")
+def get_language(language):
     create()
-    return jsonify(Query.is_lang_exist(lang))
+    if is_language_exist(language):
+        return {"ok": True}, 200
+    else:
+        return {"ok": True}, 404
 
 
+@cross_origin()
 @app.route("/sentence/random/")
-def random():
+def random_sentence():
     create()
-    res = Query.random()
-    return jsonify([Parse(i).__dict__() for i in res])
+    random_results = sentence_random(language=request.args.get("language"))
+    response = [parse(sentence) for sentence in random_results]
+    return {"ok": True, "results": response}, 200
 
 
 @cross_origin()
 @app.route("/sentence/<int:_id>")
 def get_by_id(_id):
     create()
-    return jsonify(Parse(Query.by_id(_id)).__dict__())
+    data = parse(sentence_by_id(_id))
+    return {"ok": True, "results": data}, 200 if data else {"ok": False}, 404
 
 
 @cross_origin()
@@ -63,7 +70,7 @@ def search():
 
     query = request.args.get("query") or request.args.get("q")
     limit = request.args.get("limit") or request.args.get("l") or 50  # set 50 for limit as default
-    lang = request.args.get("lang") or request.args.get("language") or "en"  # set language default to English
+    lang = request.args.get("language") or request.args.get("lang") or "ag"  # set language default to All languages
 
     # costume error
     if query == "make_error":
@@ -79,26 +86,28 @@ def search():
         error = {"error": "`limit` must be a digit."}  # `limit` parameter does not number
 
     if error:
-        return jsonify(error), 399
+        return {"ok": False, "results": error}, 400
 
     with db_session:
-        results = [Parse(i).__dict__() for i in Query.search(
+        results = [parse(result) for result in search_sentence(
             query=query,
             limit=int(limit),
             lang=lang
         )]
+        response["ok"] = True
         response["count"] = len(results)
         response["results"] = results
 
         return jsonify(response), 200
 
 
+@cross_origin()
 @app.route("/sentence/report", methods=['POST'])
 def report():
     if request.method == 'POST':
         _id = request.form.get("id")
-        if send_reports(_id):
-            return {"status": "ok", "id": _id}
+        if send_report(_id):
+            return {"ok": True, "id": _id}
 
 
 if __name__ == '__main__':
