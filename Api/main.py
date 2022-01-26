@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, render_template
 from pony.orm import db_session
-from DB.querys import (all_languages, is_language_exist, sentence_random, parse, sentence_by_id, search_sentence)
 from flask_cors import CORS, cross_origin
-from Api.stats import create, send_report
+
 import markdown.extensions.fenced_code
+
+from DB.querys import (all_languages, is_language_exist, sentence_random, parse, sentence_by_id, search_sentence)
+from Api.stats import create, send_report
 
 
 app = Flask(__name__)
@@ -19,7 +21,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'  # set cors origin for the site
 def home():
     """ home page """
     create()
-    readme_file = open("Api/api-references.md", "r").read()
+    readme_file = open("Api/api-references.md", "r", encoding="UTF-8").read()
     md_template_string = markdown.markdown(
         readme_file, extensions=["fenced_code"]
     ).replace("\n", "<br/>")
@@ -41,8 +43,7 @@ def get_language(language):
     create()
     if is_language_exist(language):
         return {"ok": True}, 200
-    else:
-        return {"ok": True}, 404
+    return {"ok": True}, 404
 
 
 @cross_origin()
@@ -108,7 +109,9 @@ def report():
     if request.method == 'POST':
         _id = request.form.get("id")
         if send_report(_id):
-            return {"ok": True, "id": _id}
+            return {"ok": True, "id": _id}, 200
+        return {"ok": False}, 400
+    return {"ok": False}, 405
 
 
 if __name__ == '__main__':
