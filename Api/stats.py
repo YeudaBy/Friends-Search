@@ -29,16 +29,18 @@ class ApiQuery(db.Entity):
 
 db.bind(provider='sqlite', filename='stats.sqlite', create_db=True)
 db.generate_mapping(create_tables=True)
+set_sql_debug(True, show_values=True)
+
 
 # with db_session:
-#     ApiQuery(content={"test": "test1"}, time=datetime.now())
+#     res = select(i for i in ApiQuery if i.uri == "/")[:]
+#     print(res)
 
 
-def send_reports(_id):
+def send_report(_id):
     token = os.getenv("REPORTED_TOKEN")
-    url = f"https://api.telegram.org/bot{token}/sendMessage?chat_id=-1001524768471&text=report-for:%20{_id}"
+    target = os.getenv("REPORTS_CHANNEL")
+    url = f'https://api.telegram.org/bot{token}/sendMessage?chat_id={target}&text=report-for:%20{_id}\nhttps://api' \
+          f'.friends-search.com/sentence/{_id} '
     req = requests.get(url)
-    return req.status_code == 200
-
-
-print(send_reports(1000))
+    return False if req.status_code != 200 else req.json()["result"]["message_id"]
