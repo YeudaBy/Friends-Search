@@ -1,6 +1,8 @@
 from typing import Union
 import os.path
-from moviepy.editor import *
+from moviepy.editor import VideoFileClip
+from moviepy.video.VideoClip import ImageClip
+from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
 
 
 def get_video_clip(season: int, episode: int, sentence_id: int, start: str, end: str) -> Union[str, bool]:

@@ -1,8 +1,7 @@
-import json
-import random
-import re
+from random import choice
+from re import search
 from typing import Union, Tuple
-import requests
+from requests import get, post
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
                             InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
 from Bot.db import get_lang, create_user, get_favorite_ids
@@ -19,17 +18,17 @@ headers = {'User-Agent': getenv("BOT_USER_AGENT")}
 
 def request_by_sentence(query: str) -> dict:
     endpoint = f"{base_url}/sentence/search?query={query}&language=ag"
-    return requests.get(endpoint).json()
+    return get(endpoint).json()
 
 
 def request_by_id(_id: int) -> dict:
     endpoint = f"{base_url}/sentence/{_id}"
-    return requests.get(endpoint, headers=headers).json()
+    return get(endpoint, headers=headers).json()
 
 
-def report_on_id(_id: int) -> json:
+def report_on_id(_id: int) -> dict:
     endpoint = f"{base_url}/sentence/report"
-    return requests.post(endpoint, data={'id': _id}).json()
+    return post(endpoint, data={'id': _id}).json()
 
 
 def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: str) -> str:
@@ -46,11 +45,11 @@ def lang_msg(msg_obj: Union[Message, InlineQuery, CallbackQuery], msg_to_rpl: st
 
 def dt_to_ht(timedelta: str) -> str:
     """ convert timedelta to human time """
-    return re.search(r"(\d:)(?P<ht>\d{2}:\d{2})(.\d*)", timedelta).groupdict().get("ht")
+    return search(r"(\d:)(?P<ht>\d{2}:\d{2})(.\d*)", timedelta).groupdict().get("ht")
 
 
 def random_img():
-    return random.choice(friends_images)
+    return choice(friends_images)
 
 
 def get_sentence_result(sid: int, msg_obj) -> InlineQueryResultArticle:
@@ -79,7 +78,7 @@ def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
 
     id_str = str(sid)
     msg_txt = f"**✅ {lang_msg(msg_obj, 'results_title')}**\n\n" \
-              f"**📺 {lang_msg(msg_obj, 'appear_at')}:** `{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode}`\n" \
+              f"**📺 {lang_msg(msg_obj, 'appear_at')}:** `{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode}`\n" \ 
               f"**🕓 {lang_msg(msg_obj, 'time')}:** `{dt_to_ht(start_time)}` ⇿ `{dt_to_ht(end_time)}`\n**💬 {lang_msg(msg_obj, 'sentence')}:** `{raw_res['content']}`"
     msg_kb = InlineKeyboardMarkup(
         [

@@ -1,6 +1,5 @@
 from typing import Union
-
-from pony.orm import *
+from pony.orm import Database, db_session, commit, Optional, IntArray, Required, PrimaryKey
 
 db = Database()
 

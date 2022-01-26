@@ -1,9 +1,9 @@
-import requests
+from requests import get
 from datetime import datetime
 from flask import request
-import os
+from os import getenv
 from dotenv import load_dotenv
-from pony.orm import *
+from pony.orm import Database, db_session, Required, set_sql_debug
 
 db = Database()
 load_dotenv()
@@ -38,9 +38,9 @@ set_sql_debug(True, show_values=True)
 
 
 def send_report(_id):
-    token = os.getenv("REPORTED_TOKEN")
-    target = os.getenv("REPORTS_CHANNEL")
+    token = getenv("REPORTED_TOKEN")
+    target = getenv("REPORTS_CHANNEL")
     url = f'https://api.telegram.org/bot{token}/sendMessage?chat_id={target}&text=report-for:%20{_id}\nhttps://api' \
           f'.friends-search.com/sentence/{_id} '
-    req = requests.get(url)
+    req = get(url)
     return False if req.status_code != 200 else req.json()["result"]["message_id"]

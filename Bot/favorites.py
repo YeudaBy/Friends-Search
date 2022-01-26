@@ -1,6 +1,5 @@
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-
 from Bot.db import update_favorite, get_favorite_ids
 from Bot.tools import lang_msg, get_sentence_msg, request_by_id
 

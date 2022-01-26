@@ -1,6 +1,7 @@
-import re
+from re import sub
 from typing import List, Union
-from DB.db import *
+from pony.orm import db_session, commit
+from DB.db import Subtitle
 from dotenv import load_dotenv
 from os import getenv
 
@@ -104,7 +105,7 @@ def parse(_object: Subtitle) -> Union[dict, bool]:
     if not _object: return False
     data = {
         "ok": True,
-        "content": re.sub(r"<.*?>", "", _object.content).replace("\n", " "),
+        "content": sub(r"<.*?>", "", _object.content).replace("\n", " "),
         "id": _object.id,
         "language_code": _object.lang,
         "language_name": all_languages()[_object.lang],

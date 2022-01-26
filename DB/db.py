@@ -1,6 +1,6 @@
 from re import sub
-import srt
-from pony.orm import *
+# import srt
+from pony.orm import Database, Required, Optional
 from datetime import timedelta
 
 db = Database()

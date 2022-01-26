@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify, render_template, make_response
-from DB.querys import *
+from flask import Flask, request, jsonify, render_template
+from pony.orm import db_session
+from DB.querys import (all_languages, is_language_exist, sentence_random, parse, sentence_by_id, search_sentence)
 from flask_cors import CORS, cross_origin
 from Api.stats import create, send_report
 import markdown.extensions.fenced_code
