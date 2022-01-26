@@ -1,6 +1,7 @@
 import React from "react";
 import { NextBtn, PreviousBtn } from "./NavigBtn"
 import getStr from "../strings"
+import { Link } from "react-router-dom"
 
 const baseUrl = "https://api.friends-search.com/"
 
@@ -50,6 +51,8 @@ export class Result extends React.Component {
                             {/(\d:)(\d{2}:\d{2})(.\d*)/.exec(this.state.end)[2]}
                         <NextBtn handle={this.NextBtnHandler} sLang={this.props.sLang} />
                     </p>
+
+            <Link to={`/sentence/${this.state.id}`}>Test</Link>
 
                     {/* <Details res={this.state}/> */}
                 </div>

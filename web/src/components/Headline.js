@@ -1,4 +1,4 @@
-import { NavBar } from "./TestNavBar"
+// import { NavBar } from "./TestNavBar"
 import { Logo } from "./Logo"
 
 export default function HomeHeadline(props) {

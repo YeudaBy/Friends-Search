@@ -1,11 +1,14 @@
 import { Home } from "./components/Home";
 import { Game } from "./components/Game"
 import { About } from "./components/About"
+import Details from "./components/Details"
+import Page from "./components/Page"
 
 import "./App.css"
 import React from "react";
 import { browserLanguage } from "./languages"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 
 
 export default class App extends React.Component {
@@ -26,9 +29,13 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home sLang={this.state.sLang} updateSLang={this.updateSLang}/>} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/" element={<Page />} >
+            <Route path="/home" element={<Home sLang={this.state.sLang} updateSLang={this.updateSLang}/>} />
+            <Route path="/game" element={<Game />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/sentence/" element={<Details />} />
+          </Route>
+
         </Routes>
       </BrowserRouter>
     );

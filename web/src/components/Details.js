@@ -1,7 +1,9 @@
 import React from "react";
 
-export default class Details extends React.Component {
-    constructor (props) {
-        
-    }
+export default function Details(props) {
+    return (
+        <>
+        <p>{props.id}</p>
+        </>
+    )
 }
