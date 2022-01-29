@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify, render_template
 from pony.orm import db_session
 from flask_cors import CORS, cross_origin
-
 import markdown.extensions.fenced_code
 
 from DB.querys import (all_languages, is_language_exist, sentence_random, parse, sentence_by_id, search_sentence)
-from Api.stats import create, send_report
+from Api.stats import send_report
 
 
 app = Flask(__name__)
@@ -20,7 +19,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'  # set cors origin for the site
 @app.route("/")
 def home():
     """ home page """
-    create()
     readme_file = open("Api/api-references.md", "r", encoding="UTF-8").read()
     md_template_string = markdown.markdown(
         readme_file, extensions=["fenced_code"]
@@ -32,7 +30,6 @@ def home():
 @cross_origin()
 @app.route("/language")
 def languages():
-    create()
     response = {"ok": True, "results": all_languages()}
     return response, 200
 
@@ -40,7 +37,6 @@ def languages():
 @cross_origin()
 @app.route("/language/<language>")
 def get_language(language):
-    create()
     if is_language_exist(language):
         return {"ok": True}, 200
     return {"ok": True}, 404
@@ -49,7 +45,6 @@ def get_language(language):
 @cross_origin()
 @app.route("/sentence/random/")
 def random_sentence():
-    create()
     random_results = sentence_random(language=request.args.get("language"))
     response = [parse(sentence) for sentence in random_results]
     return {"ok": True, "results": response}, 200
@@ -58,7 +53,6 @@ def random_sentence():
 @cross_origin()
 @app.route("/sentence/<int:_id>")
 def get_by_id(_id):
-    create()
     data = parse(sentence_by_id(_id))
     return {"ok": True, "results": data}, 200 if data else {"ok": False}, 404
 
@@ -66,7 +60,6 @@ def get_by_id(_id):
 @cross_origin()
 @app.route("/sentence/search")
 def search():
-    create()
     error = {}
     response = {}
 

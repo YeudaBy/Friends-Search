@@ -6,7 +6,7 @@ from datetime import timedelta
 db = Database()
 
 
-class Subtitle(db.Entity):
+class Sentence(db.Entity):
     content = Required(str)         # content to display
     raw_content = Optional(str)     # content to search
     lang = Required(str)            # language of the content
@@ -15,7 +15,7 @@ class Subtitle(db.Entity):
     episode = Required(int)
     season = Required(int)
     verified = Optional(bool)       # if the content is verified
-    favorited = Optional(int)       # count of times that people favorited the sentence
+    likes = Optional(int)       # count of times that people like the sentence
 
     @staticmethod
     def clean_text(text: str) -> str:
@@ -24,7 +24,7 @@ class Subtitle(db.Entity):
 
 
 # db.bind(provider='sqlite', filename='DataBases/Friends.sqlite', create_db=True)
-db.bind(provider='sqlite', filename='DataBases/Friends.test.sqlite', create_db=True)
+db.bind(provider='sqlite', filename='DataBases/Friends.sqlite', create_db=True)
 
 db.generate_mapping(create_tables=True)
 # set_sql_debug()

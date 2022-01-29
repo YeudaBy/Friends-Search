@@ -37,10 +37,4 @@ from os import getenv
 #     print(res)
 
 
-def send_report(_id):
-    token = getenv("REPORTED_TOKEN")
-    target = getenv("REPORTS_CHANNEL")
-    url = f'https://api.telegram.org/bot{token}/sendMessage?chat_id={target}&text=report-for:%20{_id}\nhttps://api' \
-          f'.friends-search.com/sentence/{_id} '
-    req = get(url)
-    return False if req.status_code != 200 else req.json()["result"]["message_id"]
+

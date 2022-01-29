@@ -1,7 +1,9 @@
 from re import sub
 from typing import List, Union
 from pony.orm import db_session, commit
-from DB.db import Subtitle
+from requests import get
+
+from DB.db import Sentence
 from dotenv import load_dotenv
 from os import getenv
 
@@ -11,10 +13,12 @@ ADMIN_TOKEN = getenv("ADMIN_TOKEN")
 
 
 def all_languages() -> dict:
+    """ return all language supported """
     return {"en": "English", "fr": "Français", "he": "עברית", "ag": "All languages"}
 
 
 def is_language_exist(language: str) -> bool:
+    """ return True if language supported """
     return language in all_languages().keys() or language in all_languages().values()
 
 
@@ -23,7 +27,7 @@ def search_sentence(
         query: str,
         limit: int = 50,
         lang: str = "ag"
-) -> Union[List[Subtitle], bool]:
+) -> Union[List[Sentence], bool]:
     """
     search sentences on DataBase.
     :param query: sentence to search
@@ -31,9 +35,9 @@ def search_sentence(
     :param limit: limit of results count, default 50
     :return: list of results, contain: content, start and end time, and episode
     """
-    query = Subtitle.clean_text(query)  # make clear query
+    query = Sentence.clean_text(query)  # make clear query
 
-    result = Subtitle.select(lambda i: query in i.raw_content)[:limit]
+    result = Sentence.select(lambda i: query in i.raw_content)[:limit]
 
     if lang and (lang != "ag"):
         result = list(filter(lambda i: i.lang == lang.lower(), result))
@@ -45,26 +49,27 @@ def search_sentence(
 
 
 @db_session
-def sentence_by_id(_id: int) -> Union[Subtitle, bool]:
-    return Subtitle.get(id=_id) or False
+def sentence_by_id(_id: int) -> Union[Sentence, bool]:
+    """ return Sentence by specific id """
+    return Sentence.get(id=_id) or False
 
 
 @db_session
-def sentence_random(language: str = "ag") -> List[Subtitle]:
+def sentence_random(language: str = "ag") -> List[Sentence]:
     """ return 10 random sentences, and only in specific language if is provided"""
     results = []
     if language and (language != "ag"):
         [results.append(i) for i in list(filter(lambda i: i.lang == language.lower(),
-                                                Subtitle.select_random(limit=100)))[:10]]
+                                                Sentence.select_random(limit=100)))[:10]]
         return results
-    results.append(Subtitle.select_random(limit=10))
+    results.append(Sentence.select_random(limit=10))
     return results
 
 
 @db_session
 def favorite_sentence(_id: int) -> bool:
     """ add one more to count of favorites """
-    Subtitle.get(id=_id).favorited += 1
+    Sentence.get(id=_id).favorited += 1
     commit()
     return True
 
@@ -72,7 +77,7 @@ def favorite_sentence(_id: int) -> bool:
 @db_session
 def is_verified(_id: int) -> bool:
     """ return True if sentence is verified """
-    return Subtitle.get(id=_id).verified
+    return Sentence.get(id=_id).verified
 
 
 @db_session
@@ -81,9 +86,9 @@ def fix_content(_id: int, new_content: str, token: str) -> bool:
     available only with admin token from .env file """
     if token != ADMIN_TOKEN:
         return False
-    sentence = Subtitle.get(id=_id)
+    sentence = Sentence.get(id=_id)
     sentence.content = new_content
-    sentence.raw_content = Subtitle.clean_text(new_content)
+    sentence.raw_content = Sentence.clean_text(new_content)
     sentence.verified = True
     commit()
     return True
@@ -95,12 +100,13 @@ def verify_content(_id: int, token: str) -> bool:
         available only with admin token from .env file """
     if token != ADMIN_TOKEN:
         return False
-    Subtitle.get(id=_id).verified = True
+    Sentence.get(id=_id).verified = True
     commit()
     return True
 
 
-def parse(_object: Subtitle) -> Union[dict, bool]:
+def parse(_object: Sentence) -> Union[dict, bool]:
+    """ parse the Sentence object to json """
     print(_object)
     if not _object: return False
     data = {
@@ -115,3 +121,12 @@ def parse(_object: Subtitle) -> Union[dict, bool]:
         "end": _object.end.__str__()
     }
     return data
+
+
+def send_report(_id):
+    token = getenv("REPORTED_TOKEN")
+    target = getenv("REPORTS_CHANNEL")
+    url = f'https://api.telegram.org/bot{token}/sendMessage?chat_id={target}&text=report-for:%20{_id}\nhttps://api' \
+          f'.friends-search.com/sentence/{_id} '
+    req = get(url)
+    return False if req.status_code != 200 else req.json()["result"]["message_id"]
