@@ -7,7 +7,6 @@ from DB.db import Sentence
 from dotenv import load_dotenv
 from os import getenv
 
-
 load_dotenv()
 ADMIN_TOKEN = getenv("ADMIN_TOKEN")
 
@@ -17,9 +16,9 @@ def all_languages() -> dict:
     return {"en": "English", "fr": "Français", "he": "עברית", "ag": "All languages"}
 
 
-def is_language_exist(language: str) -> bool:
+def is_language_exist(language: str) -> dict:
     """ return True if language supported """
-    return language in all_languages().keys() or language in all_languages().values()
+    return dict((k, v) for k, v in all_languages().items() if language.lower() == k or language.lower() == v)
 
 
 @db_session
@@ -62,12 +61,12 @@ def sentence_random(language: str = "ag") -> List[Sentence]:
         [results.append(i) for i in list(filter(lambda i: i.lang == language.lower(),
                                                 Sentence.select_random(limit=100)))[:10]]
         return results
-    results.append(Sentence.select_random(limit=10))
+    [results.append(result) for result in Sentence.select_random(limit=10)]
     return results
 
 
 @db_session
-def favorite_sentence(_id: int) -> bool:
+def like_sentence(_id: int) -> bool:
     """ add one more to count of favorites """
     Sentence.get(id=_id).favorited += 1
     commit()
@@ -75,23 +74,17 @@ def favorite_sentence(_id: int) -> bool:
 
 
 @db_session
-def is_verified(_id: int) -> bool:
-    """ return True if sentence is verified """
-    return Sentence.get(id=_id).verified
-
-
-@db_session
-def fix_content(_id: int, new_content: str, token: str) -> bool:
+def fix_content(_id: int, new_content: Union[str, bytes], token: str) -> Union[bool, str]:
     """ ADMINS ONLY: fix the content of the sentence
     available only with admin token from .env file """
     if token != ADMIN_TOKEN:
         return False
     sentence = Sentence.get(id=_id)
-    sentence.content = new_content
-    sentence.raw_content = Sentence.clean_text(new_content)
+    sentence.content = str(new_content)
+    sentence.raw_content = Sentence.clean_text(str(new_content))
     sentence.verified = True
     commit()
-    return True
+    return sentence.content
 
 
 @db_session
@@ -107,23 +100,31 @@ def verify_content(_id: int, token: str) -> bool:
 
 def parse(_object: Sentence) -> Union[dict, bool]:
     """ parse the Sentence object to json """
-    print(_object)
     if not _object: return False
     data = {
-        "ok": True,
         "content": sub(r"<.*?>", "", _object.content).replace("\n", " "),
         "id": _object.id,
-        "language_code": _object.lang,
-        "language_name": all_languages()[_object.lang],
-        "season": _object.season,
-        "episode": _object.episode,
-        "start": _object.start.__str__(),
-        "end": _object.end.__str__()
+        "language": {
+            "language_code": list(is_language_exist(_object.lang).keys())[0],
+            "language_name": list(is_language_exist(_object.lang).values())[0]
+        },
+        "position": {
+            "season": _object.season,
+            "episode": _object.episode,
+            "start": _object.start.__str__(),
+            "end": _object.end.__str__()
+        },
+        "details": {
+            "likes": _object.likes,
+            "verified": _object.verified,
+            # "views": _object.views
+        }
     }
     return data
 
 
 def send_report(_id):
+    """ send report to telegram channel """
     token = getenv("REPORTED_TOKEN")
     target = getenv("REPORTS_CHANNEL")
     url = f'https://api.telegram.org/bot{token}/sendMessage?chat_id={target}&text=report-for:%20{_id}\nhttps://api' \
