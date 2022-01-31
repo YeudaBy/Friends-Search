@@ -80,7 +80,7 @@ def get_sentence_msg(sid: int, msg_obj) -> Tuple[str, InlineKeyboardMarkup]:
 
     id_str = str(sid)
     msg_txt = f"**✅ {lang_msg(msg_obj, 'results_title')}**\n\n" \
-              f"**📺 {lang_msg(msg_obj, 'appear_at')}:** `{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode}`\n" \ 
+              f"**📺 {lang_msg(msg_obj, 'appear_at')}:** `{lang_msg(msg_obj, 'session')} {season} {lang_msg(msg_obj, 'episode')} {episode}`\n" \
               f"**🕓 {lang_msg(msg_obj, 'time')}:** `{dt_to_ht(start_time)}` ⇿ `{dt_to_ht(end_time)}`\n**💬 {lang_msg(msg_obj, 'sentence')}:** `{raw_res['content']}`"
     msg_kb = InlineKeyboardMarkup(
         [
