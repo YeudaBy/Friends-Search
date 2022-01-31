@@ -1,3 +1,5 @@
+langs = ["en", "he", "fr", "ag"]
+
 strings = {
     "start_msg": {
         "en": "👋 Hi {}!\n\n With this bot you can search for sentences or words that exist in the popular TV series "

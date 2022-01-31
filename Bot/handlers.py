@@ -1,4 +1,4 @@
-from re import sub
+import re
 from pyrogram.types import CallbackQuery, InlineQuery, InlineQueryResultArticle, InputTextMessageContent, Message
 
 from Bot.db import get_lang, update_lang, create_user, get_favorite_ids
@@ -46,7 +46,7 @@ def ask_to_report(_, callback: CallbackQuery):
 
 def report(_, callback: CallbackQuery):
     create_user(user_id=callback.from_user.id, lang=callback.from_user.language_code)
-    qid = int(sub("[y, n]/", "", callback.data))
+    qid = int(re.sub("[y, n]/", "", callback.data))
     if callback.data == f"y/{qid}":
         if report_on_id(qid)["status"] == "ok":
             callback.answer(lang_msg(callback, 'reported'))

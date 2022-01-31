@@ -5,7 +5,7 @@ from requests import get, post
 from pyrogram.types import (Message, InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
                             InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
 from Bot.db import get_lang, create_user, get_favorite_ids
-from Bot.strings import strings, friends_images
+from Bot.strings import strings, friends_images, langs
 from dotenv import load_dotenv
 from os import getenv
 
@@ -16,8 +16,10 @@ base_url = "http://192.168.165.99:8080/"
 headers = {'User-Agent': getenv("BOT_USER_AGENT")}
 
 
-def request_by_sentence(query: str) -> dict:
-    endpoint = f"{base_url}/sentence/search?query={query}&language=ag"
+def request_by_sentence(query: str, lang_code: str = "ag") -> dict:
+    if lang_code not in langs:
+        lang_code = "ag"
+    endpoint = f"{base_url}/sentence/search?query={query}&language={lang_code}"
     return get(endpoint).json()
 
 
