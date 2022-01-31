@@ -11,4 +11,4 @@ DB/DataBases/*test*
 TODOs.md
 /Api/stats.sqlite
 /.env
-video/files
+video/files__pycache__/
