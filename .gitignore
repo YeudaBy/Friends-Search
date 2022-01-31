@@ -12,3 +12,4 @@ TODOs.md
 /Api/stats.sqlite
 /.env
 video/files__pycache__/
+__pycache__/
