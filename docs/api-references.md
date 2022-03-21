@@ -30,10 +30,10 @@ Each one have the following attributes (the attribute type are present as [pytho
 - `content`, [str]: the text that are spoken in the time.
 - `id`, [int]: a unique id, mostly by chronology order.
 - `position`, [dict]: an object that include the following data about the position of the sentence in the series:
-      + `season`, [int]: tne number of the season, that the sentence appears.
-      + `episode`, [int]: the number of the episode from the `season`.
-      + `start`, [datetime]: time the sentence are start to be spoken.
-      + `end`, [datetime]: the end-time of the sentence. 
+    + `season`, [int]: tne number of the season, that the sentence appears.
+    + `episode`, [int]: the number of the episode from the `season`.
+    + `start`, [datetime]: time the sentence are start to be spoken.
+    + `end`, [datetime]: the end-time of the sentence. 
 - `language`, [dict]: an object that include the following data about the sentence language: 
     + `language_code`, [str]: one of the [Supported languages](#language), based on [the languages-code's list](https://www.science.co.il/language/Codes.php). e.g.: `en`, `he`, etc.
     + `language_name`: the most known name of the language, such as `English`, `Hebrew`, etc. 

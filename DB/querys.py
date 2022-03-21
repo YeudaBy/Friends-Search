@@ -1,9 +1,10 @@
 from re import sub
 from typing import List, Union
-from pony.orm import db_session, commit
+from pony.orm import db_session, commit, select, raw_sql
 from requests import get
+from sqlite3 import connect
 
-from DB.db import Sentence
+from DB.db import Sentence, Usage
 from dotenv import load_dotenv
 from os import getenv
 
@@ -131,3 +132,34 @@ def send_report(_id):
           f'.friends-search.com/sentence/{_id} '
     req = get(url)
     return False if req.status_code != 200 else req.json()["result"]["message_id"]
+
+
+# ---- Usages -----
+Usage_view = Union[List[dict], None]
+
+@db_session
+def get_usages_of_methode(methode: str, is_absolute: bool = False) -> Usage_view:
+    """ return dict of usages """
+    results = select((i for i in Usage if methode == i.uri) if is_absolute else (
+        i for i in Usage if methode in i.uri))[:]
+    if not results:
+        return None
+    return [dict(uri=i.uri, time=i.time, user_agent=i.user_agent) for i in results]
+
+
+def get_usages_of_id(_id: int) -> Usage_view:
+    """ return dict usages of specific id """
+    uri = f"/sentence/{_id}"
+    return get_usages_of_methode(uri, True)
+
+
+@db_session
+def popular_uris() -> Usage_view:
+    """ return dict of popular usages """
+    db = connect("DataBases/Friends.sqlite")
+    db.cursor()
+    d = db.execute("SELECT uri, COUNT(uri) AS `value_occurrence` FROM Usage GROUP BY uri LIMIT 10")
+    return [dict(uri=i[0], count=i[1]) for i in d]
+
+
+print(popular_uris())

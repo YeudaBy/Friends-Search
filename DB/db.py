@@ -1,12 +1,15 @@
 from re import sub
 # import srt
-from pony.orm import Database, Required, Optional
-from datetime import timedelta
+from typing import Union
+
+from pony.orm import Database, Required, Optional, Json
+from datetime import timedelta, datetime
 
 db = Database()
 
 
 class Sentence(db.Entity):
+    """ main entity """
     content = Required(str)         # content to display
     raw_content = Optional(str)     # content to search
     lang = Required(str)            # language of the content
@@ -23,44 +26,15 @@ class Sentence(db.Entity):
         return sub(r"[$&+,:;=?@#|'<>.\-^*()\[\]{}%!~`_\" \n]", "", text).lower()
 
 
-# db.bind(provider='sqlite', filename='DataBases/Friends.sqlite', create_db=True)
+class Usage(db.Entity):
+    """ sava statistics of usages """
+    uri = Required(str)
+    user_agent = Required(Json)
+    time = Required(datetime)
+
+
 db.bind(provider='sqlite', filename='DataBases/Friends.sqlite', create_db=True)
 
 db.generate_mapping(create_tables=True)
 # set_sql_debug()
-
-
-# @db_session
-# def insert_subs(name):
-#     # print(name, file)
-#     sea, epi = name.split("-")
-#     print(sea, epi)
-#
-#     subs = list(srt.parse(open(name, "r", encoding="ISO-8859-1")))
-#
-#     for line in subs:
-#         if not line.content:
-#             continue
-#         Subtitle(content=line.content,
-#                  raw_content=Subtitle.clean_text(line.content),
-#                  start=line.start,
-#                  end=line.end,
-#                  episode=epi,
-#                  season=sea,
-#                  lang="fr"
-#                  )
-#     commit()
-
-
-# ========== Insert Data to DB =======
-# path = "RawFiles/FR/s10"
-# os.chdir(path)
-# # # for file in os.listdir():
-# insert_subs("10-17")
-# print("10-17", "insert success!")
-
-# with db_session:
-#     for i in Subtitle.select():
-#         i.favorited = 0
-#     commit()
 
